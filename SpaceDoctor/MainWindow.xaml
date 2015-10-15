@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceDoctor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="750" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="249*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -19,9 +19,30 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-                <Button x:Name="ButtonToday" Grid.Column="0" Content="Сегодня" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                <Button x:Name="DragsPlan" Grid.Column="1" Content="Прием лекарств" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
+            <Button x:Name="XButtonToday" Grid.Column="0" Content="Сегодня" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
+            <Button x:Name="XDragsPlan" Grid.Column="1" Content="Прием лекарств" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
+            <Button x:Name="XAnalisys" Grid.Column="2" Content="Анализы" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
+            <Button x:Name="XExams" Grid.Column="3" Content="Обследования" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
+            <Button x:Name="XDynamics" Grid.Column="4" Content="Динамика" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="XLabelNameListviewExams" Content="Заплпнированные обследования на сегодня:" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+            <ListView x:Name="XListViewExams" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Тип обследования"/>
+                        <GridViewColumn Header="Время"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </Window>

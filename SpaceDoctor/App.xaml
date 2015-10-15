@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SpaceDoctor"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
+    <Application.Resources> 
+        <Style x:Name="XColors" x:Key="XStyle" TargetType="Button" >
+            <Setter Property="Background" Value="AliceBlue" >
+            </Setter>
+            <Setter Property="BorderBrush" Value="White">
+            </Setter>
+        </Style>
          
     </Application.Resources>
 </Application>

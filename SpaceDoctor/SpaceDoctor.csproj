@@ -64,6 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\XClientVM.cs" />
+    <Compile Include="ViewModel\XExamVM.cs" />
+    <Compile Include="ViewModel\XMainWndVM.cs" />
+    <Compile Include="ViewModel\XViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

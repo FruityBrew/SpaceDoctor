@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceDoctor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1000">
+        Title="SpaceDoctor" Height="750" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"></RowDefinition>
@@ -34,15 +34,31 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label x:Name="XLabelNameListviewExams" Content="Заплпнированные обследования на сегодня:" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
-            <ListView x:Name="XListViewExams" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch">
+            <Label x:Name="XLabelNameListviewExams" Content="Запланированные обследования на сегоднasdfsdfsdfsdfsя:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+            <!--ListView x:Name="XListViewExams" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Тип обследования"/>
                         <GridViewColumn Header="Время"/>
                     </GridView>
                 </ListView.View>
-            </ListView>
+            </-->
+            <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
+                <DataGrid.Columns>
+                    <DataGridHyperlinkColumn Header="Тип обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                    <DataGridTextColumn Header="Время обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                    <DataGridComboBoxColumn Header="Статус" />
+                </DataGrid.Columns>
+            </DataGrid>
+            
+            <DataGrid x:Name="XDataGridDrags" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
+                <DataGrid.Columns>
+                    <DataGridHyperlinkColumn Header="Препарат" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                    <DataGridTextColumn Header="Доза" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                    <DataGridHyperlinkColumn Header="Комментарий" />
+                </DataGrid.Columns>
+            </DataGrid>
+            
         </Grid>
     </Grid>
 </Window>

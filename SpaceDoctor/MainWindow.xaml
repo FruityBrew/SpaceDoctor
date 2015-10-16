@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="SpaceDoctor" Height="750" Width="1000">
     <Grid>
+        <!--
         <Grid.RowDefinitions>
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="249*"></RowDefinition>
@@ -35,14 +36,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label x:Name="XLabelNameListviewExams" Content="Запланированные обследования на сегоднasdfsdfsdfsdfsя:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
-            <!--ListView x:Name="XListViewExams" IsSynchronizedWithCurrentItem="True" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Тип обследования"/>
-                        <GridViewColumn Header="Время"/>
-                    </GridView>
-                </ListView.View>
-            </-->
+
             <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
                 <DataGrid.Columns>
                     <DataGridHyperlinkColumn Header="Тип обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
@@ -59,6 +53,124 @@
                 </DataGrid.Columns>
             </DataGrid>
             
+        </Grid>
+        -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="XButtonHelth" Grid.Column="0" Content="Здоровье" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
+            <Button x:Name="XProfile" Grid.Column="1" Content="Профиль" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
+        </Grid>
+        <Grid Grid.Row="2">
+            
+                <TabControl x:Name="XTabControl" HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch" >
+                <TabItem x:Name="XTabItemToday" Header="Сегодня" Style="{StaticResource XStyleToTab}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="XLabelNameListviewExams" Content="Запланированные обследования на сегодня:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+
+                        <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
+                            <DataGrid.Columns>
+                                <DataGridHyperlinkColumn Header="Тип обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridTextColumn Header="Время обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridComboBoxColumn Header="Статус" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridDrags" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
+                            <DataGrid.Columns>
+                                <DataGridHyperlinkColumn Header="Препарат" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridTextColumn Header="Доза" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridHyperlinkColumn Header="Комментарий" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Обследования" Style="{StaticResource XStyleToTab}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="10*"></RowDefinition>
+                                <RowDefinition Height="60"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            
+                            <Label Content="Измеряемые параметры:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
+                            
+                            <DataGrid x:Name="XDataGridParams" Grid.Row="1" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                                <DataGrid.Columns>
+                                    <DataGridComboBoxColumn Header="Параметр"/>
+                                    <DataGridTextColumn Header="Значение"/>
+                                    <DataGridTextColumn Header="Ед.изм."/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button x:Name="XButtonExamSave" Grid.Row="2" Content="Сохранить" Margin="370,10,10,10" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Выбрать шаблон:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Width="100" Height="30" Background="AliceBlue"></ComboBox>
+
+                            <Label Grid.Row="2" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <DatePicker Grid.Row="2" Grid.Column="1" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Время:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+
+                            <Label Grid.Row="4" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
+                            <Button Grid.Row="4" Grid.Column="1" Content="Выполнить" Style="{StaticResource XStyleToButton}"></Button>
+
+
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Прием лекарств" Style="{StaticResource XStyleToTab}">
+                    <Grid/>
+                </TabItem>
+                <TabItem Header="Анализы" Style="{StaticResource XStyleToTab}">
+                    <Grid/>
+                </TabItem>
+                <TabItem Header="Динамика" Style="{StaticResource XStyleToTab}">
+                    <Grid/>
+                </TabItem>
+            </TabControl>
+
+
         </Grid>
     </Grid>
 </Window>

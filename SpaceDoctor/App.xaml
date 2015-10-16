@@ -4,12 +4,22 @@
              xmlns:local="clr-namespace:SpaceDoctor"
              StartupUri="MainWindow.xaml">
     <Application.Resources> 
-        <Style x:Name="XColors" x:Key="XStyle" TargetType="Button" >
+        <Style x:Name="XColors" x:Key="XStyleToButton" TargetType="Button" >
             <Setter Property="Background" Value="AliceBlue" >
             </Setter>
             <Setter Property="BorderBrush" Value="White">
             </Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Width" Value="100"></Setter>
         </Style>
-         
+
+        <Style x:Name="dw" x:Key="XStyleToTab" TargetType="TabItem">
+            <Setter Property="Background" Value="AliceBlue" >
+            </Setter>
+            <Setter Property="Width" Value="120">
+            </Setter>
+            <Setter Property="Height" Value="40">
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

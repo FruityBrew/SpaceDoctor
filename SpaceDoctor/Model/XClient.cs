@@ -29,6 +29,7 @@ namespace SpaceDoctor.Models
         [DisplayName("Обследования")]
         public ICollection<XExam> ExamsCollection { get; set; }
 
+     
         public XClient()
         {
             ExamsCollection = new Collection<XExam>();

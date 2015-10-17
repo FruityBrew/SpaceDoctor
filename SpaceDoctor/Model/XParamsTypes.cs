@@ -5,9 +5,9 @@ using System.Linq;
 using Attr = System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace SpaceDoctor.Models
+namespace SpaceDoctor.Model
 {
-    public class XParams
+    public class XParamsTypes
     {
         public Int32 Id { get; set; }
 

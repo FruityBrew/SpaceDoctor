@@ -1,24 +1,41 @@
-﻿using SpaceDoctor.Models;
+﻿using SpaceDoctor.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
     class XExamVM 
     {
         readonly XExam _exam;
+        ObservableCollection<XParam> _paramsObsCollection;
+        CollectionViewSource _paramCVS;
 
         public XExamVM()
         {
             _exam = new XExam();
+            _paramsObsCollection = new ObservableCollection<XParam>(this.ParamsCollection);
+            _paramCVS = new CollectionViewSource();
+
+            _paramCVS.Source = _paramsObsCollection;
+
+
         }
 
         public XExamVM(XExam exam)
         {
             _exam = exam;
+
+            _paramsObsCollection = new ObservableCollection<XParam>(this.ParamsCollection);
+            _paramCVS = new CollectionViewSource();
+
+            _paramCVS.Source = _paramsObsCollection;
+
         }
 
         public XExam Exam
@@ -33,9 +50,38 @@ namespace SpaceDoctor.ViewModel
         {
             get
             {
-                return Exam.
+                return Exam.Name;
+            }
+            set
+            {
+                Exam.Name = value;
             }
         }
 
+        public ICollectionView ParamCVS
+        {
+            get
+            {
+                return _paramCVS.View;
+            }
+
+        }
+
+        private ICollection<XParam> ParamsCollection 
+        {
+            get 
+            {
+                return Exam.ParamsCollection;
+            }
+        }
+
+        public ObservableCollection<XParam> ParamsObsCollection
+        {
+            get
+            {
+                return _paramsObsCollection;
+            }
+
+        }
     }
 }

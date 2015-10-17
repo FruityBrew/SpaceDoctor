@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceDoctor.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,21 @@ namespace SpaceDoctor
     /// </summary>
     public partial class MainWindow : Window
     {
+        XMainWndVM _wndVM;
         public MainWindow()
         {
             InitializeComponent();
+
+            _wndVM = new XMainWndVM();
+
+            XExamVM ex = new XExamVM();
+
+            Model.XParam p = new Model.XParam()
+            {
+                    //Type = _wndVM.DbContext.
+             };
+
+            //_wndVM.Client.ExamsCollection.Add()
         }
     }
 }

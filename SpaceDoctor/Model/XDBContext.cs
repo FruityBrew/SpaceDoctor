@@ -6,15 +6,16 @@ using System.Linq;
 
 
 
-namespace SpaceDoctor.Models
+namespace SpaceDoctor.Model
 {
     public class XDBContext : DbContext
     {
-        public XDBContext() : base("Doctor") { }
+        public XDBContext() : base("SpaceDoctorDB") { }
 
-        public DbSet<XClient> clients { get; set; }
-        public DbSet<XExam> exams { get; set; }
-        public DbSet<XParams> parameters { get; set; }
+        public DbSet<XClient> Clients { get; set; }
+        public DbSet<XExam> Exams { get; set; }
+        public DbSet<XParam> Parameters { get; set; }
+        public DbSet<XParamsTypes> ParamsTypes { get; set; }
 
     }
 }

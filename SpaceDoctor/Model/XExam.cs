@@ -4,7 +4,7 @@ using Attr = System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace SpaceDoctor.Models
+namespace SpaceDoctor.Model
 {
     [Attr.Schema.Table("Exams")] 
    public class XExam
@@ -21,14 +21,15 @@ namespace SpaceDoctor.Models
         [DisplayName("Дата обследования")]
         public DateTime Date { get; set; }
 
-        public ICollection<XObjParam> ObjParamsCollection { get; set; }
-        public ICollection<XBloodParam> BloodParamsCollection { get; set; }
+
+        public String Name { get; set; }
+
+        public ICollection<XParam> ParamsCollection { get; set; }
 
 
         public XExam()
         {
-            ObjParamsCollection = new Collection<XObjParam>();
-            BloodParamsCollection = new Collection<XBloodParam>();
+            ParamsCollection = new Collection<XParam>();
         }
     }
 }

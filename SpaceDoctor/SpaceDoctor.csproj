@@ -64,6 +64,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Migrations\201510162114030_FirstMgr.cs" />
+    <Compile Include="Migrations\201510162114030_FirstMgr.Designer.cs">
+      <DependentUpon>201510162114030_FirstMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\XParam.cs" />
     <Compile Include="ViewModel\XClientVM.cs" />
     <Compile Include="ViewModel\XExamVM.cs" />
     <Compile Include="ViewModel\XMainWndVM.cs" />
@@ -82,12 +88,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\XBloodParam.cs" />
     <Compile Include="Model\XClient.cs" />
     <Compile Include="Model\XDBContext.cs" />
     <Compile Include="Model\XExam.cs" />
-    <Compile Include="Model\XObjParam.cs" />
-    <Compile Include="Model\XParams.cs" />
+    <Compile Include="Model\XParamsTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,6 +105,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201510162114030_FirstMgr.resx">
+      <DependentUpon>201510162114030_FirstMgr.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

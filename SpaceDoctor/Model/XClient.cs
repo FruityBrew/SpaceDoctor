@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using Attr = System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace SpaceDoctor.Models
+namespace SpaceDoctor.Model
 {
 
     [Attr.Schema.Table("Clients")]

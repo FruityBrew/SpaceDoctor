@@ -140,12 +140,12 @@
                             <RowDefinition Height="40"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="210"></ColumnDefinition>
                                 <ColumnDefinition Width="100"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="1" Grid.Column="0" Content="Выбрать шаблон:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
-                            <ComboBox Grid.Row="1" Grid.Column="1" Width="100" Height="30" Background="AliceBlue"></ComboBox>
+                            <Label Grid.Row="1" Grid.Column="0" Content="Выбрать тип исследования:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
+                            <ComboBox ItemsSource="{Binding ExamsTypesCollection}" Grid.Row="1" Grid.Column="1" Width="100"  Height="30" Background="AliceBlue"></ComboBox>
 
                             <Label Grid.Row="2" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
                             <DatePicker Grid.Row="2" Grid.Column="1" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
@@ -181,18 +181,18 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView}"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Тип"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Дата"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Тип" Binding="{Binding Type.Name}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Дата" Binding="{Binding Date}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.SelectedExam.ParamCVSView}" Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Параметр"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Значение"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Ед.изм."></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Type.Name}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Значение" Binding="{Binding Value}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Type.Measure}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

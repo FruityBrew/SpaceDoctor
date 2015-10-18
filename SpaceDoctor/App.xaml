@@ -21,5 +21,11 @@
             <Setter Property="Height" Value="40">
             </Setter>
         </Style>
+        <Style x:Key="DataGridBihevour" TargetType="DataGrid">
+            <Setter Property="IsSynchronizedWithCurrentItem" Value="True">
+            </Setter>
+            <Setter Property="AutoGenerateColumns" Value="False"> </Setter>
+        </Style>
+        
     </Application.Resources>
 </Application>

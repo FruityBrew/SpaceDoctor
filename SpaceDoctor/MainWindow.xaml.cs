@@ -28,8 +28,10 @@ namespace SpaceDoctor
 
             _wndVM = new XMainWndVM();
 
-            XExamVM ex = new XExamVM();
+            //XExamVM ex = new XExamVM();
 
+
+            DataContext = _wndVM;
             Model.XParam p = new Model.XParam()
             {
                     //Type = _wndVM.DbContext.

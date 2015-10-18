@@ -10,12 +10,21 @@ namespace SpaceDoctor.Model
 {
     public class XDBContext : DbContext
     {
-        public XDBContext() : base("SpaceDoctorDB") { }
+        public XDBContext() : base("SpaceDoctorDB") 
+        {
+            this.Configuration.LazyLoadingEnabled = false;
+        }
 
         public DbSet<XClient> Clients { get; set; }
         public DbSet<XExam> Exams { get; set; }
         public DbSet<XParam> Parameters { get; set; }
-        public DbSet<XParamsTypes> ParamsTypes { get; set; }
+        public DbSet<XParamsType> ParamsTypes { get; set; }
+        public DbSet<XExamsType> ExamsType { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+        }
     }
 }

@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
-    class XExamVM 
+    public class XExamVM 
     {
         readonly XExam _exam;
         ObservableCollection<XParam> _paramsObsCollection;
@@ -58,7 +58,7 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public ICollectionView ParamCVS
+        public ICollectionView ParamCVSView
         {
             get
             {
@@ -82,6 +82,25 @@ namespace SpaceDoctor.ViewModel
                 return _paramsObsCollection;
             }
 
+        }
+
+        public XExamsType Type
+        {
+            get 
+            {
+                return Exam.ExamType;
+             }
+
+             set
+             {
+                Exam.ExamType = value;
+
+             }
+        } 
+
+        public DateTime Date
+        {
+            get { return Exam.Date; }
         }
     }
 }

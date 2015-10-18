@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace SpaceDoctor.Model
 {
-    public class XParamsTypes
+    public class XParamsType
     {
         public Int32 Id { get; set; }
 
@@ -19,5 +19,6 @@ namespace SpaceDoctor.Model
         [DisplayName("Единица измерения")]
         public String Measure { get; set; }
  
+        public XExamsType ExamsType { get; set; }
     }
 }

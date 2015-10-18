@@ -10,13 +10,16 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
-    internal class XClientVM : XViewModelBase
+    public class XClientVM : XViewModelBase
     {
        readonly XClient _client;
 
         ObservableCollection<XExamVM> _examsObsCollection;
 
         CollectionViewSource _examsCVS; 
+
+
+        
 
        public XClientVM()
        {
@@ -37,8 +40,13 @@ namespace SpaceDoctor.ViewModel
 
             _examsCVS = new CollectionViewSource();
             _examsCVS.Source = _examsObsCollection;
+            _examsCVS.View.CurrentChanged += View_CurrentChanged;
        }
 
+        private void View_CurrentChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedExam");
+        }
 
         public XClient Client
         {

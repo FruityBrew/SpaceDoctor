@@ -12,6 +12,6 @@ namespace SpaceDoctor.Model
 
         public Double Value { get; set; }
 
-        public XParamsTypes Type { get; set; }
+        public XParamsType Type { get; set; }
     }
 }

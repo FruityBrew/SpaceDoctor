@@ -12,7 +12,7 @@ namespace SpaceDoctor.ViewModel
     {
        readonly XClientVM _client;
 
-        readonly XDBContext _dbContext;
+        readonly DAL _dal;
 
         ICollection<XExamsType> _examsTypesCollection;
 
@@ -21,40 +21,19 @@ namespace SpaceDoctor.ViewModel
 
         public XMainWndVM()
         {
-            _dbContext = new XDBContext();
-
-            var v = _dbContext.Clients
-
-                        //          .i
-                        .Include("ExamsCollection.ParamsCollection")
-
-            // .Select(cl => cl.ExamsCollection.Select(e => e.ParamsCollection));
-            //Select(x => x.ExamsCollection.Select(e => e.ExamType));
-            //.Include("ExamsCollection.ParamsCollection");
-
-            .Include("ExamsCollection.ExamType")
-            .Include("ExamsCollection.ExamType.ParamsCollection");
-            _client = new XClientVM(v.Where(c => c.Id == 1).Single());
-
-
-           
-            _examsTypesCollection = new Collection<XExamsType>(_dbContext.ExamsType.ToList());
-
-
-
-            List<XClient> list = v.ToList<XClient>();          
-
-           
-        }
-
-        public XDBContext DbContext
-        {
-            get
+            using (Dal.DbContext)
             {
-                return _dbContext;
+
+
+
+                _examsTypesCollection = new Collection<XExamsType>(Dal.DbContext.ExamsType.ToList());
+
+                _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
             }
+           
         }
 
+  
         public XClientVM Client
         {
             get
@@ -71,6 +50,14 @@ namespace SpaceDoctor.ViewModel
             }
 
 
+        }
+
+        internal DAL Dal
+        {
+            get
+            {
+                return _dal;
+            }
         }
     }
 }

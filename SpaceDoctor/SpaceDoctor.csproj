@@ -77,6 +77,7 @@
       <DependentUpon>201510171715392_5TablesDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\DAL.cs" />
     <Compile Include="Model\XExamsType.cs" />
     <Compile Include="Model\XParam.cs" />
     <Compile Include="ViewModel\XClientVM.cs" />

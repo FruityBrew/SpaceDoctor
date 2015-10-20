@@ -88,8 +88,11 @@
     <Compile Include="Model\XExamsType.cs" />
     <Compile Include="Model\XParam.cs" />
     <Compile Include="ViewModel\XClientVM.cs" />
+    <Compile Include="ViewModel\XExamTypeVM.cs" />
     <Compile Include="ViewModel\XExamVM.cs" />
     <Compile Include="ViewModel\XMainWndVM.cs" />
+    <Compile Include="ViewModel\XParamTypeVM.cs" />
+    <Compile Include="ViewModel\XParamVM.cs" />
     <Compile Include="ViewModel\XViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

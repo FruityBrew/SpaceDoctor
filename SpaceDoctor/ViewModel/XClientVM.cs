@@ -16,10 +16,13 @@ namespace SpaceDoctor.ViewModel
 
         ObservableCollection<XExamVM> _examsObsCollection;
 
-        CollectionViewSource _examsCVS; 
+        CollectionViewSource _examsCVS;
 
+        ObservableCollection<XDragPlan> _dragPlanObsCollection;
 
+        CollectionViewSource _dragPlanCVS;
         
+
 
        public XClientVM()
        {
@@ -41,6 +44,11 @@ namespace SpaceDoctor.ViewModel
             _examsCVS = new CollectionViewSource();
             _examsCVS.Source = _examsObsCollection;
             _examsCVS.View.CurrentChanged += View_CurrentChanged;
+                        
+            DragPlanObsCollection = new ObservableCollection<XDragPlan>(this.Client.DragPlanCollection);
+            _dragPlanCVS = new CollectionViewSource();
+            _dragPlanCVS.Source = this.DragPlanObsCollection;
+            
        }
 
         private void View_CurrentChanged(object sender, EventArgs e)
@@ -119,6 +127,28 @@ namespace SpaceDoctor.ViewModel
                 return ExamsCVSView.CurrentItem as XExamVM;
             }
 
+        }
+
+        private ObservableCollection<XDragPlan> DragPlanObsCollection
+        {
+            get
+            {
+                return _dragPlanObsCollection;
+            }
+
+            set
+            {
+                _dragPlanObsCollection = value;
+            }
+        }
+
+
+        public ICollectionView DragPlanCVSView
+        {
+            get 
+            {
+                return _dragPlanCVS.View;
+            }
         }
     }
 }

@@ -17,12 +17,13 @@ namespace SpaceDoctor.Model
         {
             _dbContext = new XDBContext();
 
-           // _clientCollection = new Collection<XClient>();
+            // _clientCollection = new Collection<XClient>();
             //загрузить сразу все навигац. свойства клиента:
             var v = _dbContext.Clients
                                 .Include("ExamsCollection.ParamsCollection")
                                 .Include("ExamsCollection.ExamType")
-                                .Include("ExamsCollection.ExamType.ParamsCollection");
+                                .Include("ExamsCollection.ExamType.ParamsCollection")
+                                .Include("DragPlanCollection.DragKit.DragCollection");
 
             _clientCollection = v;
         }

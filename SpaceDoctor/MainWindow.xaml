@@ -107,21 +107,39 @@
                 <TabItem Header="Обследования" Style="{StaticResource XStyleToTab}">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
+
                         <Grid Grid.Column="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"></RowDefinition>
                                 <RowDefinition Height="10*"></RowDefinition>
                                 <RowDefinition Height="60"></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
+
+                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamsTypesCollection}" Style="{StaticResource DataGridBihevour}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Название" MinWidth="200"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="10*"></RowDefinition>
+                                <RowDefinition Height="60"></RowDefinition>
+ 
                             </Grid.RowDefinitions>
                             
                             <Label Content="Измеряемые параметры:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
                             
-                            <DataGrid x:Name="XDataGridParams" Grid.Row="1" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridParams" Grid.Row="1"  HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
                                     <DataGridComboBoxColumn Header="Параметр"/>
                                     <DataGridTextColumn Header="Значение"/>
@@ -129,9 +147,9 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <Button x:Name="XButtonExamSave" Grid.Row="2" Content="Сохранить" Margin="370,10,10,10" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+                            <Button x:Name="XButtonExamSave" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
                         </Grid>
-                        <Grid Grid.Column="1">
+                        <Grid Grid.Column="2">
                             <Grid.RowDefinitions>
                             <RowDefinition Height="40"></RowDefinition>
                             <RowDefinition Height="40"></RowDefinition>
@@ -145,7 +163,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Row="1" Grid.Column="0" Content="Выбрать тип исследования:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
-                            <ComboBox ItemsSource="{Binding ExamsTypesCollection}" Grid.Row="1" Grid.Column="1" Width="100"  Height="30" Background="AliceBlue"></ComboBox>
+                            <ComboBox ItemsSource="{Binding ExamsTypesCollection}"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"  Height="30" Background="AliceBlue"></ComboBox>
 
                             <Label Grid.Row="2" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
                             <DatePicker Grid.Row="2" Grid.Column="1" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>

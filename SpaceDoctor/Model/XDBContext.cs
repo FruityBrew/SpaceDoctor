@@ -20,6 +20,9 @@ namespace SpaceDoctor.Model
         public DbSet<XParam> Parameters { get; set; }
         public DbSet<XParamsType> ParamsTypes { get; set; }
         public DbSet<XExamsType> ExamsType { get; set; }
+        public DbSet<XDragPlan> DragPlans { get; set; }
+        public DbSet<XDragKit> DragKits { get; set; }
+        public DbSet<XDrag> Drags { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -22,7 +22,7 @@ namespace SpaceDoctor.Model
         public DateTime Date { get; set; }
 
 
-        public String Name { get; set; }
+      //  public String Name { get; set; }
 
         public ICollection<XParam> ParamsCollection { get; set; }
 

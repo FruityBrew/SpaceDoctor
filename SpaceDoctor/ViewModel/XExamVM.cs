@@ -50,11 +50,7 @@ namespace SpaceDoctor.ViewModel
         {
             get
             {
-                return Exam.Name;
-            }
-            set
-            {
-                Exam.Name = value;
+                return Type.Name;
             }
         }
 
@@ -64,7 +60,6 @@ namespace SpaceDoctor.ViewModel
             {
                 return _paramCVS.View;
             }
-
         }
 
         private ICollection<XParam> ParamsCollection 
@@ -81,7 +76,6 @@ namespace SpaceDoctor.ViewModel
             {
                 return _paramsObsCollection;
             }
-
         }
 
         public XExamsType Type
@@ -94,7 +88,6 @@ namespace SpaceDoctor.ViewModel
              set
              {
                 Exam.ExamType = value;
-
              }
         } 
 

@@ -162,9 +162,7 @@
                 <TabItem Header="Прием лекарств" Style="{StaticResource XStyleToTab}">
                     <Grid/>
                 </TabItem>
-                <TabItem Header="Анализы" Style="{StaticResource XStyleToTab}">
-                    <Grid/>
-                </TabItem>
+                <TabItem Header="Анализы" Style="{StaticResource XStyleToTab}"/>
                 <TabItem Header="Динамика" Style="{StaticResource XStyleToTab}">
                     <Grid>
                         <Grid.ColumnDefinitions>

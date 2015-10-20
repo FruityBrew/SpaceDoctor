@@ -12,6 +12,7 @@ namespace SpaceDoctor.Model
         readonly XDBContext _dbContext;
 
         IEnumerable<XClient> _clientCollection;
+        IEnumerable<XExamsType> _examTypesCollection;
 
         public DAL()
         {
@@ -26,6 +27,10 @@ namespace SpaceDoctor.Model
                                 .Include("DragPlanCollection.DragKit.DragCollection");
 
             _clientCollection = v;
+
+            var va = _dbContext.ExamsType.Include("ParamsCollection");
+
+            _examTypesCollection = va;
         }
 
 
@@ -45,6 +50,14 @@ namespace SpaceDoctor.Model
             }
         }
 
+        public IEnumerable<XExamsType> ExamTypesCollection
+        {
+            get
+            {
+                return _examTypesCollection;
+            }
+
+        }
 
         public void AddExam(XExam exam)
         {

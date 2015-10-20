@@ -1,10 +1,9 @@
 ﻿using SpaceDoctor.Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
@@ -14,7 +13,10 @@ namespace SpaceDoctor.ViewModel
 
         readonly DAL _dal;
 
-        ICollection<XExamsType> _examsTypesCollection;
+        readonly ObservableCollection<XExamTypeVM> _examTypesObsCollection;
+        readonly CollectionViewSource _examTypesCVS;
+
+        
 
         ICollection<XDrag> _dragCollection;
 
@@ -24,7 +26,15 @@ namespace SpaceDoctor.ViewModel
             _dal = new DAL();
             using (Dal.DbContext)
             {
-                _examsTypesCollection = new Collection<XExamsType>(Dal.DbContext.ExamsType.ToList());
+                _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
+                foreach(var v in Dal.ExamTypesCollection)
+                {
+                    _examTypesObsCollection.Add(new XExamTypeVM(v));
+                }
+                _examTypesCVS = new CollectionViewSource();
+                _examTypesCVS.Source = _examTypesObsCollection;
+                _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
+
 
                 _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
 
@@ -32,7 +42,19 @@ namespace SpaceDoctor.ViewModel
             }      
         }
 
-  
+        private void View_CurrentChanged(object sender, System.EventArgs e)
+        {
+            RaisePropertyChanged("SelectedExamType");
+        }
+
+        public XExamTypeVM SelectedExamType
+        {
+            get 
+            {
+                return ExamTypesCVSView.CurrentItem as XExamTypeVM;
+            }
+        }
+
         public XClientVM Client
         {
             get
@@ -41,15 +63,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public ICollection<XExamsType> ExamsTypesCollection
-        {
-            get
-            {
-                return _examsTypesCollection;
-            }
-
-
-        }
 
         internal DAL Dal
         {
@@ -67,5 +80,22 @@ namespace SpaceDoctor.ViewModel
             }
 
         }
+
+        public ObservableCollection<XExamTypeVM> ExamTypesObsCollection
+        {
+            get
+            {
+                return _examTypesObsCollection;
+            }
+        }
+
+        public ICollectionView ExamTypesCVSView
+        {
+            get
+            {
+                return _examTypesCVS.View;
+            }
+        }
+
     }
 }

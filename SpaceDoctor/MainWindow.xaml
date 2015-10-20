@@ -122,9 +122,9 @@
 
                             <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamsTypesCollection}" Style="{StaticResource DataGridBihevour}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" Style="{StaticResource DataGridBihevour}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Название" MinWidth="200"/>
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" MinWidth="200"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
@@ -138,12 +138,12 @@
                             </Grid.RowDefinitions>
                             
                             <Label Content="Измеряемые параметры:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
-                            
-                            <DataGrid x:Name="XDataGridParams" Grid.Row="1"  HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+
+                            <DataGrid x:Name="XDataGridParams" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridBihevour}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
-                                    <DataGridComboBoxColumn Header="Параметр"/>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" />
                                     <DataGridTextColumn Header="Значение"/>
-                                    <DataGridTextColumn Header="Ед.изм."/>
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 

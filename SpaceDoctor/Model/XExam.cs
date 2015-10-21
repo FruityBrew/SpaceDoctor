@@ -17,6 +17,7 @@ namespace SpaceDoctor.Model
         public Int32 ClientId { get; set; }
         public XClient Client { get; set; }
 
+        
         [Attr.DataType(Attr.DataType.Date)]
         [DisplayName("Дата обследования")]
         public DateTime Date { get; set; }

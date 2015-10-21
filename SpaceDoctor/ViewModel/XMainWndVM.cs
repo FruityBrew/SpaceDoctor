@@ -134,7 +134,7 @@ namespace SpaceDoctor.ViewModel
 
 
             _client.ExamsObsCollection.Add(ActualExam);
-            _client.Client.ExamsCollection.Add(ActualExam.Exam);
+            _client.Client.ExamsCollection.Add(ActualExam.Exam); //перенести метод Add ДАЛ
 
       
         }

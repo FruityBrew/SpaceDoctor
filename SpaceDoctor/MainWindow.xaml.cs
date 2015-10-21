@@ -26,5 +26,12 @@ namespace SpaceDoctor
 
             //_wndVM.Client.ExamsCollection.Add()
         }
+
+        private void ButtonRunNow_Click(object sender, RoutedEventArgs e)
+        {
+            XDataGridExParamTypes.Visibility = Visibility.Collapsed;
+           //XDataGridExParamTypes.ItemsSource = _wndVM.ActualExam.ParamCVSView;
+            XDataGridExamParams.Visibility = Visibility.Visible;
+        }
     }
 }

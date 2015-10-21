@@ -1,6 +1,5 @@
 ﻿using SpaceDoctor.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -9,17 +8,23 @@ namespace SpaceDoctor.ViewModel
 {
     public class XExamVM 
     {
-        readonly XExam _exam;
-        ObservableCollection<XParam> _paramsObsCollection;
-        CollectionViewSource _paramCVS;
 
+        #region fields
+        readonly XExam _exam;
+        ObservableCollection<XParamVM> _paramsObsCollection;
+        CollectionViewSource _paramCVS;
+        XExamTypeVM _examType;
+
+        #endregion
+
+        #region ctors
         public XExamVM()
         {
             _exam = new XExam();
-            _paramsObsCollection = new ObservableCollection<XParam>(this.ParamsCollection);
+            _paramsObsCollection = new ObservableCollection<XParamVM>();
             _paramCVS = new CollectionViewSource();
-
             _paramCVS.Source = _paramsObsCollection;
+            _examType = new XExamTypeVM();
 
 
         }
@@ -27,14 +32,21 @@ namespace SpaceDoctor.ViewModel
         public XExamVM(XExam exam)
         {
             _exam = exam;
+            _paramsObsCollection = new ObservableCollection<XParamVM>();
+            
+            foreach (var v in this.Exam.ParamsCollection)
+                _paramsObsCollection.Add(new XParamVM(v));
 
-            _paramsObsCollection = new ObservableCollection<XParam>(this.ParamsCollection);
             _paramCVS = new CollectionViewSource();
-
             _paramCVS.Source = _paramsObsCollection;
 
+            _examType = new XExamTypeVM(Exam.ExamType);
         }
 
+        #endregion
+
+
+        #region properties
         public XExam Exam
         {
             get
@@ -47,7 +59,7 @@ namespace SpaceDoctor.ViewModel
         {
             get
             {
-                return Type.Name;
+                return ExamType.Name;
             }
         }
 
@@ -59,38 +71,29 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        private ICollection<XParam> ParamsCollection 
-        {
-            get 
-            {
-                return Exam.ParamsCollection;
-            }
-        }
-
-        public ObservableCollection<XParam> ParamsObsCollection
-        {
-            get
-            {
-                return _paramsObsCollection;
-            }
-        }
-
-        public XExamsType Type
-        {
-            get 
-            {
-                return Exam.ExamType;
-             }
-
-             set
-             {
-                Exam.ExamType = value;
-             }
-        } 
-
         public DateTime Date
         {
             get { return Exam.Date; }
         }
+
+        public XExamTypeVM ExamType
+        {
+            get
+            {
+                return _examType;
+            }
+
+            internal set
+            {
+                _examType = value;
+            }
+        }
+
+        internal void AddParams(XParamVM paramVM)
+        {
+            this._paramsObsCollection.Add(paramVM);
+        }
+
+        #endregion
     }
 }

@@ -1,21 +1,28 @@
 ﻿using SpaceDoctor.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SpaceDoctor.ViewModel
 {
-    class XParamVM : XViewModelBase
+     class XParamVM : XViewModelBase
     {
+
+        #region fields
         readonly XParam _param;
         readonly XParamTypeVM _paramType;
 
+        #endregion
+
+        #region ctors
         public XParamVM()
         {
             _param = new XParam();
             _paramType = new XParamTypeVM();
+        }
+
+        public XParamVM(XParamTypeVM paramType) : this()
+        {
+            _paramType = paramType;
         }
 
         public XParamVM(XParam param)
@@ -24,6 +31,10 @@ namespace SpaceDoctor.ViewModel
             _paramType = new XParamTypeVM(param.Type);
         }
 
+        #endregion
+
+
+        #region properties
         public Double Value 
         {
             get 
@@ -54,5 +65,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        #endregion
     }
 }

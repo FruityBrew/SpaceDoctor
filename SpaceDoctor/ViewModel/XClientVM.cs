@@ -36,7 +36,7 @@ namespace SpaceDoctor.ViewModel
 
             _examsObsCollection = new ObservableCollection<XExamVM>();
 
-            foreach(var v in this.ExamsCollection)
+            foreach(var v in this.Client.ExamsCollection)
             {
                 ExamsObsCollection.Add(new XExamVM(v));
             }

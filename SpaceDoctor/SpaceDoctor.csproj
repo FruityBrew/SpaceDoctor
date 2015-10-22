@@ -80,6 +80,10 @@
     <Compile Include="Migrations\201510200956423_AddedTablesForDragsLogic.Designer.cs">
       <DependentUpon>201510200956423_AddedTablesForDragsLogic.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510220758576_ChangedColumnTypeDateTime2.cs" />
+    <Compile Include="Migrations\201510220758576_ChangedColumnTypeDateTime2.Designer.cs">
+      <DependentUpon>201510220758576_ChangedColumnTypeDateTime2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\DAL.cs" />
     <Compile Include="Model\XDrag.cs" />
@@ -137,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510200956423_AddedTablesForDragsLogic.resx">
       <DependentUpon>201510200956423_AddedTablesForDragsLogic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510220758576_ChangedColumnTypeDateTime2.resx">
+      <DependentUpon>201510220758576_ChangedColumnTypeDateTime2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

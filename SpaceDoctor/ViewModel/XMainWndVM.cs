@@ -1,4 +1,5 @@
 ﻿using SpaceDoctor.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -33,10 +34,11 @@ namespace SpaceDoctor.ViewModel
                 {
                     _examTypesObsCollection.Add(new XExamTypeVM(v));
                 }
+
                 _examTypesCVS = new CollectionViewSource();
                 _examTypesCVS.Source = _examTypesObsCollection;
                 _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
-
+                
                 _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
 
                 _dragCollection = new Collection<XDrag>(Dal.DbContext.Drags.ToList());
@@ -125,18 +127,11 @@ namespace SpaceDoctor.ViewModel
 
         public void CreateNewExam()
         {
-            ActualExam.ExamType = this.SelectedExamType;
-            
-            foreach(var v in this.SelectedExamType.ParamTypeaObsCollection) // перенести в конструктор
-            {
-                ActualExam.AddParams(new XParamVM(v));
-            }
-
-
+            //ActualExam = new XExamVM();
+            ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
+            ActualExam.Date = DateTime.Now;
             _client.ExamsObsCollection.Add(ActualExam);
-            _client.Client.ExamsCollection.Add(ActualExam.Exam);
-
-      
+    
         }
 
         public void SaveExam()

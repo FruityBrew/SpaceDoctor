@@ -188,12 +188,12 @@
                 <TabItem Header="Динамика" Style="{StaticResource XStyleToTab}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="600"></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="320"></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -203,16 +203,16 @@
 
                             <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView}"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Тип" Binding="{Binding Type.Name}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Тип" Binding="{Binding Name}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="Дата" Binding="{Binding Date}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <DataGrid Grid.Row="1" ItemsSource="{Binding Client.SelectedExam.ParamCVSView}" Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Type.Name}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="Значение" Binding="{Binding Value}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Type.Measure}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

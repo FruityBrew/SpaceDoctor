@@ -17,11 +17,14 @@ namespace SpaceDoctor.ViewModel
         public XParamVM()
         {
             _param = new XParam();
+            _param.Type = new XParamsType();
             _paramType = new XParamTypeVM();
         }
 
-        public XParamVM(XParamTypeVM paramType) : this()
+        public XParamVM(XParamTypeVM paramType) 
         {
+            _param = new XParam();
+            _param.Type = paramType.ParamType;
             _paramType = paramType;
         }
 

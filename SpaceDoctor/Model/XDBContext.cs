@@ -28,6 +28,8 @@ namespace SpaceDoctor.Model
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<XExam>().Property(e => e.Date).HasColumnType("datetime2");
+
         }
     }
 }

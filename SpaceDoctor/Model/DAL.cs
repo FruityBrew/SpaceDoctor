@@ -62,6 +62,7 @@ namespace SpaceDoctor.Model
         public void AddExam(XExam exam)
         {
             
+           // DbContext.Exams.Add(exam);
         }
     }
 }

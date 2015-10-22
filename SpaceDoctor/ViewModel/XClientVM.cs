@@ -3,16 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
     public class XClientVM : XViewModelBase
     {
-       readonly XClient _client;
+
+        #region fields
+        readonly XClient _client;
 
         ObservableCollection<XExamVM> _examsObsCollection;
 
@@ -21,13 +20,14 @@ namespace SpaceDoctor.ViewModel
         ObservableCollection<XDragPlan> _dragPlanObsCollection;
 
         CollectionViewSource _dragPlanCVS;
-        
+
+        #endregion
 
 
-       public XClientVM()
+        #region ctors
+        public XClientVM()
        {
             _client = new XClient();         
-
        }
 
        public XClientVM(XClient client)
@@ -36,10 +36,13 @@ namespace SpaceDoctor.ViewModel
 
             _examsObsCollection = new ObservableCollection<XExamVM>();
 
+
             foreach(var v in this.Client.ExamsCollection)
             {
                 ExamsObsCollection.Add(new XExamVM(v));
             }
+
+            _examsObsCollection.CollectionChanged += _examsObsCollection_CollectionChanged;
 
             _examsCVS = new CollectionViewSource();
             _examsCVS.Source = _examsObsCollection;
@@ -51,11 +54,11 @@ namespace SpaceDoctor.ViewModel
             
        }
 
-        private void View_CurrentChanged(object sender, EventArgs e)
-        {
-            RaisePropertyChanged("SelectedExam");
-        }
 
+
+        #endregion
+
+        #region properties
         public XClient Client
         {
             get
@@ -66,7 +69,7 @@ namespace SpaceDoctor.ViewModel
 
         public String Name
         {
-            get  
+            get
             {
                 return Client.Name;
             }
@@ -82,7 +85,7 @@ namespace SpaceDoctor.ViewModel
             get
             {
                 return Client.DateBirthday;
-               
+
             }
             set
             {
@@ -90,13 +93,13 @@ namespace SpaceDoctor.ViewModel
                 RaisePropertyChanged("DateBirthday");
             }
         }
-         
+
         public ICollection<XExam> ExamsCollection
         {
-           get
-           {
+            get
+            {
                 return Client.ExamsCollection;
-           }
+            }
         }
 
         internal ObservableCollection<XExamVM> ExamsObsCollection
@@ -120,7 +123,7 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public XExamVM SelectedExam 
+        public XExamVM SelectedExam
         {
             get
             {
@@ -145,10 +148,35 @@ namespace SpaceDoctor.ViewModel
 
         public ICollectionView DragPlanCVSView
         {
-            get 
+            get
             {
                 return _dragPlanCVS.View;
             }
         }
+
+        #region methods
+
+        #endregion
+
+        #region eventHandlers
+
+        private void View_CurrentChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedExam");
+        }
+
+
+        private void _examsObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                this.Client.ExamsCollection.Add(((XExamVM)e.NewItems[0]).Exam);
+            }
+
+        }
+        #endregion
+
+
+        #endregion
     }
 }

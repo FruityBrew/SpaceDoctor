@@ -18,14 +18,15 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region ctors
-        public XExamVM()
+        public XExamVM() 
         {
             _exam = new XExam();
+
             _paramsObsCollection = new ObservableCollection<XParamVM>();
             _paramCVS = new CollectionViewSource();
+            
             _paramCVS.Source = _paramsObsCollection;
             _examType = new XExamTypeVM();
-
 
         }
 
@@ -33,6 +34,7 @@ namespace SpaceDoctor.ViewModel
         {
             _exam = exam;
             _paramsObsCollection = new ObservableCollection<XParamVM>();
+            
             
             foreach (var v in this.Exam.ParamsCollection)
                 _paramsObsCollection.Add(new XParamVM(v));
@@ -73,7 +75,14 @@ namespace SpaceDoctor.ViewModel
 
         public DateTime Date
         {
-            get { return Exam.Date; }
+            get 
+            { 
+                return Exam.Date; 
+            }
+            set 
+            {
+                Exam.Date = value;
+            }
         }
 
         public XExamTypeVM ExamType
@@ -85,13 +94,17 @@ namespace SpaceDoctor.ViewModel
 
             internal set
             {
-                _examType = value;
+               _examType = value;
+                _exam.ExamType = value.ExType;
+                foreach (var v in value.ParamTypeaObsCollection)
+                    this.AddParams(new XParamVM(v));
             }
         }
 
         internal void AddParams(XParamVM paramVM)
         {
             this._paramsObsCollection.Add(paramVM);
+            this.Exam.ParamsCollection.Add(paramVM.Param);
         }
 
         #endregion

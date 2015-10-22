@@ -47,13 +47,15 @@ namespace SpaceDoctor.ViewModel
             _examsCVS = new CollectionViewSource();
             _examsCVS.Source = _examsObsCollection;
             _examsCVS.View.CurrentChanged += View_CurrentChanged;
+            _examsCVS.Filter += _examsCVS_Filter;
+ 
                         
             DragPlanObsCollection = new ObservableCollection<XDragPlan>(this.Client.DragPlanCollection);
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
-            
-       }
 
+            _examsCVS.View.Refresh();
+       }
 
 
         #endregion
@@ -123,6 +125,8 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+      
+
         public XExamVM SelectedExam
         {
             get
@@ -174,6 +178,16 @@ namespace SpaceDoctor.ViewModel
             }
 
         }
+
+
+        private void _examsCVS_Filter(object sender, FilterEventArgs e)
+        {
+            if (((XExamVM)e.Item).Date < DateTime.Now)
+                e.Accepted = true;
+            else
+                e.Accepted = false;
+        }
+
         #endregion
 
 

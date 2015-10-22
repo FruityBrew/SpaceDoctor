@@ -19,7 +19,6 @@ namespace SpaceDoctor.ViewModel
         readonly CollectionViewSource _examTypesCVS;
         ICollection<XDrag> _dragCollection;
         XExamVM _actualExam;
-        //XCommand CreateNewExam;
 
         #endregion 
 
@@ -44,19 +43,18 @@ namespace SpaceDoctor.ViewModel
                 _dragCollection = new Collection<XDrag>(Dal.DbContext.Drags.ToList());
 
                 ActualExam = new XExamVM();
+                ActualExam.Date = DateTime.Now;
 
 
-                CreateNewExamCommand = new XCommand(CreateNewExam);
+            CreateNewExamCommand = new XCommand(CreateNewExam);
                 SaveExamCommand = new XCommand(SaveExam);
+            AddNewExamToPlanCommand = new XCommand(AddNewExamToPlan);
 
-
-            
         }
 
         #endregion
 
         #region properties
-
 
         public XExamTypeVM SelectedExamType
         {
@@ -127,15 +125,21 @@ namespace SpaceDoctor.ViewModel
 
         public void CreateNewExam()
         {
-            //ActualExam = new XExamVM();
             ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
             ActualExam.Date = DateTime.Now;
-            _client.ExamsObsCollection.Add(ActualExam);
-    
+            _client.ExamsObsCollection.Add(ActualExam); 
         }
 
         public void SaveExam()
         {
+            Dal.DbContext.SaveChanges();
+        }
+
+        public void AddNewExamToPlan()
+        {
+            ActualExam.ExamType = SelectedExamType;
+
+            _client.ExamsObsCollection.Add(ActualExam);
             Dal.DbContext.SaveChanges();
         }
 
@@ -155,8 +159,7 @@ namespace SpaceDoctor.ViewModel
 
         public XCommand CreateNewExamCommand { get; set; }
         public XCommand SaveExamCommand { get; set; }
-
-
+        public XCommand AddNewExamToPlanCommand { get; set; }
 
         #endregion
 

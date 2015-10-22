@@ -33,5 +33,7 @@ namespace SpaceDoctor
            //XDataGridExParamTypes.ItemsSource = _wndVM.ActualExam.ParamCVSView;
             XDataGridExamParams.Visibility = Visibility.Visible;
         }
+
+
     }
 }

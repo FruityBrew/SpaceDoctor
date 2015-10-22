@@ -96,8 +96,7 @@
 
                         <DataGrid x:Name="XDataGridDrags" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
                             <DataGrid.Columns>
-                                <DataGridHyperlinkColumn Header="Препарат" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                                <DataGridTextColumn Header="Доза" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+
                                 <DataGridHyperlinkColumn Header="Комментарий" />
                             </DataGrid.Columns>
                         </DataGrid>
@@ -117,7 +116,6 @@
                                 <RowDefinition Height="40"></RowDefinition>
                                 <RowDefinition Height="10*"></RowDefinition>
                                 <RowDefinition Height="60"></RowDefinition>
-
                             </Grid.RowDefinitions>
 
                             <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
@@ -169,13 +167,17 @@
                                 <ColumnDefinition Width="100"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="2" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                            <DatePicker Grid.Row="2" Grid.Column="1" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Label Grid.Row="0" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <DatePicker Grid.Row="0" Grid.Column="1" DisplayDate="{Binding ActualExam.Date}" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
 
-                            <Label Grid.Row="3" Grid.Column="0" Content="Время:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <Label Grid.Row="1" Grid.Column="0" Content="Время:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
 
-                            <Label Grid.Row="4" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
-                            <Button x:Name="XButtonRunNow"  Grid.Row="4" Grid.Column="1" Content="Выполнить" Command="{Binding CreateNewExamCommand}" Style="{StaticResource XStyleToButton}" Click="ButtonRunNow_Click"></Button>
+                            <Label Grid.Row="2" Grid.Column="0" Content="Запланировать:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <Button x:Name="XButtonPlan"  Grid.Row="2" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewExamToPlanCommand}" Style="{StaticResource XStyleToButton}"></Button>
+
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
+                            <Button x:Name="XButtonRunNow"  Grid.Row="3" Grid.Column="1" Content="Выполнить" Command="{Binding CreateNewExamCommand}" Style="{StaticResource XStyleToButton}" Click="ButtonRunNow_Click"></Button>
 
 
                         </Grid>
@@ -185,7 +187,7 @@
                     <Grid/>
                 </TabItem>
                 <TabItem Header="Анализы" Style="{StaticResource XStyleToTab}"/>
-                <TabItem Header="Динамика" Style="{StaticResource XStyleToTab}">
+                <TabItem x:Name="XTabItemDinamic" Header="Динамика" Style="{StaticResource XStyleToTab}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="600"></ColumnDefinition>
@@ -201,7 +203,7 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView}"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView }"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Тип" Binding="{Binding Name}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="Дата" Binding="{Binding Date}"></DataGridTextColumn>

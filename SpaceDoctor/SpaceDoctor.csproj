@@ -93,6 +93,7 @@
     <Compile Include="Model\XParam.cs" />
     <Compile Include="ViewModel\XClientVM.cs" />
     <Compile Include="ViewModel\XCommand.cs" />
+    <Compile Include="ViewModel\XDateConverter.cs" />
     <Compile Include="ViewModel\XExamTypeVM.cs" />
     <Compile Include="ViewModel\XExamVM.cs" />
     <Compile Include="ViewModel\XMainWndVM.cs" />

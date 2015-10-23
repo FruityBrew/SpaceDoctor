@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
@@ -16,6 +17,9 @@ namespace SpaceDoctor.ViewModel
         ObservableCollection<XExamVM> _examsObsCollection;
 
         CollectionViewSource _examsCVS;
+
+        readonly CollectionViewSource _todayExamsCVS;
+
 
         ObservableCollection<XDragPlan> _dragPlanObsCollection;
 
@@ -48,8 +52,11 @@ namespace SpaceDoctor.ViewModel
             _examsCVS.Source = _examsObsCollection;
             _examsCVS.View.CurrentChanged += View_CurrentChanged;
             _examsCVS.Filter += _examsCVS_Filter;
- 
-                        
+
+
+            _todayExamsCVS = new CollectionViewSource();
+            _todayExamsCVS.Source = TodayExamsCollection;
+
             DragPlanObsCollection = new ObservableCollection<XDragPlan>(this.Client.DragPlanCollection);
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
@@ -111,10 +118,6 @@ namespace SpaceDoctor.ViewModel
                 return _examsObsCollection;
             }
 
-            set
-            {
-                _examsObsCollection = value;
-            }
         }
 
         public ICollectionView ExamsCVSView
@@ -158,6 +161,27 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public ICollectionView TodayExamsCVSView
+        {
+            get
+            {
+               // _examsCVS.Source = TodayExamsCollection;
+                return _todayExamsCVS.View;
+            }
+        }
+
+        public IEnumerable<XExamVM> TodayExamsCollection
+        {
+            get
+            {
+                return from f in _examsObsCollection
+                       where f.Date.Day == DateTime.Now.Day
+                       select f;
+            }
+        }
+
+        #endregion
+
         #region methods
 
         #endregion
@@ -175,22 +199,25 @@ namespace SpaceDoctor.ViewModel
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 this.Client.ExamsCollection.Add(((XExamVM)e.NewItems[0]).Exam);
-            }
+                TodayExamsCVSView.Refresh();
 
+            }
         }
 
 
+        /// <summary>
+        /// Фильтр по дате-времени исследования. Фильтрует архивные обследования
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _examsCVS_Filter(object sender, FilterEventArgs e)
         {
-            if (((XExamVM)e.Item).Date < DateTime.Now)
-                e.Accepted = true;
-            else
-                e.Accepted = false;
+            e.Accepted = (((XExamVM)e.Item).Date < DateTime.Now);
         }
 
         #endregion
 
 
-        #endregion
+
     }
 }

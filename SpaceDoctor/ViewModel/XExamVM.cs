@@ -76,13 +76,22 @@ namespace SpaceDoctor.ViewModel
         public DateTime Date
         {
             get 
-            { 
-                return Exam.Date; 
+            {
+                return Exam.Date;
             }
             set 
             {
+
                 Exam.Date = value;
             }
+        }
+
+        public String TimeExam
+        {
+            get 
+            { 
+                return Date.ToString("H:mm");
+             }
         }
 
         public XExamTypeVM ExamType

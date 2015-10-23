@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceDoctor"
         mc:Ignorable="d"
+        xmlns:src="clr-namespace:SpaceDoctor.ViewModel"
         Title="SpaceDoctor" Height="750" Width="1000">
+    <Window.Resources>
+        <src:XDateConverter x:Key="DateConverter" ></src:XDateConverter>
+    </Window.Resources>
     <Grid>
         <!--
         <Grid.RowDefinitions>
@@ -86,10 +90,10 @@
                         </Grid.ColumnDefinitions>
                         <Label x:Name="XLabelNameListviewExams" Content="Запланированные обследования на сегодня:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
-                        <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
+                        <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Client.TodayExamsCVSView}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
                             <DataGrid.Columns>
-                                <DataGridHyperlinkColumn Header="Тип обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                                <DataGridTextColumn Header="Время обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
+                                <DataGridHyperlinkColumn Header="Тип обследования" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Время обследования" Binding="{Binding Path=TimeExam}"/>
                                 <DataGridComboBoxColumn Header="Статус" />
                             </DataGrid.Columns>
                         </DataGrid>
@@ -170,8 +174,13 @@
                             <Label Grid.Row="0" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
                             <DatePicker Grid.Row="0" Grid.Column="1" DisplayDate="{Binding ActualExam.Date}" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
 
-                            <Label Grid.Row="1" Grid.Column="0" Content="Время:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-
+                            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                <Label Grid.Row="1" Grid.Column="0" Content="Время (часы):" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HoursCollection}" SelectedValue="{Binding Hour}" Background="AliceBlue" Width="60" Height="30"> </ComboBox>
+                                <Label Grid.Row="1" Grid.Column="0" Content="Минуты:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MinutesCollection}" SelectedValue="{Binding Minutes}" Background="AliceBlue" Width="60" Height="30"></ComboBox>
+                            </StackPanel>
+                            
                             <Label Grid.Row="2" Grid.Column="0" Content="Запланировать:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
                             <Button x:Name="XButtonPlan"  Grid.Row="2" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewExamToPlanCommand}" Style="{StaticResource XStyleToButton}"></Button>
 
@@ -206,7 +215,7 @@
                             <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView }"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Тип" Binding="{Binding Name}"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Дата" Binding="{Binding Date}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateConverter}}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
 

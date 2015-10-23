@@ -176,7 +176,7 @@
 
                             <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                                 <Label Grid.Row="1" Grid.Column="0" Content="Время (часы):" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HoursCollection}" SelectedValue="{Binding Hour}" Background="AliceBlue" Width="60" Height="30"> </ComboBox>
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HoursCollection}" SelectedValue="{Binding Hour}" VerticalContentAlignment="Center" FontSize="16" Background="AliceBlue" Width="60" Height="30"> </ComboBox>
                                 <Label Grid.Row="1" Grid.Column="0" Content="Минуты:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
                                 <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MinutesCollection}" SelectedValue="{Binding Minutes}" Background="AliceBlue" Width="60" Height="30"></ComboBox>
                             </StackPanel>

@@ -9,7 +9,7 @@ namespace SpaceDoctor.ViewModel
 {
     public class XExamTypeVM : XViewModelBase
     {
-        readonly XExamsType _exType;
+         XExamsType _exType;
         readonly ObservableCollection<XParamTypeVM> _paramTypeObsCollection;
         readonly CollectionViewSource _paramTypesCVS;
 
@@ -50,6 +50,10 @@ namespace SpaceDoctor.ViewModel
             get
             {
                 return _exType;
+            }
+            set
+            {
+                _exType = value;
             }
         }
 

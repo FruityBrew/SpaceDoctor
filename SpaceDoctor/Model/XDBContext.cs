@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 
 
 
@@ -27,7 +23,9 @@ namespace SpaceDoctor.Model
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<XExam>().Property(e => e.Date).HasColumnType("datetime2");
+
         }
     }
 }

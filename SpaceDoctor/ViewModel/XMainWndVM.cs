@@ -1,4 +1,5 @@
 ﻿using SpaceDoctor.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,7 +8,7 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
-    public class XMainWndVM : XViewModelBase
+    public sealed class XMainWndVM : XViewModelBase
     {
 
         #region fields
@@ -18,7 +19,11 @@ namespace SpaceDoctor.ViewModel
         readonly CollectionViewSource _examTypesCVS;
         ICollection<XDrag> _dragCollection;
         XExamVM _actualExam;
-        //XCommand CreateNewExam;
+
+        readonly ICollection<Int32> _hoursCollection;
+        readonly ICollection<Int32> _minutesCollection;
+        Int32 _hour;
+        Int32 _minutes;
 
         #endregion 
 
@@ -27,34 +32,46 @@ namespace SpaceDoctor.ViewModel
         public XMainWndVM()
         {
             _dal = new DAL();
- 
-                _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
-                foreach (var v in Dal.ExamTypesCollection)
-                {
-                    _examTypesObsCollection.Add(new XExamTypeVM(v));
-                }
-                _examTypesCVS = new CollectionViewSource();
-                _examTypesCVS.Source = _examTypesObsCollection;
-                _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
 
-                _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
+            _hoursCollection = new Collection<Int32>();
+            for (int i = 0; i <= 24; i++)
+                _hoursCollection.Add(i);
 
-                _dragCollection = new Collection<XDrag>(Dal.DbContext.Drags.ToList());
-
-                ActualExam = new XExamVM();
-
-
-                CreateNewExamCommand = new XCommand(CreateNewExam);
-                SaveExamCommand = new XCommand(SaveExam);
-
+            _minutesCollection = new Collection<Int32>();
+            for (int i = 0; i < 60; i += 5)
+                _minutesCollection.Add(i);
 
             
+
+            _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
+            foreach (var v in Dal.ExamTypesCollection)
+            {
+                _examTypesObsCollection.Add(new XExamTypeVM(v));
+            }
+
+            _examTypesCVS = new CollectionViewSource();
+            _examTypesCVS.Source = _examTypesObsCollection;
+            _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
+
+            _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
+
+
+
+            _dragCollection = new Collection<XDrag>(Dal.DbContext.Drags.ToList());
+
+            ActualExam = new XExamVM();
+            ActualExam.Date = DateTime.Now;
+
+
+            CreateNewExamCommand = new XCommand(CreateNewExam);
+            SaveExamCommand = new XCommand(SaveExam);
+            AddNewExamToPlanCommand = new XCommand(AddNewExamToPlan);
+
         }
 
         #endregion
 
         #region properties
-
 
         public XExamTypeVM SelectedExamType
         {
@@ -119,28 +136,72 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public ICollection<int> HoursCollection
+        {
+            get
+            {
+                return _hoursCollection;
+            }
+        }
+
+        public ICollection<int> MinutesCollection
+        {
+            get
+            {
+                return _minutesCollection;
+            }
+        }
+
+        public int Hour
+        {
+            get
+            {
+                return _hour;
+            }
+
+            set
+            {
+                _hour = value;
+            }
+        }
+
+        public int Minutes
+        {
+            get
+            {
+                return _minutes;
+            }
+
+            set
+            {
+                _minutes = value;
+            }
+        }
+
+
         #endregion
 
         #region methods
 
         public void CreateNewExam()
         {
-            ActualExam.ExamType = this.SelectedExamType;
-            
-            foreach(var v in this.SelectedExamType.ParamTypeaObsCollection) // перенести в конструктор
-            {
-                ActualExam.AddParams(new XParamVM(v));
-            }
+            ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
 
-
-            _client.ExamsObsCollection.Add(ActualExam);
-            _client.Client.ExamsCollection.Add(ActualExam.Exam); //перенести метод Add ДАЛ
-
-      
+            ActualExam.Date = DateTime.Now;
+            _client.ExamsObsCollection.Add(ActualExam); 
         }
 
         public void SaveExam()
         {
+            Dal.DbContext.SaveChanges();
+        }
+
+        public void AddNewExamToPlan()
+        {
+            ActualExam.ExamType = SelectedExamType;
+            ActualExam.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Hour, Minutes, 0);
+
+            _client.ExamsObsCollection.Add(ActualExam);
             Dal.DbContext.SaveChanges();
         }
 
@@ -160,6 +221,8 @@ namespace SpaceDoctor.ViewModel
 
         public XCommand CreateNewExamCommand { get; set; }
         public XCommand SaveExamCommand { get; set; }
+        public XCommand AddNewExamToPlanCommand { get; set; }
+
 
 
 

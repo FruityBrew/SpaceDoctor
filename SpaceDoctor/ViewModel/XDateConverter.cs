@@ -12,7 +12,7 @@ namespace SpaceDoctor.ViewModel
             if (value != null)
             {
                 DateTime date = (DateTime)value;
-                return date.ToString("dd.MM.hh.mm");
+                return date.ToString("dd.MM.yyyy");
             }
             return null;
         }

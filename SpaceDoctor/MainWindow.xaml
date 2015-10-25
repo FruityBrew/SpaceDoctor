@@ -6,59 +6,13 @@
         xmlns:local="clr-namespace:SpaceDoctor"
         mc:Ignorable="d"
         xmlns:src="clr-namespace:SpaceDoctor.ViewModel"
-        Title="SpaceDoctor" Height="750" Width="1000">
+        Title="SpaceDoctor" Height="750" Width="1000" MinWidth="1000" MinHeight="750">
     <Window.Resources>
         <src:XDateConverter x:Key="DateConverter" ></src:XDateConverter>
     </Window.Resources>
-    <Grid>
-        <!--
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition Height="249*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="XButtonToday" Grid.Column="0" Content="Сегодня" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
-            <Button x:Name="XDragsPlan" Grid.Column="1" Content="Прием лекарств" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
-            <Button x:Name="XAnalisys" Grid.Column="2" Content="Анализы" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
-            <Button x:Name="XExams" Grid.Column="3" Content="Обследования" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
-            <Button x:Name="XDynamics" Grid.Column="4" Content="Динамика" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=XStyle}" />
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label x:Name="XLabelNameListviewExams" Content="Запланированные обследования на сегоднasdfsdfsdfsdfsя:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
-
-            <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
-                <DataGrid.Columns>
-                    <DataGridHyperlinkColumn Header="Тип обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                    <DataGridTextColumn Header="Время обследования" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                    <DataGridComboBoxColumn Header="Статус" />
-                </DataGrid.Columns>
-            </DataGrid>
-            
-            <DataGrid x:Name="XDataGridDrags" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
-                <DataGrid.Columns>
-                    <DataGridHyperlinkColumn Header="Препарат" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                    <DataGridTextColumn Header="Доза" Binding="{x:Null}" ClipboardContentBinding="{x:Null}"/>
-                    <DataGridHyperlinkColumn Header="Комментарий" />
-                </DataGrid.Columns>
-            </DataGrid>
-            
-        </Grid>
-        -->
+    
+    <Grid Background="AliceBlue">
+      
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
@@ -77,37 +31,43 @@
         </Grid>
         <Grid Grid.Row="2">
             
-                <TabControl x:Name="XTabControl" HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch" >
+                <TabControl x:Name="XTabControl" HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch" Background="AliceBlue" >
                 <TabItem x:Name="XTabItemToday" Header="Сегодня" Style="{StaticResource XStyleToTab}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="300*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="250*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="200*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label x:Name="XLabelNameListviewExams" Content="Запланированные обследования на сегодня:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
 
-                        <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Client.TodayExamsCVSView}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
+                        <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Client.TodayExamsCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
                             <DataGrid.Columns>
-                                <DataGridHyperlinkColumn Header="Тип обследования" Binding="{Binding Name}"/>
-                                <DataGridTextColumn Header="Время обследования" Binding="{Binding Path=TimeExam}"/>
-                                <DataGridComboBoxColumn Header="Статус" />
+                                <DataGridTextColumn Header="Тип обследования" Binding="{Binding Name}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Время обследования" Binding="{Binding Path=TimeExam}" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <DataGrid x:Name="XDataGridDrags" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" AutoGenerateColumns="False" BorderBrush="#FF9BB0B9">
+                        <DataGrid x:Name="XDataGridExamParamsToday" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromToday.ParamCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <DataGrid.Columns>
-
-                                <DataGridHyperlinkColumn Header="Комментарий" />
+                                <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" IsReadOnly="True"/>
+                                <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value, Mode=TwoWay}" />
+                                <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
+
+                        <Button x:Name="XButtonExamSaveToday" Command="{Binding SaveExamCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+
 
                     </Grid>
                 </TabItem>
-                <TabItem Header="Обследования" Style="{StaticResource XStyleToTab}">
+                <TabItem Header="Планирование" Style="{StaticResource XStyleToTab}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="250"></ColumnDefinition>
@@ -124,7 +84,7 @@
 
                             <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" Style="{StaticResource DataGridBihevour}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название" Binding="{Binding Name}" MinWidth="200"/>
                                 </DataGrid.Columns>
@@ -141,14 +101,14 @@
                             
                             <Label Content="Измеряемые параметры:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExParamTypes" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridBihevour}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridExParamTypes" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" />
                                     <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid x:Name="XDataGridExamParams" Grid.Row="1" ItemsSource="{Binding ActualExam.ParamCVSView}"  Visibility="Collapsed" Style="{StaticResource DataGridBihevour}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridExamParams" Grid.Row="1" ItemsSource="{Binding ActualExam.ParamCVSView}"  Visibility="Collapsed" Style="{StaticResource DataGridStyle}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" />
                                     <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value}"/>
@@ -163,8 +123,12 @@
                             <RowDefinition Height="40"></RowDefinition>
                             <RowDefinition Height="40"></RowDefinition>
                             <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="100"></RowDefinition>
                             <RowDefinition Height="40"></RowDefinition>
                             <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="210"></ColumnDefinition>
@@ -176,27 +140,30 @@
 
                             <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                                 <Label Grid.Row="1" Grid.Column="0" Content="Время (часы):" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HoursCollection}" SelectedValue="{Binding Hour}" VerticalContentAlignment="Center" FontSize="16" Background="AliceBlue" Width="60" Height="30"> </ComboBox>
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding HoursCollection}" SelectedValue="{Binding Hour}" VerticalContentAlignment="Center" FontSize="14" Background="AliceBlue" Width="60" Height="25"> </ComboBox>
                                 <Label Grid.Row="1" Grid.Column="0" Content="Минуты:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MinutesCollection}" SelectedValue="{Binding Minutes}" Background="AliceBlue" Width="60" Height="30"></ComboBox>
+                                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding MinutesCollection}" SelectedValue="{Binding Minutes}" VerticalAlignment="Center" FontSize="14" Background="AliceBlue" Width="60" Height="25"></ComboBox>
                             </StackPanel>
                             
                             <Label Grid.Row="2" Grid.Column="0" Content="Запланировать:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
                             <Button x:Name="XButtonPlan"  Grid.Row="2" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewExamToPlanCommand}" Style="{StaticResource XStyleToButton}"></Button>
 
+                            <Label x:Name="XTextBoxMessage" Visibility="Visible" Content="Внесено в план" FontSize="20" Grid.Row="3" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ></Label>
 
-                            <Label Grid.Row="3" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
-                            <Button x:Name="XButtonRunNow"  Grid.Row="3" Grid.Column="1" Content="Выполнить" Command="{Binding CreateNewExamCommand}" Style="{StaticResource XStyleToButton}" Click="ButtonRunNow_Click"></Button>
+                            <Label Grid.Row="4" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
+                            <Button x:Name="XButtonRunNow"  Grid.Row="4" Grid.Column="1" Content="Выполнить" Command="{Binding CreateNewExamCommand}" Style="{StaticResource XStyleToButton}" Click="ButtonRunNow_Click"></Button>
 
 
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Прием лекарств" Style="{StaticResource XStyleToTab}">
-                    <Grid/>
+                <TabItem Header="Обследования" Style="{StaticResource XStyleToTab}">
+                    <Grid>
+                        
+                    </Grid>
                 </TabItem>
-                <TabItem Header="Анализы" Style="{StaticResource XStyleToTab}"/>
-                <TabItem x:Name="XTabItemDinamic" Header="Динамика" Style="{StaticResource XStyleToTab}">
+                <TabItem Header="Прием лекарств" Style="{StaticResource XStyleToTab}"/>
+                <TabItem x:Name="XTabItemDinamic" Header="Динамика" Style="{StaticResource XStyleToTab}" Margin="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="600"></ColumnDefinition>
@@ -212,14 +179,15 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView }"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView }"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Тип" Binding="{Binding Name}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateConverter}}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Время" Binding="{Binding TimeExam}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.SelectedExam.ParamCVSView}" Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridBihevour}">
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.SelectedExam.ParamCVSView}" Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridStyle}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}"></DataGridTextColumn>
                                     <DataGridTextColumn Header="Значение" Binding="{Binding Value}"></DataGridTextColumn>

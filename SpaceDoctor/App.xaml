@@ -5,7 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources> 
         <Style x:Name="XColors" x:Key="XStyleToButton" TargetType="Button" >
-            <Setter Property="Background" Value="AliceBlue" >
+            <Setter Property="Background" Value="SteelBlue" >
             </Setter>
             <Setter Property="BorderBrush" Value="White">
             </Setter>
@@ -16,15 +16,30 @@
         <Style x:Name="dw" x:Key="XStyleToTab" TargetType="TabItem">
             <Setter Property="Background" Value="AliceBlue" >
             </Setter>
-            <Setter Property="Width" Value="120">
+            <Setter Property="Width" Value="125">
             </Setter>
             <Setter Property="Height" Value="40">
             </Setter>
         </Style>
-        <Style x:Key="DataGridBihevour" TargetType="DataGrid">
-            <Setter Property="IsSynchronizedWithCurrentItem" Value="True">
-            </Setter>
-            <Setter Property="AutoGenerateColumns" Value="False"> </Setter>
+
+        <Style x:Key="DataGridStyle" TargetType="DataGrid">
+            <Setter Property="IsSynchronizedWithCurrentItem" Value="True"></Setter>
+            <Setter Property="AutoGenerateColumns" Value="False"></Setter>
+            <Setter Property="Background" Value="AliceBlue"></Setter>
+            <Setter Property="BorderBrush" Value="Gray"> </Setter>
+            <Setter Property="RowBackground" Value="AliceBlue"> </Setter>
+            <Setter Property="VerticalGridLinesBrush" Value="Gray"> </Setter>
+            <Setter Property="HorizontalGridLinesBrush" Value="Gray"></Setter>
+            <Setter Property="CellStyle" Value="{DynamicResource CellSt}"></Setter>
+        </Style>
+        
+        <Style x:Key="CellSt" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="BlanchedAlmond"></Setter>
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                 </Trigger>
+            </Style.Triggers>
         </Style>
         
     </Application.Resources>

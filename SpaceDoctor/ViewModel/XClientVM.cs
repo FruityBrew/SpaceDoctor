@@ -19,6 +19,7 @@ namespace SpaceDoctor.ViewModel
         CollectionViewSource _examsCVS;
 
         readonly CollectionViewSource _todayExamsCVS;
+        
 
 
         ObservableCollection<XDragPlan> _dragPlanObsCollection;
@@ -56,6 +57,7 @@ namespace SpaceDoctor.ViewModel
 
             _todayExamsCVS = new CollectionViewSource();
             _todayExamsCVS.Source = TodayExamsCollection;
+            _todayExamsCVS.View.CurrentChanged += View_CurrentChanged1;
 
             DragPlanObsCollection = new ObservableCollection<XDragPlan>(this.Client.DragPlanCollection);
             _dragPlanCVS = new CollectionViewSource();
@@ -64,6 +66,7 @@ namespace SpaceDoctor.ViewModel
             _examsCVS.View.Refresh();
        }
 
+ 
 
         #endregion
 
@@ -170,13 +173,21 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public IEnumerable<XExamVM> TodayExamsCollection
+        private IEnumerable<XExamVM> TodayExamsCollection
         {
             get
             {
                 return from f in _examsObsCollection
                        where f.Date.Day == DateTime.Now.Day
                        select f;
+            }
+        }
+
+        public XExamVM SelectedExamFromToday
+        {
+            get
+            {
+                return TodayExamsCVSView.CurrentItem as XExamVM;
             }
         }
 
@@ -202,6 +213,11 @@ namespace SpaceDoctor.ViewModel
                 TodayExamsCVSView.Refresh();
 
             }
+        }
+
+        private void View_CurrentChanged1(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedExamFromToday");
         }
 
 

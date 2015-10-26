@@ -130,7 +130,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <Button x:Name="XButtonNEWExamSave" Command="{Binding SaveNewExamTypeCommand}" IsEnabled="False" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonExamSave_Click"/>
+                            <Button x:Name="XButtonNEWExamSave" Command="{Binding SaveNewExamTypeCommand}" IsEnabled="False"  Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonNEWExamSave_Click" Margin="28,15,237,15"/>
 
                             <Button x:Name="XButtonExamSave" Command="{Binding SaveExamCommand}" IsEnabled="False" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonExamSave_Click"/>
                         </Grid>

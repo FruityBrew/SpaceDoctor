@@ -66,5 +66,10 @@ namespace SpaceDoctor
             XDataGridNEWExParamTypes.Visibility = Visibility.Visible;
             XButtonNEWExamSave.IsEnabled = true;
         }
+
+        private void XButtonNEWExamSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

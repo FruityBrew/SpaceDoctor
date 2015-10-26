@@ -4,6 +4,7 @@ using System.Linq;
 
 using Attr = System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace SpaceDoctor.Model
 {
@@ -19,6 +20,11 @@ namespace SpaceDoctor.Model
         [DisplayName("Единица измерения")]
         public String Measure { get; set; }
  
-        public XExamsType ExamsType { get; set; }
+        public ICollection<XExamsType> ExamsTypeCollection { get; set; }
+
+        public XParamsType()
+        {
+            ExamsTypeCollection = new Collection<XExamsType>();
+        }
     }
 }

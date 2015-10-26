@@ -265,6 +265,7 @@ namespace SpaceDoctor.ViewModel
             }
 
             Dal.DbContext.SaveChanges();
+
         }
 
 
@@ -296,10 +297,6 @@ namespace SpaceDoctor.ViewModel
         public XCommand AddNewExamToPlanCommand { get; set; }
         public XCommand CreateNewExamTypeCommand { get; set; }
         public XCommand SaveNewExamTypeCommand { get; set; }
-
-
-
-
 
 
         #endregion

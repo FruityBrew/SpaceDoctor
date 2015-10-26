@@ -84,8 +84,12 @@
 
                             <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
+                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanUserAddRows="False">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Background="LightBlue">
+                                        <MenuItem Header="Добавить новый тип обследования" Command="{Binding CreateNewExamTypeCommand}" Click="MenuItem_Click" />
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название" Binding="{Binding Name}" MinWidth="200"/>
                                 </DataGrid.Columns>
@@ -102,20 +106,31 @@
                             
                             <Label Content="Измеряемые параметры:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExParamTypes" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridExParamTypes" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CanUserAddRows="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" />
                                     <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid x:Name="XDataGridExamParams" Grid.Row="1" ItemsSource="{Binding ActualExam.ParamCVSView}"  Visibility="Collapsed" Style="{StaticResource DataGridStyle}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridExamParams" Grid.Row="1" ItemsSource="{Binding ActualExam.ParamCVSView}"  Visibility="Hidden" Style="{StaticResource DataGridStyle}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" />
                                     <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value}" IsReadOnly="False"/>
                                     <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+
+
+                            <DataGrid x:Name="XDataGridNEWExParamTypes" Grid.Row="1" ItemsSource="{Binding ParamTypesCVSView}" Visibility="Hidden" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" />
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure}"/>
+                                    <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectToNewExam}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button x:Name="XButtonNEWExamSave" Command="{Binding SaveNewExamTypeCommand}" IsEnabled="False" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonExamSave_Click"/>
 
                             <Button x:Name="XButtonExamSave" Command="{Binding SaveExamCommand}" IsEnabled="False" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonExamSave_Click"/>
                         </Grid>

@@ -33,7 +33,7 @@
             <Setter Property="CellStyle" Value="{DynamicResource CellSt}"></Setter>
 
             <Setter Property="CanUserSortColumns" Value="False"></Setter>
-            <Setter Property="CanUserAddRows" Value="False"></Setter>
+
         </Style>
         
         <Style x:Key="CellSt" TargetType="DataGridCell">

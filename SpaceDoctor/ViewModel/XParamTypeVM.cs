@@ -54,6 +54,7 @@ namespace SpaceDoctor.ViewModel
         }
 
 
+        public Boolean SelectToNewExam { get; set; }
 
     }
 }

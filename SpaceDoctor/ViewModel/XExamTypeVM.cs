@@ -9,7 +9,7 @@ namespace SpaceDoctor.ViewModel
 {
     public class XExamTypeVM : XViewModelBase
     {
-         XExamsType _exType;
+        readonly XExamsType _exType;
         readonly ObservableCollection<XParamTypeVM> _paramTypeObsCollection;
         readonly CollectionViewSource _paramTypesCVS;
 
@@ -17,6 +17,18 @@ namespace SpaceDoctor.ViewModel
         public XExamTypeVM()
         {
             _exType = new XExamsType();
+            _paramTypeObsCollection = new ObservableCollection<XParamTypeVM>();
+            _paramTypeObsCollection.CollectionChanged += _paramTypeObsCollection_CollectionChanged;
+
+            _paramTypesCVS = new CollectionViewSource();
+            _paramTypesCVS.Source = _paramTypeObsCollection;
+
+        }
+
+        private void _paramTypeObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                this._exType.ParamsCollection.Add(((XParamTypeVM)e.NewItems[0]).ParamType);
         }
 
         public XExamTypeVM(XExamsType exType)
@@ -51,10 +63,7 @@ namespace SpaceDoctor.ViewModel
             {
                 return _exType;
             }
-            set
-            {
-                _exType = value;
-            }
+
         }
 
         internal ObservableCollection<XParamTypeVM> ParamTypeaObsCollection

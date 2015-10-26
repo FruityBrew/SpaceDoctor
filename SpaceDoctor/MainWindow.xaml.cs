@@ -61,5 +61,10 @@ namespace SpaceDoctor
 
         }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            XDataGridNEWExParamTypes.Visibility = Visibility.Visible;
+            XButtonNEWExamSave.IsEnabled = true;
+        }
     }
 }

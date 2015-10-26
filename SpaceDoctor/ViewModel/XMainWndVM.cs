@@ -17,8 +17,13 @@ namespace SpaceDoctor.ViewModel
         readonly DAL _dal;
         readonly ObservableCollection<XExamTypeVM> _examTypesObsCollection;
         readonly CollectionViewSource _examTypesCVS;
+
+        readonly ObservableCollection<XParamTypeVM> _paramTypesObsCollection;
+        readonly CollectionViewSource _paramTypesCVS;
+
         ICollection<XDrag> _dragCollection;
         XExamVM _actualExam;
+        XExamTypeVM _newExam;
 
         readonly ICollection<Int32> _hoursCollection;
         readonly ICollection<Int32> _minutesCollection;
@@ -49,9 +54,20 @@ namespace SpaceDoctor.ViewModel
                 _examTypesObsCollection.Add(new XExamTypeVM(v));
             }
 
+            
             _examTypesCVS = new CollectionViewSource();
             _examTypesCVS.Source = _examTypesObsCollection;
             _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
+            _examTypesObsCollection.CollectionChanged += _examTypesObsCollection_CollectionChanged;
+
+
+            //заполнить коллекции с типами параметров:
+            _paramTypesObsCollection = new ObservableCollection<XParamTypeVM>();
+            foreach (var v in Dal.DbContext.ParamsTypes)
+                _paramTypesObsCollection.Add(new XParamTypeVM(v));
+            _paramTypesCVS = new CollectionViewSource();
+            _paramTypesCVS.Source = _paramTypesObsCollection;
+
 
             _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
 
@@ -66,8 +82,12 @@ namespace SpaceDoctor.ViewModel
             CreateNewExamCommand = new XCommand(CreateNewExam);
             SaveExamCommand = new XCommand(SaveExam);
             AddNewExamToPlanCommand = new XCommand(AddNewExamToPlan);
+            CreateNewExamTypeCommand = new XCommand(CreateNewExamType);
+            SaveNewExamTypeCommand = new XCommand(SaveNewExamType);
 
         }
+
+
 
         #endregion
 
@@ -178,12 +198,32 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public ICollectionView ParamTypesCVSView
+        {
+            get
+            {
+                return _paramTypesCVS.View;
+            }
+        }
+
+        private XExamTypeVM NewExamType
+        {
+            get
+            {
+                return _newExam;
+            }
+
+            set
+            {
+                _newExam = value;
+            }
+        }
 
         #endregion
 
         #region methods
 
-        public void CreateNewExam()
+        private void CreateNewExam()
         {
             ActualExam = new XExamVM();
             ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
@@ -194,12 +234,12 @@ namespace SpaceDoctor.ViewModel
             RaisePropertyChanged("ActualExam");
         }
 
-        public void SaveExam()
+        private void SaveExam()
         {
             Dal.DbContext.SaveChanges();
         }
 
-        public void AddNewExamToPlan()
+        private void AddNewExamToPlan()
         {
             ActualExam = new XExamVM();
             ActualExam.ExamType = SelectedExamType;
@@ -209,6 +249,26 @@ namespace SpaceDoctor.ViewModel
             Dal.DbContext.SaveChanges();
         }
 
+        private void CreateNewExamType()
+        {
+            NewExamType = new XExamTypeVM();
+            ExamTypesObsCollection.Add(NewExamType);
+
+        }
+
+        private void SaveNewExamType()
+        {
+            foreach (var v in _paramTypesObsCollection)
+            {
+                if (v.SelectToNewExam)
+                    NewExamType.ParamTypeaObsCollection.Add(v);
+            }
+
+            Dal.DbContext.SaveChanges();
+        }
+
+
+        
         #endregion
 
 
@@ -219,6 +279,14 @@ namespace SpaceDoctor.ViewModel
             RaisePropertyChanged("SelectedExamType");
         }
 
+        private void _examTypesObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                Dal.DbContext.ExamsType.Add(((XExamTypeVM)e.NewItems[0]).ExType);
+            }
+        }
+
         #endregion
 
         #region commands 
@@ -226,6 +294,10 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewExamCommand { get; set; }
         public XCommand SaveExamCommand { get; set; }
         public XCommand AddNewExamToPlanCommand { get; set; }
+        public XCommand CreateNewExamTypeCommand { get; set; }
+        public XCommand SaveNewExamTypeCommand { get; set; }
+
+
 
 
 

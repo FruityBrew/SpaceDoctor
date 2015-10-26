@@ -185,10 +185,13 @@ namespace SpaceDoctor.ViewModel
 
         public void CreateNewExam()
         {
+            ActualExam = new XExamVM();
             ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
 
             ActualExam.Date = DateTime.Now;
-            _client.ExamsObsCollection.Add(ActualExam); 
+            _client.ExamsObsCollection.Add(ActualExam);
+
+            RaisePropertyChanged("ActualExam");
         }
 
         public void SaveExam()
@@ -198,6 +201,7 @@ namespace SpaceDoctor.ViewModel
 
         public void AddNewExamToPlan()
         {
+            ActualExam = new XExamVM();
             ActualExam.ExamType = SelectedExamType;
             ActualExam.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Hour, Minutes, 0);
 

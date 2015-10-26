@@ -84,7 +84,8 @@
 
                             <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" Margin="1"  VerticalAlignment="Stretch">
+                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название" Binding="{Binding Name}" MinWidth="200"/>
                                 </DataGrid.Columns>
@@ -111,12 +112,12 @@
                             <DataGrid x:Name="XDataGridExamParams" Grid.Row="1" ItemsSource="{Binding ActualExam.ParamCVSView}"  Visibility="Collapsed" Style="{StaticResource DataGridStyle}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" />
-                                    <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value}"/>
+                                    <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value}" IsReadOnly="False"/>
                                     <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <Button x:Name="XButtonExamSave" Command="{Binding SaveExamCommand}" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+                            <Button x:Name="XButtonExamSave" Command="{Binding SaveExamCommand}" IsEnabled="False" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonExamSave_Click"/>
                         </Grid>
                         <Grid Grid.Column="2">
                             <Grid.RowDefinitions>
@@ -146,13 +147,15 @@
                             </StackPanel>
                             
                             <Label Grid.Row="2" Grid.Column="0" Content="Запланировать:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                            <Button x:Name="XButtonPlan"  Grid.Row="2" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewExamToPlanCommand}" Style="{StaticResource XStyleToButton}"></Button>
+                            <Button x:Name="XButtonPlan"  Grid.Row="2" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewExamToPlanCommand}" Style="{StaticResource XStyleToButton}" Click="XButtonPlan_Click"></Button>
 
-                            <Label x:Name="XTextBoxMessage" Visibility="Visible" Content="Внесено в план" FontSize="20" Grid.Row="3" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ></Label>
+                            <Label x:Name="XMessage" Visibility="Hidden" Content="Внесено в план!" FontSize="20" Grid.Row="3" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,-51,0" ></Label>
 
                             <Label Grid.Row="4" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
                             <Button x:Name="XButtonRunNow"  Grid.Row="4" Grid.Column="1" Content="Выполнить" Command="{Binding CreateNewExamCommand}" Style="{StaticResource XStyleToButton}" Click="ButtonRunNow_Click"></Button>
 
+                            <Label Grid.Row="6" Grid.Column="0" Content="Вернуться к планированию:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
+                            <Button x:Name="XButtonReturnToPlaning"  Grid.Row="6" Grid.Column="1" Content="Вернуться" IsEnabled="False"  Style="{StaticResource XStyleToButton}" Click="XButtonReturnToPlaning_Click"></Button>
 
                         </Grid>
                     </Grid>

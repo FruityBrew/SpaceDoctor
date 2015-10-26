@@ -1,4 +1,5 @@
 ﻿using SpaceDoctor.ViewModel;
+using System.Threading;
 using System.Windows;
 
 namespace SpaceDoctor
@@ -32,8 +33,33 @@ namespace SpaceDoctor
             XDataGridExParamTypes.Visibility = Visibility.Collapsed;
            //XDataGridExParamTypes.ItemsSource = _wndVM.ActualExam.ParamCVSView;
             XDataGridExamParams.Visibility = Visibility.Visible;
+            XButtonExamSave.IsEnabled = true;
+            XButtonRunNow.IsEnabled = false;
+            XButtonPlan.IsEnabled = false;
+            XButtonReturnToPlaning.IsEnabled = true;
         }
 
+        private void XButtonExamSave_Click(object sender, RoutedEventArgs e)
+        {
+            XButtonExamSave.IsEnabled = false;
+            XButtonReturnToPlaning.IsEnabled = true;
+        }
+
+        private void XButtonReturnToPlaning_Click(object sender, RoutedEventArgs e)
+        {
+            XButtonPlan.IsEnabled = true;
+            XButtonReturnToPlaning.IsEnabled = false;
+            XButtonRunNow.IsEnabled = true;
+            XDataGridExParamTypes.Visibility = Visibility.Visible;
+            XDataGridExamParams.Visibility = Visibility.Hidden;
+            
+        }
+
+        private void XButtonPlan_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Исследование внесено в ваш гениальный план!");
+
+        }
 
     }
 }

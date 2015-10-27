@@ -54,7 +54,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <DataGrid x:Name="XDataGridExamParamsToday" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromToday.ParamCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <DataGrid x:Name="XDataGridExamParamsToday" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromToday.ParamCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" IsReadOnly="True"/>
                                 <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value, Mode=TwoWay}" />
@@ -113,15 +113,6 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid x:Name="XDataGridExamParams" Grid.Row="1" ItemsSource="{Binding ActualExam.ParamCVSView}"  Visibility="Hidden" Style="{StaticResource DataGridStyle}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" />
-                                    <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value}" IsReadOnly="False"/>
-                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-
                             <DataGrid x:Name="XDataGridNEWExParamTypes" Grid.Row="1" ItemsSource="{Binding ParamTypesCVSView}" Visibility="Hidden" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CanUserAddRows="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" />
@@ -130,9 +121,8 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <Button x:Name="XButtonNEWExamSave" Command="{Binding SaveNewExamTypeCommand}" IsEnabled="False"  Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonNEWExamSave_Click" Margin="28,15,237,15"/>
+                            <Button x:Name="XButtonNEWExamSave" Command="{Binding SaveNewExamTypeCommand}" Visibility="Hidden" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonNEWExamSave_Click" />
 
-                            <Button x:Name="XButtonExamSave" Command="{Binding SaveExamCommand}" IsEnabled="False" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonExamSave_Click"/>
                         </Grid>
                         <Grid Grid.Column="2">
                             <Grid.RowDefinitions>
@@ -168,9 +158,6 @@
 
                             <Label Grid.Row="4" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
                             <Button x:Name="XButtonRunNow"  Grid.Row="4" Grid.Column="1" Content="Выполнить" Command="{Binding CreateNewExamCommand}" Style="{StaticResource XStyleToButton}" Click="ButtonRunNow_Click"></Button>
-
-                            <Label Grid.Row="6" Grid.Column="0" Content="Вернуться к планированию:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
-                            <Button x:Name="XButtonReturnToPlaning"  Grid.Row="6" Grid.Column="1" Content="Вернуться" IsEnabled="False"  Style="{StaticResource XStyleToButton}" Click="XButtonReturnToPlaning_Click"></Button>
 
                         </Grid>
                     </Grid>

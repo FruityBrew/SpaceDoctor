@@ -239,6 +239,7 @@ namespace SpaceDoctor.ViewModel
             Dal.DbContext.SaveChanges();
         }
 
+        
         private void AddNewExamToPlan()
         {
             ActualExam = new XExamVM();
@@ -253,7 +254,6 @@ namespace SpaceDoctor.ViewModel
         {
             NewExamType = new XExamTypeVM();
             ExamTypesObsCollection.Add(NewExamType);
-
         }
 
         private void SaveNewExamType()
@@ -261,11 +261,15 @@ namespace SpaceDoctor.ViewModel
             foreach (var v in _paramTypesObsCollection)
             {
                 if (v.SelectToNewExam)
+                {
                     NewExamType.ParamTypeaObsCollection.Add(v);
+                    v.SelectToNewExam = false;
+                }
             }
 
-            Dal.DbContext.SaveChanges();
+            ParamTypesCVSView.Refresh();
 
+            Dal.DbContext.SaveChanges();
         }
 
 

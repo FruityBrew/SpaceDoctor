@@ -19,6 +19,7 @@ namespace SpaceDoctor.ViewModel
         CollectionViewSource _examsCVS;
 
         readonly CollectionViewSource _todayExamsCVS;
+        readonly CollectionViewSource _planExamsCVS;
         
 
 
@@ -51,22 +52,32 @@ namespace SpaceDoctor.ViewModel
 
             _examsCVS = new CollectionViewSource();
             _examsCVS.Source = _examsObsCollection;
-            _examsCVS.View.CurrentChanged += View_CurrentChanged;
+            _examsCVS.View.CurrentChanged += ViewExams_CurrentChanged;
             _examsCVS.Filter += _examsCVS_Filter;
 
 
             _todayExamsCVS = new CollectionViewSource();
-            _todayExamsCVS.Source = TodayExamsCollection;
-            _todayExamsCVS.View.CurrentChanged += View_CurrentChanged1;
+            _todayExamsCVS.Source = TodayExamsCollection();
+            _todayExamsCVS.View.CurrentChanged += ViewTodayExams_CurrentChanged1;
+
+            _planExamsCVS = new CollectionViewSource();
+            _planExamsCVS.Source = PlanExamsCollection();
+            _planExamsCVS.View.CurrentChanged += ViewPlanExam_CurrentChanged;
+            
 
             DragPlanObsCollection = new ObservableCollection<XDragPlan>(this.Client.DragPlanCollection);
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
 
+         //   DeleteExamFromPlanCommand = new XCommand(DeleteExamFromPlan);
+
             _examsCVS.View.Refresh();
        }
 
- 
+
+
+
+
 
         #endregion
 
@@ -173,16 +184,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        private IEnumerable<XExamVM> TodayExamsCollection
-        {
-            get
-            {
-                return from f in _examsObsCollection
-                       where f.Date.Day == DateTime.Now.Day
-                       select f;
-            }
-        }
-
         public XExamVM SelectedExamFromToday
         {
             get
@@ -191,15 +192,54 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public ICollectionView PlanExamsCVSView
+        {
+            get
+            {
+                return _planExamsCVS.View;
+            }
+        }
+
+        public XExamVM SelectedExamFromPlan
+        {
+            get
+            {
+                return PlanExamsCVSView.CurrentItem as XExamVM;
+            }
+        }
+
+
         #endregion
 
         #region methods
+
+        private IEnumerable<XExamVM> TodayExamsCollection()
+        {
+            return from f in _examsObsCollection
+                   where f.Date.Day == DateTime.Now.Day
+                   select f;
+        }
+
+        private IEnumerable<XExamVM> PlanExamsCollection()
+        {
+            return from f in _examsObsCollection
+                   where f.Date.Day >= DateTime.Now.Day
+                   select f;
+        }
+
+        internal void DeleteExam(XExamVM exam)
+        {
+            exam.ParamsObsCollection.Clear();
+            this.ExamsObsCollection.Remove(exam);
+        }
+
+
 
         #endregion
 
         #region eventHandlers
 
-        private void View_CurrentChanged(object sender, EventArgs e)
+        private void ViewExams_CurrentChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("SelectedExam");
         }
@@ -211,14 +251,28 @@ namespace SpaceDoctor.ViewModel
             {
                 this.Client.ExamsCollection.Add(((XExamVM)e.NewItems[0]).Exam);
                 TodayExamsCVSView.Refresh();
+                PlanExamsCVSView.Refresh();
+            }
 
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                this.Client.ExamsCollection.Remove(((XExamVM)e.OldItems[0]).Exam);
+                TodayExamsCVSView.Refresh();
+                PlanExamsCVSView.Refresh();
             }
         }
 
-        private void View_CurrentChanged1(object sender, EventArgs e)
+        private void ViewTodayExams_CurrentChanged1(object sender, EventArgs e)
         {
             RaisePropertyChanged("SelectedExamFromToday");
         }
+
+
+        private void ViewPlanExam_CurrentChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedExamFromPlan");
+        }
+
 
 
         /// <summary>
@@ -233,7 +287,11 @@ namespace SpaceDoctor.ViewModel
 
         #endregion
 
+        #region commands
 
+
+
+        #endregion
 
     }
 }

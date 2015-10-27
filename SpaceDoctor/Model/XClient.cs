@@ -33,7 +33,7 @@ namespace SpaceDoctor.Model
         public ICollection<XDragPlan> DragPlanCollection { get; set; }
 
 
-        
+       
         public XClient()
         {
             ExamsCollection = new Collection<XExam>();            

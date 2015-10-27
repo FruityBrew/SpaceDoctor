@@ -27,5 +27,7 @@ namespace SpaceDoctor.Model
             modelBuilder.Entity<XExam>().Property(e => e.Date).HasColumnType("datetime2");
 
         }
+
+
     }
 }

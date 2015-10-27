@@ -64,5 +64,12 @@ namespace SpaceDoctor.Model
             
            // DbContext.Exams.Add(exam);
         }
+
+
+        internal void RemoveExam(XExam examToRemove)
+        {
+            DbContext.Parameters.RemoveRange(examToRemove.ParamsCollection);
+            DbContext.Exams.Remove(examToRemove);
+        }
     }
 }

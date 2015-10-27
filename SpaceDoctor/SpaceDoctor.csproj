@@ -88,6 +88,10 @@
     <Compile Include="Migrations\201510261839302_Add_XExamsType_N-N_XParamsType_relation.Designer.cs">
       <DependentUpon>201510261839302_Add_XExamsType_N-N_XParamsType_relation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510271146482_AddColumnIdExamIntoParam.cs" />
+    <Compile Include="Migrations\201510271146482_AddColumnIdExamIntoParam.Designer.cs">
+      <DependentUpon>201510271146482_AddColumnIdExamIntoParam.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\DAL.cs" />
     <Compile Include="Model\XDrag.cs" />
@@ -152,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510261839302_Add_XExamsType_N-N_XParamsType_relation.resx">
       <DependentUpon>201510261839302_Add_XExamsType_N-N_XParamsType_relation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510271146482_AddColumnIdExamIntoParam.resx">
+      <DependentUpon>201510271146482_AddColumnIdExamIntoParam.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

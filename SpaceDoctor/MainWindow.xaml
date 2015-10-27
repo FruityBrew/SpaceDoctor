@@ -62,7 +62,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <Button x:Name="XButtonExamSaveToday" Command="{Binding SaveExamCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+                        <Button x:Name="XButtonExamSaveToday" Command="{Binding SaveChangesCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
 
 
                     </Grid>
@@ -142,7 +142,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Row="0" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                            <DatePicker Grid.Row="0" Grid.Column="1" DisplayDate="{Binding ActualExam.Date}" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                            <DatePicker Grid.Row="0" Grid.Column="1" SelectedDate="{Binding ActualExam.Date, Mode=TwoWay}" DisplayDate="{Binding DateTime.Now}"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
 
                             <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                                 <Label Grid.Row="1" Grid.Column="0" Content="Время (часы):" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
@@ -162,11 +162,49 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Обследования" Style="{StaticResource XStyleToTab}">
+                <TabItem  Style="{StaticResource XStyleToTab}">
+                    <TabItem.Header>
+                        <TextBlock TextWrapping="Wrap" Text="Мой гениальный план обследований" TextAlignment="Center"></TextBlock>
+                    </TabItem.Header>
                     <Grid>
-                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="250*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="200*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Запланированные обследования:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+
+                        <DataGrid x:Name="XDataGridExamPlan" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Client.PlanExamsCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                            <DataGrid.ContextMenu>
+                                <ContextMenu Background="LightBlue">
+                                    <MenuItem Header="Отменить" Command="{Binding DeleteExamFromPlanCommand}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Тип обследования" Binding="{Binding Name}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateConverter}}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Время обследования" Binding="{Binding Path=TimeExam}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridExamParamsPlan" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromPlan.ParamCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Button x:Name="XButtonSaveChanges" Command="{Binding SaveChangesCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+
                     </Grid>
                 </TabItem>
+                    
                 <TabItem Header="Прием лекарств" Style="{StaticResource XStyleToTab}"/>
                 <TabItem x:Name="XTabItemDinamic" Header="Динамика" Style="{StaticResource XStyleToTab}" Margin="0">
                     <Grid>
@@ -199,6 +237,8 @@
                                     <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            
+                            
                         </Grid>
                         
                     </Grid>

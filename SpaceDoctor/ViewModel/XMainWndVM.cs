@@ -80,11 +80,11 @@ namespace SpaceDoctor.ViewModel
 
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
-            SaveExamCommand = new XCommand(SaveExam);
+            SaveChangesCommand = new XCommand(SaveExam);
             AddNewExamToPlanCommand = new XCommand(AddNewExamToPlan);
             CreateNewExamTypeCommand = new XCommand(CreateNewExamType);
             SaveNewExamTypeCommand = new XCommand(SaveNewExamType);
-
+            DeleteExamFromPlanCommand = new XCommand(DeleteExamFromPlan);
         }
 
 
@@ -153,6 +153,7 @@ namespace SpaceDoctor.ViewModel
             set
             {
                 _actualExam = value;
+                RaisePropertyChanged("ActualExam");
             }
         }
 
@@ -171,6 +172,8 @@ namespace SpaceDoctor.ViewModel
                 return _minutesCollection;
             }
         }
+
+        public DateTime Day { get; set; }
 
         public int Hour
         {
@@ -225,13 +228,14 @@ namespace SpaceDoctor.ViewModel
 
         private void CreateNewExam()
         {
-            ActualExam = new XExamVM();
             ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
 
             ActualExam.Date = DateTime.Now;
             _client.ExamsObsCollection.Add(ActualExam);
 
             RaisePropertyChanged("ActualExam");
+            ActualExam = new XExamVM(); //менял 
+            ActualExam.Date = DateTime.Now;
         }
 
         private void SaveExam()
@@ -242,12 +246,15 @@ namespace SpaceDoctor.ViewModel
         
         private void AddNewExamToPlan()
         {
-            ActualExam = new XExamVM();
             ActualExam.ExamType = SelectedExamType;
-            ActualExam.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Hour, Minutes, 0);
+            //ActualExam.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Hour, Minutes, 0);
+            ActualExam.Date = new DateTime(ActualExam.Date.Year, ActualExam.Date.Month, ActualExam.Date.Day, Hour, Minutes, 0);
 
             _client.ExamsObsCollection.Add(ActualExam);
             Dal.DbContext.SaveChanges();
+            ActualExam = new XExamVM();
+            ActualExam.Date = DateTime.Now;
+
         }
 
         private void CreateNewExamType()
@@ -270,10 +277,18 @@ namespace SpaceDoctor.ViewModel
             ParamTypesCVSView.Refresh();
 
             Dal.DbContext.SaveChanges();
+
         }
 
 
-        
+        private void DeleteExamFromPlan()
+        {
+            Dal.RemoveExam(Client.SelectedExamFromPlan.Exam);
+
+            Client.DeleteExam(Client.SelectedExamFromPlan);
+        }
+
+
         #endregion
 
 
@@ -297,11 +312,11 @@ namespace SpaceDoctor.ViewModel
         #region commands 
 
         public XCommand CreateNewExamCommand { get; set; }
-        public XCommand SaveExamCommand { get; set; }
+        public XCommand SaveChangesCommand { get; set; }
         public XCommand AddNewExamToPlanCommand { get; set; }
         public XCommand CreateNewExamTypeCommand { get; set; }
         public XCommand SaveNewExamTypeCommand { get; set; }
-
+        public XCommand DeleteExamFromPlanCommand { get; set; }
 
         #endregion
 

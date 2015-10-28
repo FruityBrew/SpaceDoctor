@@ -45,5 +45,15 @@ namespace SpaceDoctor
             XButtonPlan.IsEnabled = true;
             XButtonRunNow.IsEnabled = true;
         }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void XButtonNEWKitSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

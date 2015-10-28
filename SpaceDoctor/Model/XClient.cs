@@ -36,7 +36,8 @@ namespace SpaceDoctor.Model
        
         public XClient()
         {
-            ExamsCollection = new Collection<XExam>();            
+            ExamsCollection = new Collection<XExam>();
+            DragPlanCollection = new Collection<XDragPlan>(); 
         }
     }
 }

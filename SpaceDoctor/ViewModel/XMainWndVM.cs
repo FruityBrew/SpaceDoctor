@@ -21,7 +21,12 @@ namespace SpaceDoctor.ViewModel
         readonly ObservableCollection<XParamTypeVM> _paramTypesObsCollection;
         readonly CollectionViewSource _paramTypesCVS;
 
-        ICollection<XDrag> _dragCollection;
+        readonly ICollection<XDragVM> _dragCollection;
+        readonly CollectionViewSource _dragsCVS;
+
+        readonly ICollection<XDragKitVM> _dragKitObsCollection;
+        readonly CollectionViewSource _dragKitCVS;
+
         XExamVM _actualExam;
         XExamTypeVM _newExam;
 
@@ -72,8 +77,22 @@ namespace SpaceDoctor.ViewModel
             _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
 
 
+            //Список препаратов
+            _dragCollection = new ObservableCollection<XDragVM>();
+            foreach (var v in Dal.DbContext.Drags)
+                _dragCollection.Add(new XDragVM(v));
 
-            _dragCollection = new Collection<XDrag>(Dal.DbContext.Drags.ToList());
+            _dragsCVS = new CollectionViewSource();
+            _dragsCVS.Source = _dragCollection;
+
+            //список лекарственныхНаборов:
+            _dragKitObsCollection = new ObservableCollection<XDragKitVM>();
+            foreach (var v in Dal.DragKitCollection)
+                _dragKitObsCollection.Add(new XDragKitVM(v));
+            _dragKitCVS = new CollectionViewSource();
+            _dragKitCVS.Source = _dragKitObsCollection;
+            _dragKitCVS.View.CurrentChanged += DragsKitView_CurrentChanged;
+            
 
             ActualExam = new XExamVM();
             ActualExam.Date = DateTime.Now;
@@ -101,6 +120,14 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public XDragKitVM SelectedDragsKit
+        {
+            get 
+            {
+                return DragsKitCVSView.CurrentItem as XDragKitVM;
+            }
+        }
+
         public XClientVM Client
         {
             get
@@ -118,14 +145,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public ICollection<XDrag> DragCollection
-        {
-            get
-            {
-                return _dragCollection;
-            }
-
-        }
 
         public ObservableCollection<XExamTypeVM> ExamTypesObsCollection
         {
@@ -222,6 +241,24 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+
+        public ICollectionView AllDragsCVSView
+        {
+            get
+            {
+                return _dragsCVS.View;
+            }
+        }
+
+        public ICollectionView DragsKitCVSView
+        {
+            get
+            {
+                return _dragKitCVS.View;
+            }
+        }
+
+
         #endregion
 
         #region methods
@@ -306,6 +343,14 @@ namespace SpaceDoctor.ViewModel
                 Dal.DbContext.ExamsType.Add(((XExamTypeVM)e.NewItems[0]).ExType);
             }
         }
+
+
+
+        private void DragsKitView_CurrentChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedDragsKit");
+        }
+
 
         #endregion
 

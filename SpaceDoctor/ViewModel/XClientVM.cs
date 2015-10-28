@@ -23,9 +23,9 @@ namespace SpaceDoctor.ViewModel
         
 
 
-        ObservableCollection<XDragPlan> _dragPlanObsCollection;
+        readonly ObservableCollection<XDragPlanVM> _dragPlanObsCollection;
 
-        CollectionViewSource _dragPlanCVS;
+        readonly CollectionViewSource _dragPlanCVS;
 
         #endregion
 
@@ -63,9 +63,13 @@ namespace SpaceDoctor.ViewModel
             _planExamsCVS = new CollectionViewSource();
             _planExamsCVS.Source = PlanExamsCollection();
             _planExamsCVS.View.CurrentChanged += ViewPlanExam_CurrentChanged;
-            
 
-            DragPlanObsCollection = new ObservableCollection<XDragPlan>(this.Client.DragPlanCollection);
+
+            _dragPlanObsCollection = new ObservableCollection<XDragPlanVM>();
+            foreach (var v in this.Client.DragPlanCollection)
+                _dragPlanObsCollection.Add(new XDragPlanVM(v));
+
+
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
 
@@ -117,13 +121,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public ICollection<XExam> ExamsCollection
-        {
-            get
-            {
-                return Client.ExamsCollection;
-            }
-        }
 
         internal ObservableCollection<XExamVM> ExamsObsCollection
         {
@@ -141,8 +138,7 @@ namespace SpaceDoctor.ViewModel
                 return _examsCVS.View;
             }
         }
-
-      
+     
 
         public XExamVM SelectedExam
         {
@@ -150,19 +146,13 @@ namespace SpaceDoctor.ViewModel
             {
                 return ExamsCVSView.CurrentItem as XExamVM;
             }
-
         }
 
-        private ObservableCollection<XDragPlan> DragPlanObsCollection
+        private ObservableCollection<XDragPlanVM> DragPlanObsCollection
         {
             get
             {
                 return _dragPlanObsCollection;
-            }
-
-            set
-            {
-                _dragPlanObsCollection = value;
             }
         }
 

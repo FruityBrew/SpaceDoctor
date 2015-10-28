@@ -13,6 +13,8 @@ namespace SpaceDoctor.Model
 
         IEnumerable<XClient> _clientCollection;
         IEnumerable<XExamsType> _examTypesCollection;
+        IEnumerable<XDragKit> _dragKitCollection;
+
 
         public DAL()
         {
@@ -30,7 +32,13 @@ namespace SpaceDoctor.Model
 
             var va = _dbContext.ExamsType.Include("ParamsCollection");
 
+
+            var vd = _dbContext.DragKits.Include("DragCollection");
+
+
             _examTypesCollection = va;
+
+            _dragKitCollection = vd;
         }
 
 
@@ -55,6 +63,15 @@ namespace SpaceDoctor.Model
             get
             {
                 return _examTypesCollection;
+            }
+
+        }
+
+        public IEnumerable<XDragKit> DragKitCollection
+        {
+            get
+            {
+                return _dragKitCollection;
             }
 
         }

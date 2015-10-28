@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace SpaceDoctor.Model
 {
@@ -13,5 +11,10 @@ namespace SpaceDoctor.Model
         public String Name { get; set; }
 
         public ICollection<XDrag> DragCollection { get; set; }
+
+        public XDragKit()
+        {
+            DragCollection = new Collection<XDrag>();
+        }
     }
 }

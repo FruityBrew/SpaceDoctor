@@ -14,5 +14,10 @@ namespace SpaceDoctor.Model
 
         public XDragKit DragKit { get; set; }
 
+        public XDragPlan()
+        {
+            DragKit = new XDragKit();
+        }
+
     }
 }

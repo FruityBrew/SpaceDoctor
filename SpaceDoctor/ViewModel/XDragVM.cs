@@ -13,7 +13,13 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region ctors
-        public XDragVM(XDrag drag = default(XDrag))
+
+        public XDragVM () : this (new XDrag())
+        {
+
+        }
+
+        public XDragVM(XDrag drag)
         {
             _drag = drag;            
         }
@@ -41,6 +47,20 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public String Form
+        {
+            get
+            {
+                return Drag.Form;
+            }
+            set
+            {
+                Drag.Form = value;
+            }
+        }
+
+       
+
         public Boolean SelectedToNewKit { get; set; }
 
         #endregion
@@ -49,6 +69,9 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region methods
+
+
+
         #endregion
 
         #region eventHandlers

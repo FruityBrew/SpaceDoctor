@@ -12,6 +12,8 @@ namespace SpaceDoctor.Model
 
         public String Name { get; set; }
 
+        public String Form { get; set; }
+
         public ICollection<XDragKit> DragKitCollection { get; set; }
     }
 }

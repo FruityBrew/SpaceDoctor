@@ -21,7 +21,12 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region ctors
-        public XDragKitVM(XDragKit dragKit = default(XDragKit))
+        public XDragKitVM() : this(new XDragKit())
+        {
+            
+        }
+
+        public XDragKitVM(XDragKit dragKit)
         {
             _dragKit = dragKit;
             _dragsObsCollection = new ObservableCollection<XDragVM>();
@@ -30,13 +35,16 @@ namespace SpaceDoctor.ViewModel
             foreach (var v in DragKit.DragCollection)
                 _dragsObsCollection.Add(new XDragVM(v));
 
+            _dragsObsCollection.CollectionChanged += _dragsObsCollection_CollectionChanged;
+
             _dragsCVS.Source = DragsObsCollection;
         }
+
         #endregion
 
         #region properties
 
-        private XDragKit DragKit
+        public XDragKit DragKit
         {
             get
             {
@@ -79,9 +87,24 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region methods
+
+        internal void AddDragToKit(XDragVM drag)
+        {
+            this.DragsObsCollection.Add(drag);
+        }
+
         #endregion
 
         #region eventHandlers
+
+        private void _dragsObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                DragKit.DragCollection.Add(((XDragVM)e.NewItems[0]).Drag);
+            }
+        }
+
         #endregion
 
     }

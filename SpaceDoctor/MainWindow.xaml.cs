@@ -46,14 +46,18 @@ namespace SpaceDoctor
             XButtonRunNow.IsEnabled = true;
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
 
-        }
 
         private void XButtonNEWKitSave_Click(object sender, RoutedEventArgs e)
         {
+            XDataGridAllDrags.Visibility = Visibility.Hidden;
+            XButtonNEWKitSave.Visibility = Visibility.Hidden;
+        }
 
+        private void TabItemDragsCreateNewDragKit_Click(object sender, RoutedEventArgs e)
+        {
+            XDataGridAllDrags.Visibility = Visibility.Visible;
+            XButtonNEWKitSave.Visibility = Visibility.Visible;
         }
     }
 }

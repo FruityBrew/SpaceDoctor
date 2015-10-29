@@ -64,7 +64,6 @@ namespace SpaceDoctor.Model
             {
                 return _examTypesCollection;
             }
-
         }
 
         public IEnumerable<XDragKit> DragKitCollection
@@ -73,7 +72,6 @@ namespace SpaceDoctor.Model
             {
                 return _dragKitCollection;
             }
-
         }
 
         public void AddExam(XExam exam)
@@ -88,5 +86,7 @@ namespace SpaceDoctor.Model
             DbContext.Parameters.RemoveRange(examToRemove.ParamsCollection);
             DbContext.Exams.Remove(examToRemove);
         }
+
+
     }
 }

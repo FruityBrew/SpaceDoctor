@@ -92,6 +92,10 @@
     <Compile Include="Migrations\201510271146482_AddColumnIdExamIntoParam.Designer.cs">
       <DependentUpon>201510271146482_AddColumnIdExamIntoParam.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510290800103_AddRowFormIntoDrags.cs" />
+    <Compile Include="Migrations\201510290800103_AddRowFormIntoDrags.Designer.cs">
+      <DependentUpon>201510290800103_AddRowFormIntoDrags.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\DAL.cs" />
     <Compile Include="Model\XDrag.cs" />
@@ -162,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510271146482_AddColumnIdExamIntoParam.resx">
       <DependentUpon>201510271146482_AddColumnIdExamIntoParam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510290800103_AddRowFormIntoDrags.resx">
+      <DependentUpon>201510290800103_AddRowFormIntoDrags.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

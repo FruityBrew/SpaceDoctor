@@ -73,7 +73,7 @@ namespace SpaceDoctor.ViewModel
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
 
-         //   DeleteExamFromPlanCommand = new XCommand(DeleteExamFromPlan);
+
 
             _examsCVS.View.Refresh();
        }
@@ -223,6 +223,10 @@ namespace SpaceDoctor.ViewModel
             this.ExamsObsCollection.Remove(exam);
         }
 
+        internal void AddDragPlan(XDragPlanVM dragPlan)
+        {
+            this._dragPlanObsCollection.Add(dragPlan);
+        }
 
 
         #endregion

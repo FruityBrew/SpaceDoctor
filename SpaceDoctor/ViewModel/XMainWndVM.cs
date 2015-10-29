@@ -24,11 +24,14 @@ namespace SpaceDoctor.ViewModel
         readonly ICollection<XDragVM> _dragCollection;
         readonly CollectionViewSource _dragsCVS;
 
-        readonly ICollection<XDragKitVM> _dragKitObsCollection;
+        readonly ObservableCollection<XDragKitVM> _dragKitObsCollection;
         readonly CollectionViewSource _dragKitCVS;
 
         XExamVM _actualExam;
         XExamTypeVM _newExam;
+
+        XDragKitVM _newDragKit;
+        XDragPlan _actualDragPlan;
 
         readonly ICollection<Int32> _hoursCollection;
         readonly ICollection<Int32> _minutesCollection;
@@ -51,7 +54,6 @@ namespace SpaceDoctor.ViewModel
             for (int i = 0; i < 60; i += 5)
                 _minutesCollection.Add(i);
 
-            
 
             _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
             foreach (var v in Dal.ExamTypesCollection)
@@ -92,11 +94,14 @@ namespace SpaceDoctor.ViewModel
             _dragKitCVS = new CollectionViewSource();
             _dragKitCVS.Source = _dragKitObsCollection;
             _dragKitCVS.View.CurrentChanged += DragsKitView_CurrentChanged;
+            _dragKitObsCollection.CollectionChanged += _dragKitObsCollection_CollectionChanged;
             
 
             ActualExam = new XExamVM();
             ActualExam.Date = DateTime.Now;
 
+            ActualDragPlan = new XDragPlan();
+            ActualDragPlan.Date = DateTime.Now;
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
             SaveChangesCommand = new XCommand(SaveExam);
@@ -104,13 +109,33 @@ namespace SpaceDoctor.ViewModel
             CreateNewExamTypeCommand = new XCommand(CreateNewExamType);
             SaveNewExamTypeCommand = new XCommand(SaveNewExamType);
             DeleteExamFromPlanCommand = new XCommand(DeleteExamFromPlan);
+            CreateNewDragKitCommand = new XCommand(CreateNewDragKit);
+            SaveNewDragKitCommand = new XCommand(SaveNewDragKit);
         }
+
+
 
 
 
         #endregion
 
         #region properties
+
+
+        public XDragPlan ActualDragPlan
+        {
+            get
+            {
+                return _actualDragPlan;
+            }
+
+            set
+            {
+                _actualDragPlan = value;
+            }
+        }
+
+
 
         public XExamTypeVM SelectedExamType
         {
@@ -258,6 +283,19 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        private XDragKitVM NewDragKit
+        {
+            get
+            {
+                return _newDragKit;
+            }
+
+            set
+            {
+                _newDragKit = value;
+            }
+        }
+
 
         #endregion
 
@@ -273,6 +311,11 @@ namespace SpaceDoctor.ViewModel
             RaisePropertyChanged("ActualExam");
             ActualExam = new XExamVM(); //менял 
             ActualExam.Date = DateTime.Now;
+        }
+
+        private void CreateNewDragPlan()
+        {
+            
         }
 
         private void SaveExam()
@@ -317,6 +360,21 @@ namespace SpaceDoctor.ViewModel
 
         }
 
+        private void SaveNewDragKit()
+        {
+            foreach (var v in _dragCollection)
+            {
+                if (v.SelectedToNewKit)
+                {
+                    NewDragKit.AddDragToKit(v);
+                    v.SelectedToNewKit = false;
+                }
+            }
+
+            DragsKitCVSView.Refresh();
+            Dal.DbContext.SaveChanges();
+        }
+
 
         private void DeleteExamFromPlan()
         {
@@ -325,6 +383,11 @@ namespace SpaceDoctor.ViewModel
             Client.DeleteExam(Client.SelectedExamFromPlan);
         }
 
+        private void CreateNewDragKit()
+        {
+            NewDragKit = new XDragKitVM();
+            this._dragKitObsCollection.Add(NewDragKit);
+        }
 
         #endregion
 
@@ -351,6 +414,13 @@ namespace SpaceDoctor.ViewModel
             RaisePropertyChanged("SelectedDragsKit");
         }
 
+        private void _dragKitObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                     Dal.DbContext.DragKits.Add(((XDragKitVM)e.NewItems[0]).DragKit);
+                }
+        }
 
         #endregion
 
@@ -362,6 +432,12 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewExamTypeCommand { get; set; }
         public XCommand SaveNewExamTypeCommand { get; set; }
         public XCommand DeleteExamFromPlanCommand { get; set; }
+
+        public XCommand CreateNewDragKitCommand { get; set; }
+        public XCommand SaveNewDragKitCommand { get; set; }
+
+
+
 
         #endregion
 

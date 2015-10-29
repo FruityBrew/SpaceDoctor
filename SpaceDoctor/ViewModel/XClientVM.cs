@@ -31,9 +31,9 @@ namespace SpaceDoctor.ViewModel
 
 
         #region ctors
-        public XClientVM()
+        public XClientVM() : this (new XClient())
        {
-            _client = new XClient();         
+                 
        }
 
        public XClientVM(XClient client)
@@ -69,6 +69,7 @@ namespace SpaceDoctor.ViewModel
             foreach (var v in this.Client.DragPlanCollection)
                 _dragPlanObsCollection.Add(new XDragPlanVM(v));
 
+            _dragPlanObsCollection.CollectionChanged += _dragPlanObsCollection_CollectionChanged;
 
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
@@ -78,9 +79,7 @@ namespace SpaceDoctor.ViewModel
             _examsCVS.View.Refresh();
        }
 
-
-
-
+   
 
 
         #endregion
@@ -267,7 +266,13 @@ namespace SpaceDoctor.ViewModel
             RaisePropertyChanged("SelectedExamFromPlan");
         }
 
-
+        private void _dragPlanObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                this.Client.DragPlanCollection.Add(((XDragPlanVM)e.NewItems[0]).DragPlan);
+            }
+        }
 
         /// <summary>
         /// Фильтр по дате-времени исследования. Фильтрует архивные обследования

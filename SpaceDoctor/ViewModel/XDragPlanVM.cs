@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpaceDoctor.ViewModel
 {
-    class XDragPlanVM
+    public class XDragPlanVM
     {
 
         #region fields
@@ -18,12 +18,28 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region ctors
-        public XDragPlanVM(XDragPlan dragPlan = default(XDragPlan))
+        public XDragPlanVM() : this(new XDragPlan())
+        {
+
+        }
+
+        public XDragPlanVM(XDragPlan dragPlan)
         {
             _dragPlan = dragPlan;
             _dragKit = new XDragKitVM(dragPlan.DragKit);
+            Date = DateTime.Now;
         }
 
+        public XDragPlanVM(XDragKitVM dragKit)
+        {
+            
+            _dragPlan = new XDragPlan();
+            
+            _dragKit = dragKit;
+            _dragPlan.DragKit = dragKit.DragKit;
+            Date = DateTime.Now;
+
+        }
         #endregion
 
         #region properties

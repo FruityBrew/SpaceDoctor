@@ -295,7 +295,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Row="0" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                        <DatePicker Grid.Row="0" Grid.Column="1" DisplayDate="{Binding DateTime.Now}"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <DatePicker Grid.Row="0" Grid.Column="1" SelectedDate="{Binding ActualDragPlan.Date}"  DisplayDate="{Binding DateTime.Now}"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
 
                         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                             <Label Grid.Row="1" Grid.Column="0" Content="Время (часы):" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
@@ -305,7 +305,7 @@
                         </StackPanel>
 
                         <Label Grid.Row="2" Grid.Column="0" Content="Запланировать:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
-                        <Button x:Name="XButtonKitToPlan"  Grid.Row="2" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewExamToPlanCommand}" Style="{StaticResource XStyleToButton}" Click="XButtonPlan_Click"></Button>
+                            <Button x:Name="XButtonKitToPlan"  Grid.Row="2" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewDragPlanCommand}" Style="{StaticResource XStyleToButton}" Click="XButtonPlan_Click"></Button>
 
 
                     </Grid>

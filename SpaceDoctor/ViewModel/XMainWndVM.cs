@@ -31,7 +31,7 @@ namespace SpaceDoctor.ViewModel
         XExamTypeVM _newExam;
 
         XDragKitVM _newDragKit;
-        XDragPlan _actualDragPlan;
+        XDragPlanVM _actualDragPlan;
 
         readonly ICollection<Int32> _hoursCollection;
         readonly ICollection<Int32> _minutesCollection;
@@ -100,7 +100,7 @@ namespace SpaceDoctor.ViewModel
             ActualExam = new XExamVM();
             ActualExam.Date = DateTime.Now;
 
-            ActualDragPlan = new XDragPlan();
+            ActualDragPlan = new XDragPlanVM();
             ActualDragPlan.Date = DateTime.Now;
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
@@ -111,6 +111,7 @@ namespace SpaceDoctor.ViewModel
             DeleteExamFromPlanCommand = new XCommand(DeleteExamFromPlan);
             CreateNewDragKitCommand = new XCommand(CreateNewDragKit);
             SaveNewDragKitCommand = new XCommand(SaveNewDragKit);
+            AddNewDragPlanCommand = new XCommand(AddNewDragPlan);
         }
 
 
@@ -122,7 +123,7 @@ namespace SpaceDoctor.ViewModel
         #region properties
 
 
-        public XDragPlan ActualDragPlan
+        public XDragPlanVM ActualDragPlan
         {
             get
             {
@@ -301,6 +302,9 @@ namespace SpaceDoctor.ViewModel
 
         #region methods
 
+        /// <summary>
+        /// Создает новое обследование для выполнения его "сейчас"
+        /// </summary>
         private void CreateNewExam()
         {
             ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
@@ -313,8 +317,17 @@ namespace SpaceDoctor.ViewModel
             ActualExam.Date = DateTime.Now;
         }
 
-        private void CreateNewDragPlan()
+        private void AddNewDragPlan()
         {
+            ActualDragPlan = new XDragPlanVM(SelectedDragsKit);
+
+            ActualDragPlan.Date = new DateTime(ActualDragPlan.Date.Year, ActualDragPlan.Date.Month, ActualDragPlan.Date.Day, Hour, Minutes, 0);
+
+            Client.AddDragPlan(ActualDragPlan);
+            Dal.DbContext.SaveChanges();
+
+            ActualDragPlan = new XDragPlanVM();
+            
             
         }
 
@@ -435,6 +448,7 @@ namespace SpaceDoctor.ViewModel
 
         public XCommand CreateNewDragKitCommand { get; set; }
         public XCommand SaveNewDragKitCommand { get; set; }
+        public XCommand AddNewDragPlanCommand { get; set; }
 
 
 

@@ -20,12 +20,16 @@ namespace SpaceDoctor.ViewModel
 
         readonly CollectionViewSource _todayExamsCVS;
         readonly CollectionViewSource _planExamsCVS;
-        
-
 
         readonly ObservableCollection<XDragPlanVM> _dragPlanObsCollection;
 
         readonly CollectionViewSource _dragPlanCVS;
+
+        readonly CollectionViewSource _todayDragPlanCVS;
+
+        readonly CollectionViewSource _planDragPlanCVS;
+
+
 
         #endregion
 
@@ -53,7 +57,7 @@ namespace SpaceDoctor.ViewModel
             _examsCVS = new CollectionViewSource();
             _examsCVS.Source = _examsObsCollection;
             _examsCVS.View.CurrentChanged += ViewExams_CurrentChanged;
-            _examsCVS.Filter += _examsCVS_Filter;
+         //   _examsCVS.Filter += _examsCVS_Filter;
 
 
             _todayExamsCVS = new CollectionViewSource();
@@ -74,17 +78,41 @@ namespace SpaceDoctor.ViewModel
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
 
+            _todayDragPlanCVS = new CollectionViewSource();
+            _todayDragPlanCVS.Source = TodayDragPlan();
+            _todayDragPlanCVS.View.CurrentChanged += _TodayDragPlanView_CurrentChanged;
 
+            _planDragPlanCVS = new CollectionViewSource();
+            _planDragPlanCVS.Source = PlanDragPlan();
+            _planDragPlanCVS.View.CurrentChanged += View_CurrentChanged;
 
-            _examsCVS.View.Refresh();
+          //  _examsCVS.View.Refresh();
+
+            //_dragPlanCVS.View.Refresh();
        }
 
-   
 
 
         #endregion
 
         #region properties
+
+        public ICollectionView TodayDragPlanCVSView
+        {
+            get
+            {
+                return _todayDragPlanCVS.View;
+            }
+        }
+
+        public XDragPlanVM SelectedDragPlan
+        {
+            get
+            {
+                return TodayDragPlanCVSView.CurrentItem as XDragPlanVM;
+            }
+        }
+
         public XClient Client
         {
             get
@@ -197,6 +225,22 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public ICollectionView PlanDragPlanCVSView
+        {
+            get
+            {
+                return _planDragPlanCVS.View;
+            }
+        }
+
+        public XDragPlanVM SelectedDragPlanFromPlan
+        {
+            get
+            {
+                return PlanDragPlanCVSView.CurrentItem as XDragPlanVM;
+            }
+        }
+
 
         #endregion
 
@@ -216,6 +260,13 @@ namespace SpaceDoctor.ViewModel
                    select f;
         }
 
+        private IEnumerable<XDragPlanVM> TodayDragPlan()
+        {
+            return from f in _dragPlanObsCollection
+                   where f.Date.Day == DateTime.Now.Day
+                   select f;
+        }
+
         internal void DeleteExam(XExamVM exam)
         {
             exam.ParamsObsCollection.Clear();
@@ -227,6 +278,12 @@ namespace SpaceDoctor.ViewModel
             this._dragPlanObsCollection.Add(dragPlan);
         }
 
+        public IEnumerable<XDragPlanVM> PlanDragPlan()
+        {
+            return from f in _dragPlanObsCollection
+                   where f.Date.Day >= DateTime.Now.Day
+                   select f;
+        }
 
         #endregion
 
@@ -243,16 +300,16 @@ namespace SpaceDoctor.ViewModel
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 this.Client.ExamsCollection.Add(((XExamVM)e.NewItems[0]).Exam);
-                TodayExamsCVSView.Refresh();
-                PlanExamsCVSView.Refresh();
+
             }
 
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
             {
                 this.Client.ExamsCollection.Remove(((XExamVM)e.OldItems[0]).Exam);
-                TodayExamsCVSView.Refresh();
-                PlanExamsCVSView.Refresh();
+
             }
+            TodayExamsCVSView.Refresh();
+            PlanExamsCVSView.Refresh();
         }
 
         private void ViewTodayExams_CurrentChanged1(object sender, EventArgs e)
@@ -272,6 +329,18 @@ namespace SpaceDoctor.ViewModel
             {
                 this.Client.DragPlanCollection.Add(((XDragPlanVM)e.NewItems[0]).DragPlan);
             }
+            TodayDragPlanCVSView.Refresh();
+        }
+
+
+        private void View_CurrentChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedDragPlanFromPlan");
+        }
+
+        private void _TodayDragPlanView_CurrentChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedDragPlan");
         }
 
         /// <summary>

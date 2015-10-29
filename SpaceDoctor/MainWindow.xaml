@@ -15,8 +15,9 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
+
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -38,8 +39,10 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition Height="1*"></RowDefinition>
-                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="1"></RowDefinition>
                             <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="300*" MinWidth="300"></ColumnDefinition>
@@ -63,7 +66,24 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
+                        
                         <Button x:Name="XButtonExamSaveToday" Command="{Binding SaveChangesCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+                        
+                        <Label  Content="Прием лекарств на сегодня:" Grid.Row="4" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+
+                        <DataGrid x:Name="XDataGridDragPlanToday" Grid.Row="5" Grid.Column="0" ItemsSource="{Binding Client.TodayDragPlanCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Набор" Binding="{Binding DragKit.Name}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Время приема" Binding="{Binding TimePlan}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridDragsToday" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Client.SelectedDragPlan.DragKit.DragsCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Name}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Форма" Binding="{Binding Form}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
                     </Grid>
                 </TabItem>
@@ -174,7 +194,9 @@
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition Height="1*"></RowDefinition>
                             <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="1"></RowDefinition>
                             <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="300*" MinWidth="300"></ColumnDefinition>
@@ -196,24 +218,41 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <DataGrid x:Name="XDataGridExamParamsPlan" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromPlan.ParamCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <DataGrid x:Name="XDataGridExamParamsPlan" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromPlan.ParamCVSView }" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
 
+                        
+                        <DataGrid x:Name="XDataGridDragPlans" Grid.Row="5" Grid.Column="0" ItemsSource="{Binding Client.PlanDragPlanCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                            <DataGrid.ContextMenu>
+                                <ContextMenu Background="LightBlue">
+                                    <MenuItem Header="Отменить" Command="{Binding DeleteExamFromPlanCommand}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Набор" Binding="{Binding DragKit.Name}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateConverter}}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Время приема" Binding="{Binding TimePlan}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridDragsPlan" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Client.SelectedDragPlanFromPlan.DragKit.DragsCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Name}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Форма" Binding="{Binding Form}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
                         <Button x:Name="XButtonSaveChanges" Command="{Binding SaveChangesCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
 
 
-                        <Grid Grid.Column="2" Grid.Row="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Calendar HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    
+                         <Calendar Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="204" Grid.RowSpan="2"/>
+
                         </Grid>
-                    </Grid>
                 </TabItem>
 
                 <TabItem Style="{StaticResource XStyleToTab}">

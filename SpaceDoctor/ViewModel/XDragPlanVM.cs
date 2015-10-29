@@ -27,7 +27,7 @@ namespace SpaceDoctor.ViewModel
         {
             _dragPlan = dragPlan;
             _dragKit = new XDragKitVM(dragPlan.DragKit);
-            Date = DateTime.Now;
+      
         }
 
         public XDragPlanVM(XDragKitVM dragKit)
@@ -66,7 +66,7 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public String TimeExam
+        public String TimePlan
         {
             get
             {
@@ -74,11 +74,19 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        internal XDragKitVM DragKit
+        public  XDragKitVM DragKit
         {
             get
             {
                 return _dragKit;
+            }
+        }
+
+        public String NameKit
+        {
+            get
+            {
+                return DragKit.Name;
             }
         }
 

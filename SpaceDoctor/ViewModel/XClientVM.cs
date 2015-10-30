@@ -8,27 +8,39 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
-    public class XClientVM : XViewModelBase
+    /****************************************************
+    Класс-обёртка для класса XClent модели.
+    Обеспечивает взаимодействие между классом XClient Модели и Представлением,
+    предоставляя логику оповещения об изменении свойств.
+        
+    Содержит связанные с клиентом коллекции обследований (XExamVM) 
+    и планов приема препаратов (XDragPlanVM), обёрнутые 
+    в ObservableCollection и CollectionViewSource. 
+    ****************************************************/
+    public sealed class XClientVM : XViewModelBase
     {
 
         #region fields
+
         readonly XClient _client;
 
-        ObservableCollection<XExamVM> _examsObsCollection;
+        //Все обследования:
+        readonly ObservableCollection<XExamVM> _examsObsCollection;
+        readonly CollectionViewSource _examsCVS;
 
-        CollectionViewSource _examsCVS;
-
+        //Сегодняшние обследования:
         readonly CollectionViewSource _todayExamsCVS;
+        //Запланированные обследования:
         readonly CollectionViewSource _planExamsCVS;
-
+        
+        //Все планы приема лекарств:
         readonly ObservableCollection<XDragPlanVM> _dragPlanObsCollection;
-
         readonly CollectionViewSource _dragPlanCVS;
 
+        //Сегодняшние:
         readonly CollectionViewSource _todayDragPlanCVS;
-
+        //Запланированные:
         readonly CollectionViewSource _planDragPlanCVS;
-
 
 
         #endregion
@@ -42,53 +54,56 @@ namespace SpaceDoctor.ViewModel
 
        public XClientVM(XClient client)
        {
+            if (client == null || client.DragPlanCollection == null || client.ExamsCollection == null)
+                throw new ArgumentNullException("XClient и связянные коллекции не могут быть null");
+
             _client = client;
 
             _examsObsCollection = new ObservableCollection<XExamVM>();
 
 
             foreach(var v in this.Client.ExamsCollection)
-            {
                 ExamsObsCollection.Add(new XExamVM(v));
-            }
 
-            _examsObsCollection.CollectionChanged += _examsObsCollection_CollectionChanged;
+            _examsObsCollection.CollectionChanged += ExamsObsCollection_CollectionChanged;
 
             _examsCVS = new CollectionViewSource();
             _examsCVS.Source = _examsObsCollection;
-            _examsCVS.View.CurrentChanged += ViewExams_CurrentChanged;
-         //   _examsCVS.Filter += _examsCVS_Filter;
+            _examsCVS.View.CurrentChanged += ExamsView_CurrentChanged;
 
+            //Фильтр архивных обследований:
+           _examsCVS.Filter += _examsCVS_ArchiveFilter;
+
+            
 
             _todayExamsCVS = new CollectionViewSource();
             _todayExamsCVS.Source = TodayExamsCollection();
-            _todayExamsCVS.View.CurrentChanged += ViewTodayExams_CurrentChanged1;
+            _todayExamsCVS.View.CurrentChanged += TodayExamsView_CurrentChanged;
 
             _planExamsCVS = new CollectionViewSource();
             _planExamsCVS.Source = PlanExamsCollection();
-            _planExamsCVS.View.CurrentChanged += ViewPlanExam_CurrentChanged;
+            _planExamsCVS.View.CurrentChanged += PlanExamView_CurrentChanged;
+
 
 
             _dragPlanObsCollection = new ObservableCollection<XDragPlanVM>();
             foreach (var v in this.Client.DragPlanCollection)
                 _dragPlanObsCollection.Add(new XDragPlanVM(v));
 
-            _dragPlanObsCollection.CollectionChanged += _dragPlanObsCollection_CollectionChanged;
+            _dragPlanObsCollection.CollectionChanged += DragPlanObsCollection_CollectionChanged;
 
             _dragPlanCVS = new CollectionViewSource();
             _dragPlanCVS.Source = this.DragPlanObsCollection;
 
             _todayDragPlanCVS = new CollectionViewSource();
             _todayDragPlanCVS.Source = TodayDragPlan();
-            _todayDragPlanCVS.View.CurrentChanged += _TodayDragPlanView_CurrentChanged;
+            _todayDragPlanCVS.View.CurrentChanged += TodayDragPlanView_CurrentChanged;
 
             _planDragPlanCVS = new CollectionViewSource();
             _planDragPlanCVS.Source = PlanDragPlan();
-            _planDragPlanCVS.View.CurrentChanged += View_CurrentChanged;
+            _planDragPlanCVS.View.CurrentChanged += PlanDragPlanView_CurrentChanged;
 
-          //  _examsCVS.View.Refresh();
-
-            //_dragPlanCVS.View.Refresh();
+            ExamsCVSView.Refresh();
        }
 
 
@@ -96,23 +111,9 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region properties
-
-        public ICollectionView TodayDragPlanCVSView
-        {
-            get
-            {
-                return _todayDragPlanCVS.View;
-            }
-        }
-
-        public XDragPlanVM SelectedDragPlan
-        {
-            get
-            {
-                return TodayDragPlanCVSView.CurrentItem as XDragPlanVM;
-            }
-        }
-
+        /// <summary>
+        /// Возвращает внутренний XClient класса
+        /// </summary>
         public XClient Client
         {
             get
@@ -139,7 +140,6 @@ namespace SpaceDoctor.ViewModel
             get
             {
                 return Client.DateBirthday;
-
             }
             set
             {
@@ -148,14 +148,12 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-
-        internal ObservableCollection<XExamVM> ExamsObsCollection
+        private ObservableCollection<XExamVM> ExamsObsCollection
         {
             get
             {
                 return _examsObsCollection;
             }
-
         }
 
         public ICollectionView ExamsCVSView
@@ -165,7 +163,7 @@ namespace SpaceDoctor.ViewModel
                 return _examsCVS.View;
             }
         }
-     
+
 
         public XExamVM SelectedExam
         {
@@ -175,29 +173,12 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        private ObservableCollection<XDragPlanVM> DragPlanObsCollection
-        {
-            get
-            {
-                return _dragPlanObsCollection;
-            }
-        }
-
-
-        public ICollectionView DragPlanCVSView
-        {
-            get
-            {
-                return _dragPlanCVS.View;
-            }
-        }
-
         public ICollectionView TodayExamsCVSView
         {
             get
             {
-               // _examsCVS.Source = TodayExamsCollection;
                 return _todayExamsCVS.View;
+
             }
         }
 
@@ -225,6 +206,46 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+
+        private ObservableCollection<XDragPlanVM> DragPlanObsCollection
+        {
+            get
+            {
+                return _dragPlanObsCollection;
+            }
+        }
+
+
+        public ICollectionView DragPlanCVSView
+        {
+            get
+            {
+                return _dragPlanCVS.View;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает ICollectionView коллекции Планов приема препаратов на сегодня
+        /// </summary>
+        public ICollectionView TodayDragPlanCVSView
+        {
+            get
+            {
+                return _todayDragPlanCVS.View;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает элемент коллекции, выбранный в контроле Представления
+        /// </summary>
+        public XDragPlanVM SelectedDragPlanFromToday
+        {
+            get
+            {
+                return TodayDragPlanCVSView.CurrentItem as XDragPlanVM;
+            }
+        }
+   
         public ICollectionView PlanDragPlanCVSView
         {
             get
@@ -267,35 +288,55 @@ namespace SpaceDoctor.ViewModel
                    select f;
         }
 
-        internal void DeleteExam(XExamVM exam)
-        {
-            exam.ParamsObsCollection.Clear();
-            this.ExamsObsCollection.Remove(exam);
-        }
-
-        internal void AddDragPlan(XDragPlanVM dragPlan)
-        {
-            this._dragPlanObsCollection.Add(dragPlan);
-        }
-
-        public IEnumerable<XDragPlanVM> PlanDragPlan()
+        private IEnumerable<XDragPlanVM> PlanDragPlan()
         {
             return from f in _dragPlanObsCollection
                    where f.Date.Day >= DateTime.Now.Day
                    select f;
         }
 
+        /// <summary>
+        /// Добавляет обследование в коллекцию клиента
+        /// </summary>
+        /// <param name="exam">Обследование для добавления</param>
+        internal void AddExam(XExamVM exam)
+        {
+            if (exam == null)
+                throw new ArgumentException("Арумент exam не может быть null");
+            ExamsObsCollection.Add(exam);
+        }
+
+        /// <summary>
+        /// Удаляет обследование из коллекции клиента
+        /// </summary>
+        /// <param name="exam"></param>
+        internal void DeleteExam(XExamVM exam)
+        {
+            if (exam == null)
+               throw new ArgumentException("Арумент exam не может быть null");
+            exam.ParamsObsCollection.Clear();
+            this.ExamsObsCollection.Remove(exam);
+        }
+
+        internal void AddDragPlan(XDragPlanVM dragPlan)
+        {
+            if (dragPlan == null)
+                throw new ArgumentException("Арумент dragPlan не может быть null");
+            this._dragPlanObsCollection.Add(dragPlan);
+        }
+
+
         #endregion
 
         #region eventHandlers
 
-        private void ViewExams_CurrentChanged(object sender, EventArgs e)
+        private void ExamsView_CurrentChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("SelectedExam");
         }
 
 
-        private void _examsObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ExamsObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
@@ -312,35 +353,36 @@ namespace SpaceDoctor.ViewModel
             PlanExamsCVSView.Refresh();
         }
 
-        private void ViewTodayExams_CurrentChanged1(object sender, EventArgs e)
+        private void TodayExamsView_CurrentChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("SelectedExamFromToday");
         }
 
 
-        private void ViewPlanExam_CurrentChanged(object sender, EventArgs e)
+        private void PlanExamView_CurrentChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("SelectedExamFromPlan");
         }
 
-        private void _dragPlanObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void DragPlanObsCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 this.Client.DragPlanCollection.Add(((XDragPlanVM)e.NewItems[0]).DragPlan);
             }
             TodayDragPlanCVSView.Refresh();
+            PlanDragPlanCVSView.Refresh();
         }
 
 
-        private void View_CurrentChanged(object sender, EventArgs e)
+        private void PlanDragPlanView_CurrentChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("SelectedDragPlanFromPlan");
         }
 
-        private void _TodayDragPlanView_CurrentChanged(object sender, EventArgs e)
+        private void TodayDragPlanView_CurrentChanged(object sender, EventArgs e)
         {
-            RaisePropertyChanged("SelectedDragPlan");
+            RaisePropertyChanged("SelectedDragPlanFromToday");
         }
 
         /// <summary>
@@ -348,18 +390,16 @@ namespace SpaceDoctor.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _examsCVS_Filter(object sender, FilterEventArgs e)
+        private void _examsCVS_ArchiveFilter(object sender, FilterEventArgs e)
         {
             e.Accepted = (((XExamVM)e.Item).Date < DateTime.Now);
         }
 
-        #endregion
-
-        #region commands
-
 
 
         #endregion
+
+
 
     }
 }

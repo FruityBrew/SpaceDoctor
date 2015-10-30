@@ -18,7 +18,7 @@ namespace SpaceDoctor.Model
 
         public DAL()
         {
-            _dbContext = new XDBContext();
+             _dbContext = new XDBContext();
 
             // _clientCollection = new Collection<XClient>();
             //загрузить сразу все навигац. свойства клиента:

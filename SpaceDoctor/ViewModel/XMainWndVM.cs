@@ -8,31 +8,57 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
+    /***************************************************
+    Класс ViewModel для mainWnd приложения.
+    Обеспечивает взаимодействие между Моделью и Представлением,
+    предоставляя логику оповещения об изменении свойств и коллекций.
+
+    Включает ссылку на контекст БД.
+    Содержит обертки для коллекций (не связанных с конкретным клиентом)
+    ("Все лекарства", "Наборы лекарств", "Типы параметров", "Типы обследований"),
+    а также имеет ссылку на текущего клиента и связанные с ним коллекции.
+
+    ***************************************************/
+
     public sealed class XMainWndVM : XViewModelBase
     {
 
         #region fields
 
-        readonly XClientVM _client;
+        readonly XClientVM _client; 
+
+        //доступ к контексту БД:
         readonly DAL _dal;
+
+        //Типы обследований:
         readonly ObservableCollection<XExamTypeVM> _examTypesObsCollection;
         readonly CollectionViewSource _examTypesCVS;
 
+        //Типы параметров обследований:
         readonly ObservableCollection<XParamTypeVM> _paramTypesObsCollection;
         readonly CollectionViewSource _paramTypesCVS;
 
+        //Все лекарства:
         readonly ICollection<XDragVM> _dragCollection;
         readonly CollectionViewSource _dragsCVS;
 
+        //Наборы лекарств:
         readonly ObservableCollection<XDragKitVM> _dragKitObsCollection;
         readonly CollectionViewSource _dragKitCVS;
 
+        //Новое обследование для добавления или выполнения:
         XExamVM _actualExam;
+
+        //Новый тип обследования для добавления:
         XExamTypeVM _newExam;
 
+        //Новый набор лекарств:
         XDragKitVM _newDragKit;
+
+        //Новый план приема лекарств для добавления:
         XDragPlanVM _actualDragPlan;
 
+        //Часы и минуты для комбобокса выбра времени:
         readonly ICollection<Int32> _hoursCollection;
         readonly ICollection<Int32> _minutesCollection;
         Int32 _hour;
@@ -55,13 +81,11 @@ namespace SpaceDoctor.ViewModel
                 _minutesCollection.Add(i);
 
 
+            //заполнить коллекции с типами обследований:
             _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
             foreach (var v in Dal.ExamTypesCollection)
-            {
                 _examTypesObsCollection.Add(new XExamTypeVM(v));
-            }
-
-            
+              
             _examTypesCVS = new CollectionViewSource();
             _examTypesCVS.Source = _examTypesObsCollection;
             _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
@@ -104,7 +128,7 @@ namespace SpaceDoctor.ViewModel
             ActualDragPlan.Date = DateTime.Now;
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
-            SaveChangesCommand = new XCommand(SaveExam);
+            SaveChangesCommand = new XCommand(SaveChange);
             AddNewExamToPlanCommand = new XCommand(AddNewExamToPlan);
             CreateNewExamTypeCommand = new XCommand(CreateNewExamType);
             SaveNewExamTypeCommand = new XCommand(SaveNewExamType);
@@ -113,10 +137,6 @@ namespace SpaceDoctor.ViewModel
             SaveNewDragKitCommand = new XCommand(SaveNewDragKit);
             AddNewDragPlanCommand = new XCommand(AddNewDragPlan);
         }
-
-
-
-
 
         #endregion
 
@@ -310,12 +330,13 @@ namespace SpaceDoctor.ViewModel
             ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
 
             ActualExam.Date = DateTime.Now;
-            _client.ExamsObsCollection.Add(ActualExam);
+            _client.AddExam(ActualExam);
 
             RaisePropertyChanged("ActualExam");
             ActualExam = new XExamVM(); //менял 
             ActualExam.Date = DateTime.Now;
         }
+
 
         private void AddNewDragPlan()
         {
@@ -327,35 +348,41 @@ namespace SpaceDoctor.ViewModel
             Dal.DbContext.SaveChanges();
 
             ActualDragPlan = new XDragPlanVM();
-            
-            
+                    
         }
 
-        private void SaveExam()
+        private void SaveChange()
         {
             Dal.DbContext.SaveChanges();
         }
 
         
+        /// <summary>
+        /// Добавляет новое обследование выбранного типа в План
+        /// </summary>
         private void AddNewExamToPlan()
         {
             ActualExam.ExamType = SelectedExamType;
-            //ActualExam.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Hour, Minutes, 0);
             ActualExam.Date = new DateTime(ActualExam.Date.Year, ActualExam.Date.Month, ActualExam.Date.Day, Hour, Minutes, 0);
 
-            _client.ExamsObsCollection.Add(ActualExam);
+            _client.AddExam(ActualExam);
             Dal.DbContext.SaveChanges();
             ActualExam = new XExamVM();
             ActualExam.Date = DateTime.Now;
-
         }
 
+        /// <summary>
+        /// Создает новый тип обследования и добавляет в коллекцию
+        /// </summary>
         private void CreateNewExamType()
         {
             NewExamType = new XExamTypeVM();
             ExamTypesObsCollection.Add(NewExamType);
         }
 
+        /// <summary>
+        /// Добавляет выбранные в контроле Представления параметры к списку типа обследования
+        /// </summary>
         private void SaveNewExamType()
         {
             foreach (var v in _paramTypesObsCollection)
@@ -368,11 +395,13 @@ namespace SpaceDoctor.ViewModel
             }
 
             ParamTypesCVSView.Refresh();
-
             Dal.DbContext.SaveChanges();
 
         }
 
+        /// <summary>
+        /// Добавляет выбранные  в контроле Представления препараты нового Набора лекарств
+        /// </summary>
         private void SaveNewDragKit()
         {
             foreach (var v in _dragCollection)
@@ -388,7 +417,9 @@ namespace SpaceDoctor.ViewModel
             Dal.DbContext.SaveChanges();
         }
 
-
+        /// <summary>
+        /// Удаляет выбранное в контроле Представления Обследование
+        /// </summary>
         private void DeleteExamFromPlan()
         {
             Dal.RemoveExam(Client.SelectedExamFromPlan.Exam);
@@ -396,6 +427,9 @@ namespace SpaceDoctor.ViewModel
             Client.DeleteExam(Client.SelectedExamFromPlan);
         }
 
+        /// <summary>
+        /// Создает новый Набор лекарств и добавляет в коллекцию
+        /// </summary>
         private void CreateNewDragKit()
         {
             NewDragKit = new XDragKitVM();
@@ -419,7 +453,6 @@ namespace SpaceDoctor.ViewModel
                 Dal.DbContext.ExamsType.Add(((XExamTypeVM)e.NewItems[0]).ExType);
             }
         }
-
 
 
         private void DragsKitView_CurrentChanged(object sender, EventArgs e)
@@ -449,8 +482,6 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewDragKitCommand { get; set; }
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
-
-
 
 
         #endregion

@@ -64,6 +64,8 @@ namespace SpaceDoctor.ViewModel
         Int32 _hour;
         Int32 _minutes;
 
+
+        XPlotVM _plot;
         #endregion 
 
 
@@ -126,6 +128,9 @@ namespace SpaceDoctor.ViewModel
 
             ActualDragPlan = new XDragPlanVM();
             ActualDragPlan.Date = DateTime.Now;
+
+            PlotModel = new XPlotVM();
+
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
             SaveChangesCommand = new XCommand(SaveChange);
@@ -317,6 +322,18 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public XPlotVM PlotModel
+        {
+            get
+            {
+                return _plot;
+            }
+
+            set
+            {
+                _plot = value;
+            }
+        }
 
         #endregion
 
@@ -482,6 +499,8 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewDragKitCommand { get; set; }
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
+
+
 
 
         #endregion

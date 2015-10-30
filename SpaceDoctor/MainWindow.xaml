@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SpaceDoctor"
         mc:Ignorable="d"
         xmlns:src="clr-namespace:SpaceDoctor.ViewModel"
+        xmlns:oxy="http://oxyplot.org/wpf"
         Title="SpaceDoctor" Height="750" Width="1000" MinWidth="1000" MinHeight="750">
     <Window.Resources>
         <src:XDateConverter x:Key="DateConverter" ></src:XDateConverter>
@@ -78,7 +79,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <DataGrid x:Name="XDataGridDragsToday" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Client.SelectedDragPlan.DragKit.DragsCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <DataGrid x:Name="XDataGridDragsToday" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Client.SelectedDragPlanFromToday.DragKit.DragsCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Форма" Binding="{Binding Form}" IsReadOnly="True"/>
@@ -351,7 +352,7 @@
                 </Grid>
                 </TabItem>
 
-                <TabItem x:Name="XTabItemDinamic" Header="Динамика" Style="{StaticResource XStyleToTab}" Margin="0">
+                <TabItem x:Name="XTabItemDinamic" Header="Архив" Style="{StaticResource XStyleToTab}" Margin="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="600"></ColumnDefinition>
@@ -388,9 +389,18 @@
 
                     </Grid>
                 </TabItem>
+
+                <TabItem Header="Динамика" Style="{StaticResource XStyleToTab}">
+                    <Grid>
+                        <oxy:PlotView Model="{Binding PlotModel.Plot}"></oxy:PlotView>
+                    </Grid>
+                </TabItem>
+                
+                
+                
             </TabControl>
 
-
+    
         </Grid>
     </Grid>
 </Window>

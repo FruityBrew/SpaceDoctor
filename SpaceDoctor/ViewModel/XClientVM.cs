@@ -325,6 +325,25 @@ namespace SpaceDoctor.ViewModel
             this._dragPlanObsCollection.Add(dragPlan);
         }
 
+        //public IDictionary<DateTime, Double> GetParamsDictionary (String nameParam)
+        //{
+        //    // var v = 
+        //    //         from pc in
+        //    //         (from ex in this.ExamsObsCollection
+        //    //          select ex.ParamsObsCollection)
+        //    //         select pc
+        //    //         ;
+
+        //    //var vp = from p in
+        //    //         (from pcc in v
+        //    //         select pcc) 
+        //    //         where p.Na
+
+
+            
+            
+                    
+        //} 
 
         #endregion
 

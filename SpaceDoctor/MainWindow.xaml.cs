@@ -10,13 +10,18 @@ namespace SpaceDoctor
     public partial class MainWindow : Window
     {
         XMainWndVM _wndVM;
+        XDinamicWindowVM _dinWndVM;
         public MainWindow()
         {
             InitializeComponent();
 
             _wndVM = new XMainWndVM();
+        //    _dinWndVM = new XDinamicWindowVM(_wndVM);
 
             DataContext = _wndVM;
+
+           // XTabItemDinamic.DataContext = _dinWndVM;
+            
         }
 
         private void ButtonRunNow_Click(object sender, RoutedEventArgs e)
@@ -58,6 +63,12 @@ namespace SpaceDoctor
         {
             XDataGridAllDrags.Visibility = Visibility.Visible;
             XButtonNEWKitSave.Visibility = Visibility.Visible;
+        }
+
+        private void CreateNewPlotSubWnd_Click(object sender, RoutedEventArgs e)
+        {
+            XGrid.Children.Add(_wndVM.AddWnd());
+
         }
     }
 }

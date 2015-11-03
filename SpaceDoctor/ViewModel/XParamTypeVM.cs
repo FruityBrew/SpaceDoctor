@@ -3,7 +3,7 @@ using System;
 
 namespace SpaceDoctor.ViewModel
 {
-    class XParamTypeVM : XViewModelBase
+    public class XParamTypeVM : XViewModelBase
     {
 
         readonly XParamsType _paramType;

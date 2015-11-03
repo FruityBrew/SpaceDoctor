@@ -25,7 +25,9 @@ namespace SpaceDoctor.ViewModel
 
         #region fields
 
-        readonly XClientVM _client; 
+        readonly XClientVM _client;
+
+     //   readonly XDinamicWindowVM _dinamicVM;
 
         //доступ к контексту БД:
         readonly DAL _dal;
@@ -65,7 +67,9 @@ namespace SpaceDoctor.ViewModel
         Int32 _minutes;
 
 
-        XPlotVM _plot;
+      //  XPlotVM _plot;
+
+    ////    SubWindow _subWndToPlot;
         #endregion 
 
 
@@ -100,7 +104,7 @@ namespace SpaceDoctor.ViewModel
                 _paramTypesObsCollection.Add(new XParamTypeVM(v));
             _paramTypesCVS = new CollectionViewSource();
             _paramTypesCVS.Source = _paramTypesObsCollection;
-
+            _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
 
             _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
 
@@ -129,8 +133,11 @@ namespace SpaceDoctor.ViewModel
             ActualDragPlan = new XDragPlanVM();
             ActualDragPlan.Date = DateTime.Now;
 
-            PlotModel = new XPlotVM();
+           // Plot = new XPlotVM();
 
+
+
+        //    _dinamicVM = new XDinamicWindowVM(_paramTypesObsCollection);
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
             SaveChangesCommand = new XCommand(SaveChange);
@@ -141,7 +148,10 @@ namespace SpaceDoctor.ViewModel
             CreateNewDragKitCommand = new XCommand(CreateNewDragKit);
             SaveNewDragKitCommand = new XCommand(SaveNewDragKit);
             AddNewDragPlanCommand = new XCommand(AddNewDragPlan);
+
+          //  AddWndCommand = new XCommand(AddWnd);
         }
+
 
         #endregion
 
@@ -279,6 +289,14 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public XParamTypeVM SelectedParamType
+        {
+            get
+            {
+                return _paramTypesCVS.View.CurrentItem as XParamTypeVM;
+            }
+        }
+
         private XExamTypeVM NewExamType
         {
             get
@@ -322,18 +340,40 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public XPlotVM PlotModel
-        {
-            get
-            {
-                return _plot;
-            }
+        //public XDinamicWindowVM DinamicVM
+        //{
+        //    get
+        //    {
+        //        return _dinamicVM;
+        //    }
+        //}
 
-            set
-            {
-                _plot = value;
-            }
-        }
+
+        //public XPlotVM Plot
+        //{
+        //    get
+        //    {
+        //        return _plot;
+        //    }
+
+        //    set
+        //    {
+        //        _plot = value;
+        //    }
+        //}
+
+        //public SubWindow SubWndToPlot
+        //{
+        //    get
+        //    {
+        //        return _subWndToPlot;
+        //    }
+
+        //    set
+        //    {
+        //        _subWndToPlot = value;
+        //    }
+        //}
 
         #endregion
 
@@ -453,6 +493,24 @@ namespace SpaceDoctor.ViewModel
             this._dragKitObsCollection.Add(NewDragKit);
         }
 
+        /// <summary>
+        /// Возвращает созданное окно с графиком
+        /// </summary>
+        /// <returns></returns>
+        internal SubWindow AddWnd()
+        {
+            
+            return new SubWindow(CreatePlot());  
+        }
+
+        private XPlotVM CreatePlot()
+        {
+           XPlotVM plot = new XPlotVM();
+
+            plot.CreatePlot(Client.GetParameterValue(SelectedParamType.Name));
+            return plot;
+        }
+
         #endregion
 
 
@@ -485,6 +543,14 @@ namespace SpaceDoctor.ViewModel
                 }
         }
 
+
+        private void ParamTypes_CurrentChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged("SelectedParamType");
+        }
+
+
+
         #endregion
 
         #region commands 
@@ -499,6 +565,9 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewDragKitCommand { get; set; }
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
+
+      //  public XCommand CreateWndCommand { get; set; }
+
 
 
 

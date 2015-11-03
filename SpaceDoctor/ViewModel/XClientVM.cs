@@ -263,9 +263,26 @@ namespace SpaceDoctor.ViewModel
         }
 
 
+        
+
         #endregion
 
         #region methods
+
+        public IDictionary<DateTime, Double> GetParameterValue(String namePram) //поменять на тип
+        {
+            IDictionary<DateTime, Double> dict = new Dictionary<DateTime, Double>(50);
+
+            //var v = from parCol in
+            //             e in ExamsObsCollection
+            //            select e.ParamsObsCollection
+            //        select parCol;
+
+            var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection.Where(par => par.ParamType.Name == namePram), (e, p) => new {e.Date, p.Value } );
+
+            dict = v.ToDictionary((a => a.Date), (va => va.Value));
+            return dict;
+        }
 
         private IEnumerable<XExamVM> TodayExamsCollection()
         {

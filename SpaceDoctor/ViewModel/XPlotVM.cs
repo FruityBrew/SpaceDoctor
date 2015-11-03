@@ -8,7 +8,7 @@ using OxyPlot.Series;
 
 namespace SpaceDoctor.ViewModel
 {
-    public  class XPlotVM
+    public class XPlotVM
     {
         #region fields
         readonly PlotModel _plotModel;
@@ -20,7 +20,7 @@ namespace SpaceDoctor.ViewModel
         public XPlotVM()
         {
             _plotModel = new PlotModel();
-            _plotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 12, 0.1, "cos"));
+           // _plotModel.Series.Add(new FunctionSeries(Math.Cos, 0, 12, 0.1, "cos"));
         }
 
         #endregion
@@ -39,6 +39,11 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region methods
+        public void CreatePlot(IEnumerable<KeyValuePair <DateTime, Double>> paramCollection)
+        {
+            //преобразует в dataPoint
+            //добавляет ось со значениями
+        }
         #endregion
 
         #region eventHandlers

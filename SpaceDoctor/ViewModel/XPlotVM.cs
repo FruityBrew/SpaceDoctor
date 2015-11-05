@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OxyPlot;
 using OxyPlot.Series;
+using OxyPlot.Axes;
 
 namespace SpaceDoctor.ViewModel
 {
@@ -42,7 +43,20 @@ namespace SpaceDoctor.ViewModel
         public void CreatePlot(IEnumerable<KeyValuePair <DateTime, Double>> paramCollection)
         {
             //преобразует в dataPoint
+            List<DataPoint> dpList = new List<DataPoint>(50);
+
+            foreach(var v in paramCollection)
+            {
+                dpList.Add(new DataPoint(DateTimeAxis.ToDouble(v.Key), v.Value));
+            }
             //добавляет ось со значениями
+
+            _plotModel.Axes.Add(new DateTimeAxis() { Position = AxisPosition.Bottom, StringFormat = "dd-MM hh-mm" });
+
+            LineSeries ls = new LineSeries();
+
+            ls.ItemsSource = dpList;
+            _plotModel.Series.Add(ls);
         }
         #endregion
 

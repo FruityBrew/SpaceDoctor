@@ -71,7 +71,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WPF.MDI">
-      <HintPath>..\..\..\..\..\OneDrive\_Код\FB_Lib\WPF.MDI.dll</HintPath>
+      <HintPath>..\..\..\..\OneDrive\_Код\FB_Lib\WPF.MDI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

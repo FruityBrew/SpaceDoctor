@@ -67,7 +67,7 @@ namespace SpaceDoctor
 
         private void CreateNewPlotSubWnd_Click(object sender, RoutedEventArgs e)
         {
-            XGrid.Children.Add(_wndVM.AddWnd());
+            XStack.Children.Add(_wndVM.AddWnd());
 
         }
     }

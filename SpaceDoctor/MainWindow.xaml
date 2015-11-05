@@ -415,7 +415,12 @@
                             
                         </Grid>
                         <Grid x:Name="XGrid" Grid.Column="1">
-
+                            <StackPanel x:Name="XStack" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical" ScrollViewer.CanContentScroll="True" AllowDrop="True">
+                                
+                            </StackPanel>
+                            
+                            
+                            
                         </Grid>
 
                     </Grid>

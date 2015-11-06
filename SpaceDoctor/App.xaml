@@ -44,6 +44,8 @@
                  </Trigger>
             </Style.Triggers>
         </Style>
+
+        <DataTemplate x:Key="dw" DataType="local:XPlotControl" ></DataTemplate>
         
     </Application.Resources>
 </Application>

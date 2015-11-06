@@ -51,8 +51,6 @@ namespace SpaceDoctor
             XButtonRunNow.IsEnabled = true;
         }
 
-
-
         private void XButtonNEWKitSave_Click(object sender, RoutedEventArgs e)
         {
             XDataGridAllDrags.Visibility = Visibility.Hidden;
@@ -67,8 +65,8 @@ namespace SpaceDoctor
 
         private void CreateNewPlotSubWnd_Click(object sender, RoutedEventArgs e)
         {
-            XStack.Children.Add(_wndVM.AddWnd());
-
+           XStack.Children.Add(_wndVM.AddWnd());
+         //   _wndVM.AddWnd();
         }
     }
 }

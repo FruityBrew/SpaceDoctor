@@ -405,25 +405,42 @@
                             </Grid.RowDefinitions>
 
                             <Label Grid.Row="0" Content="Выберите параметр:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"></Label>
-                            <DataGrid Grid.Row="1" Style="{StaticResource DataGridStyle}" ItemsSource="{Binding ParamTypesCVSView}">
+                            <DataGrid Grid.Row="1"  Style="{StaticResource DataGridStyle}" ItemsSource="{Binding ParamTypesCVSView}" AllowDrop="True" CanUserAddRows="False" IsManipulationEnabled="True">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <Button Grid.Row="2"  Style="{StaticResource XStyleToButton}" Click="CreateNewPlotSubWnd_Click"></Button>
-                            
-                            
+
+
                         </Grid>
-                        <Grid x:Name="XGrid" Grid.Column="1">
-                            <StackPanel x:Name="XStack" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical" ScrollViewer.CanContentScroll="True" AllowDrop="True">
-                                
-                            </StackPanel>
-                            
-                            
-                            
+                        <Grid x:Name="XGrid" Grid.Column="1" ScrollViewer.CanContentScroll="True" AllowDrop="True" VerticalAlignment="Stretch" >
+                            <ScrollViewer>
+                                <StackPanel x:Name="XStack" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical"  ScrollViewer.CanContentScroll="True" AllowDrop="True">
+                                </StackPanel>
+                            </ScrollViewer>
+                            <!--ListView ItemsSource="{Binding PlotObsCollection}"  AllowDrop="True" IsManipulationEnabled="True" >
+                                <ListView.View >
+                                    <GridView >
+                                        <GridViewColumn Width="200"  >
+                                            <oxy:PlotView Model="{Binding Plot}" />
+                                            <local:XPlotControl AllowDrop="True" HorizontalAlignment="Stretch"></>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </-->
+                            <!--DataGrid ItemsSource="{Binding PlotObsCollection}" AutoGenerateColumns="False">
+                  
+              
+                                <DataGrid.Columns >
+
+                                    <DataGridTemplateColumn CellTemplate="{DynamicResource dw}"  ></DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </-->
                         </Grid>
 
                     </Grid>
+
                 </TabItem>
 
 

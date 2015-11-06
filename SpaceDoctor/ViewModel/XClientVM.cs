@@ -269,18 +269,20 @@ namespace SpaceDoctor.ViewModel
 
         #region methods
 
+        /// <summary>
+        /// Возвращает словарь(дата-значение) измеренных показателей клиента
+        /// </summary>
+        /// <param name="namePram">Название параметра</param>
+        /// <returns></returns>
         public IDictionary<DateTime, Double> GetParameterValue(String namePram) //поменять на тип
         {
             IDictionary<DateTime, Double> dict = new Dictionary<DateTime, Double>(50);
 
-            //var v = from parCol in
-            //             e in ExamsObsCollection
-            //            select e.ParamsObsCollection
-            //        select parCol;
-
             var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection.Where(par => par.ParamType.Name == namePram), (e, p) => new {e.Date, p.Value } );
 
             dict = v.ToDictionary((a => a.Date), (va => va.Value));
+
+            dict.GroupBy(d => d.Key.Date);
             return dict;
         }
 
@@ -342,25 +344,6 @@ namespace SpaceDoctor.ViewModel
             this._dragPlanObsCollection.Add(dragPlan);
         }
 
-        //public IDictionary<DateTime, Double> GetParamsDictionary (String nameParam)
-        //{
-        //    // var v = 
-        //    //         from pc in
-        //    //         (from ex in this.ExamsObsCollection
-        //    //          select ex.ParamsObsCollection)
-        //    //         select pc
-        //    //         ;
-
-        //    //var vp = from p in
-        //    //         (from pcc in v
-        //    //         select pcc) 
-        //    //         where p.Na
-
-
-            
-            
-                    
-        //} 
 
         #endregion
 

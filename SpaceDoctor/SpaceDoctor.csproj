@@ -135,6 +135,9 @@
     <Compile Include="ViewModel\XParamVM.cs" />
     <Compile Include="ViewModel\XPlotVM.cs" />
     <Compile Include="ViewModel\XViewModelBase.cs" />
+    <Compile Include="XPlotControl.xaml.cs">
+      <DependentUpon>XPlotControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -148,6 +151,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SubWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XPlotControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

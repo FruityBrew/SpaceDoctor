@@ -66,11 +66,17 @@ namespace SpaceDoctor.ViewModel
         Int32 _hour;
         Int32 _minutes;
 
+        //readonly ObservableCollection<XPlotVM> _plotObsCollection;
+        //readonly CollectionViewSource _plotCVS;
 
-      //  XPlotVM _plot;
+        readonly ObservableCollection<XPlotControl> _plotObsCollection;
+        readonly CollectionViewSource _plotCVS;
 
-    ////    SubWindow _subWndToPlot;
-        #endregion 
+
+        //  XPlotVM _plot;
+
+        ////    SubWindow _subWndToPlot;
+        #endregion
 
 
         #region ctors
@@ -133,6 +139,11 @@ namespace SpaceDoctor.ViewModel
             ActualDragPlan = new XDragPlanVM();
             ActualDragPlan.Date = DateTime.Now;
 
+
+
+            _plotObsCollection = new ObservableCollection<XPlotControl>();
+            _plotCVS = new CollectionViewSource();
+            _plotCVS.Source = _plotObsCollection;
            // Plot = new XPlotVM();
 
 
@@ -497,10 +508,11 @@ namespace SpaceDoctor.ViewModel
         /// Возвращает созданное окно с графиком
         /// </summary>
         /// <returns></returns>
-        internal SubWindow AddWnd()
+        internal XPlotControl  AddWnd()
         {
-            
-            return new SubWindow(CreatePlot());  
+             return new XPlotControl(CreatePlot());
+            // return new SubWindow(CreatePlot());  
+            //_plotObsCollection.Add(new XPlotControl(CreatePlot()));
         }
 
         private XPlotVM CreatePlot()
@@ -566,7 +578,15 @@ namespace SpaceDoctor.ViewModel
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
 
-      //  public XCommand CreateWndCommand { get; set; }
+        public ICollectionView PlotObsCollection
+        {
+            get
+            {
+                return _plotCVS.View;
+            }
+        }
+
+        //  public XCommand CreateWndCommand { get; set; }
 
 
 

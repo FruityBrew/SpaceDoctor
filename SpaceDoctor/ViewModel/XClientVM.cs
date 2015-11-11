@@ -270,11 +270,11 @@ namespace SpaceDoctor.ViewModel
         #region methods
 
         /// <summary>
-        /// Возвращает словарь(дата-значение) измеренных показателей клиента
+        /// Возвращает перечисление пар <дата-значение> (сортированных по дате) показателей клиента
         /// </summary>
         /// <param name="namePram">Название параметра</param>
         /// <returns></returns>
-        public IDictionary<DateTime, Double> GetParameterValue(String namePram) //поменять на тип
+        public IEnumerable<KeyValuePair<DateTime, Double>> GetParameterValue(String namePram) //поменять на тип
         {
             IDictionary<DateTime, Double> dict = new Dictionary<DateTime, Double>(50);
 
@@ -282,8 +282,7 @@ namespace SpaceDoctor.ViewModel
 
             dict = v.ToDictionary((a => a.Date), (va => va.Value));
 
-            dict.GroupBy(d => d.Key.Date);
-            return dict;
+            return dict.OrderBy(d => d.Key);
         }
 
         private IEnumerable<XExamVM> TodayExamsCollection()

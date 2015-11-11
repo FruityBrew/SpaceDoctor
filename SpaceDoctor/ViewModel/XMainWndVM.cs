@@ -519,7 +519,7 @@ namespace SpaceDoctor.ViewModel
         {
            XPlotVM plot = new XPlotVM();
 
-            plot.CreatePlot(Client.GetParameterValue(SelectedParamType.Name));
+            plot.CreatePlot(Client.GetParameterValue(SelectedParamType.Name), SelectedParamType.Name);
             return plot;
         }
 

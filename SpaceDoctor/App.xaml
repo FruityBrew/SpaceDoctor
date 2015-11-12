@@ -5,33 +5,29 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources> 
         <Style x:Name="XColors" x:Key="XStyleToButton" TargetType="Button" >
-            <Setter Property="Background" Value="LightSteelBlue" >
-            </Setter>
-            <Setter Property="BorderBrush" Value="White">
-            </Setter>
+            <Setter Property="Background" Value="LightSteelBlue" />
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="BorderBrush" Value="AliceBlue"/>
             <Setter Property="Height" Value="30"></Setter>
             <Setter Property="Width" Value="100"></Setter>
         </Style>
 
         <Style x:Name="dw" x:Key="XStyleToTab" TargetType="TabItem">
-            <Setter Property="Background" Value="LightBlue" >
-            </Setter>
-            <Setter Property="Width" Value="125">
-            </Setter>
-            <Setter Property="Height" Value="40">
-            </Setter>
+            <Setter Property="Background" Value="LightBlue" />
+            <Setter Property="Width" Value="125"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderBrush" Value="AliceBlue"/>                          
         </Style>
 
         <Style x:Key="DataGridStyle" TargetType="DataGrid">
             <Setter Property="IsSynchronizedWithCurrentItem" Value="True"></Setter>
             <Setter Property="AutoGenerateColumns" Value="False"></Setter>
             <Setter Property="Background" Value="AliceBlue"></Setter>
-            <Setter Property="BorderBrush" Value="Gray"> </Setter>
+            <Setter Property="BorderBrush" Value="LightBlue"></Setter>
             <Setter Property="RowBackground" Value="AliceBlue"> </Setter>
-            <Setter Property="VerticalGridLinesBrush" Value="Gray"> </Setter>
-            <Setter Property="HorizontalGridLinesBrush" Value="Gray"></Setter>
+            <Setter Property="VerticalGridLinesBrush" Value="LightBlue"> </Setter>
+            <Setter Property="HorizontalGridLinesBrush" Value="LightBlue"></Setter>
             <Setter Property="CellStyle" Value="{DynamicResource CellSt}"></Setter>
-
             <Setter Property="CanUserSortColumns" Value="False"></Setter>
 
         </Style>

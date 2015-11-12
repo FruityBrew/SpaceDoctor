@@ -66,16 +66,9 @@ namespace SpaceDoctor.ViewModel
         Int32 _hour;
         Int32 _minutes;
 
-        //readonly ObservableCollection<XPlotVM> _plotObsCollection;
-        //readonly CollectionViewSource _plotCVS;
-
-        readonly ObservableCollection<XPlotControl> _plotObsCollection;
-        readonly CollectionViewSource _plotCVS;
-
-
-        //  XPlotVM _plot;
-
-        ////    SubWindow _subWndToPlot;
+        //Даты для фильтрации параметров
+        DateTime _dateFrom = new DateTime(2000, 1, 1);
+        DateTime _dateTo = DateTime.Now;
         #endregion
 
 
@@ -139,16 +132,6 @@ namespace SpaceDoctor.ViewModel
             ActualDragPlan = new XDragPlanVM();
             ActualDragPlan.Date = DateTime.Now;
 
-
-
-            _plotObsCollection = new ObservableCollection<XPlotControl>();
-            _plotCVS = new CollectionViewSource();
-            _plotCVS.Source = _plotObsCollection;
-           // Plot = new XPlotVM();
-
-
-
-        //    _dinamicVM = new XDinamicWindowVM(_paramTypesObsCollection);
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
             SaveChangesCommand = new XCommand(SaveChange);
@@ -351,40 +334,38 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        //public XDinamicWindowVM DinamicVM
-        //{
-        //    get
-        //    {
-        //        return _dinamicVM;
-        //    }
-        //}
+        /// <summary>
+        /// Возвращает или задает начальную дату для фильтрации параметров
+        /// </summary>
+        public DateTime DateFrom
+        {
+            get
+            {
+                return _dateFrom;
+            }
 
+            set
+            {
+                _dateFrom = value;
+            }
+        }
 
-        //public XPlotVM Plot
-        //{
-        //    get
-        //    {
-        //        return _plot;
-        //    }
+        /// <summary>
+        /// Возвращает или задает конечную дату для фильтрации параметров
+        /// </summary>
+        public DateTime DateTo
+        {
+            get
+            {
+                return _dateTo;
+            }
 
-        //    set
-        //    {
-        //        _plot = value;
-        //    }
-        //}
+            set
+            {
+                _dateTo = value;
+            }
+        }
 
-        //public SubWindow SubWndToPlot
-        //{
-        //    get
-        //    {
-        //        return _subWndToPlot;
-        //    }
-
-        //    set
-        //    {
-        //        _subWndToPlot = value;
-        //    }
-        //}
 
         #endregion
 
@@ -511,15 +492,14 @@ namespace SpaceDoctor.ViewModel
         internal XPlotControl  AddWnd()
         {
              return new XPlotControl(CreatePlot());
-            // return new SubWindow(CreatePlot());  
-            //_plotObsCollection.Add(new XPlotControl(CreatePlot()));
+
         }
 
         private XPlotVM CreatePlot()
         {
            XPlotVM plot = new XPlotVM();
 
-            plot.CreatePlot(Client.GetParameterValue(SelectedParamType.Name), SelectedParamType.Name);
+            plot.CreatePlot(Client.GetParameterValue(SelectedParamType.Name, DateFrom, DateTo), SelectedParamType.Name);
             return plot;
         }
 
@@ -577,16 +557,6 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewDragKitCommand { get; set; }
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
-
-        public ICollectionView PlotObsCollection
-        {
-            get
-            {
-                return _plotCVS.View;
-            }
-        }
-
-        //  public XCommand CreateWndCommand { get; set; }
 
 
 

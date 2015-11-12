@@ -274,11 +274,17 @@ namespace SpaceDoctor.ViewModel
         /// </summary>
         /// <param name="namePram">Название параметра</param>
         /// <returns></returns>
-        public IEnumerable<KeyValuePair<DateTime, Double>> GetParameterValue(String namePram) //поменять на тип
+        public IEnumerable<KeyValuePair<DateTime, Double>> GetParameterValue(String namePram, DateTime from, DateTime to) //поменять на тип
         {
             IDictionary<DateTime, Double> dict = new Dictionary<DateTime, Double>(50);
 
-            var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection.Where(par => par.ParamType.Name == namePram), (e, p) => new {e.Date, p.Value } );
+            var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection
+            .Where(par =>
+            { if (par.ParamType.Name == namePram && par.Param.Exam.Date >= from && par.Param.Exam.Date <= to)
+                    return true;
+                else
+                    return false; }),
+             (e, p) => new {e.Date, p.Value } );
 
             dict = v.ToDictionary((a => a.Date), (va => va.Value));
 

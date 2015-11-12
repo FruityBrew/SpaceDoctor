@@ -402,16 +402,28 @@
                                 <RowDefinition Height="40"></RowDefinition>
                                 <RowDefinition Height="1*"></RowDefinition>
                                 <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" Content="Выберите параметр:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"></Label>
+                            <Label Grid.Row="0" Content="Выберите параметр:" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="18"></Label>
                             <DataGrid Grid.Row="1"  Style="{StaticResource DataGridStyle}" ItemsSource="{Binding ParamTypesCVSView}" AllowDrop="True" CanUserAddRows="False" IsManipulationEnabled="True">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <Button Grid.Row="2"  Style="{StaticResource XStyleToButton}" Click="CreateNewPlotSubWnd_Click"></Button>
-
+                            <Label Grid.Row="2" Content="Период:" FontSize="18" ></Label>
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="20,0,40,0" >
+                                <Label Content="c" FontSize="18" Width="40" HorizontalContentAlignment="Right"></Label>
+                                <DatePicker HorizontalAlignment="Stretch" Width="145" FontSize="14" DisplayDate="{Binding DateTime.Now}" SelectedDate="{Binding DateFrom}" VerticalContentAlignment="Center" Margin="2, 4, 2, 0" ></DatePicker>
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="20,0,40,0">
+                                <Label Content="по" Width="40" FontSize="18" VerticalAlignment="Stretch" HorizontalContentAlignment="Right"></Label>
+                                <DatePicker HorizontalAlignment="Stretch" Width="145" FontSize="14" DisplayDate="{Binding DateTIme.Now}" SelectedDate="{Binding DateTo}" Margin="2, 4, 2, 0" ></DatePicker>
+                            </StackPanel>
+                            <Button Grid.Row="6" Content="Показать график"  Style="{StaticResource XStyleToButton}" Click="CreateNewPlotSubWnd_Click"></Button>
 
                         </Grid>
                         <Grid x:Name="XGrid" Grid.Column="1" ScrollViewer.CanContentScroll="True" AllowDrop="True" VerticalAlignment="Stretch" >
@@ -419,34 +431,12 @@
                                 <StackPanel x:Name="XStack" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical"  ScrollViewer.CanContentScroll="True" AllowDrop="True">
                                 </StackPanel>
                             </ScrollViewer>
-                            <!--ListView ItemsSource="{Binding PlotObsCollection}"  AllowDrop="True" IsManipulationEnabled="True" >
-                                <ListView.View >
-                                    <GridView >
-                                        <GridViewColumn Width="200"  >
-                                            <oxy:PlotView Model="{Binding Plot}" />
-                                            <local:XPlotControl AllowDrop="True" HorizontalAlignment="Stretch"></>
-                                        </GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </-->
-                            <!--DataGrid ItemsSource="{Binding PlotObsCollection}" AutoGenerateColumns="False">
-                  
-              
-                                <DataGrid.Columns >
-
-                                    <DataGridTemplateColumn CellTemplate="{DynamicResource dw}"  ></DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                            </-->
                         </Grid>
-
                     </Grid>
-
                 </TabItem>
 
 
-
             </TabControl>
-
 
         </Grid>
     </Grid>

@@ -1,6 +1,7 @@
 ﻿using SpaceDoctor.ViewModel;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SpaceDoctor
 {
@@ -10,17 +11,15 @@ namespace SpaceDoctor
     public partial class MainWindow : Window
     {
         XMainWndVM _wndVM;
-        XDinamicWindowVM _dinWndVM;
+
         public MainWindow()
         {
             InitializeComponent();
 
             _wndVM = new XMainWndVM();
-        //    _dinWndVM = new XDinamicWindowVM(_wndVM);
 
             DataContext = _wndVM;
-
-           // XTabItemDinamic.DataContext = _dinWndVM;
+            
             
         }
 
@@ -43,6 +42,7 @@ namespace SpaceDoctor
             XButtonRunNow.IsEnabled = false;
         }
 
+    
         private void XButtonNEWExamSave_Click(object sender, RoutedEventArgs e)
         {
             XDataGridNEWExParamTypes.Visibility = Visibility.Hidden;
@@ -66,7 +66,12 @@ namespace SpaceDoctor
         private void CreateNewPlotSubWnd_Click(object sender, RoutedEventArgs e)
         {
            XStack.Children.Add(_wndVM.AddWnd());
-         //   _wndVM.AddWnd();
+        }
+
+
+        private void XDataGridExtypes_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            XDataGridExtypes.CurrentCell = e.AddedCells[0];
         }
     }
 }

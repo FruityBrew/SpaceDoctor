@@ -518,6 +518,10 @@ namespace SpaceDoctor.ViewModel
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 Dal.DbContext.ExamsType.Add(((XExamTypeVM)e.NewItems[0]).ExType);
+                ExamTypesCVSView.MoveCurrentTo(e.NewItems[0]);
+               
+                RaisePropertyChanged("SelectedExamType");
+
             }
         }
 

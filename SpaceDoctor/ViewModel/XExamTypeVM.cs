@@ -18,19 +18,11 @@ namespace SpaceDoctor.ViewModel
 
 
         #region ctors
-        public XExamTypeVM()
+        public XExamTypeVM() : this (new XExamsType())
         {
-            _exType = new XExamsType();
-            _paramTypeObsCollection = new ObservableCollection<XParamTypeVM>();
-            _paramTypeObsCollection.CollectionChanged += _paramTypeObsCollection_CollectionChanged;
-
-            _paramTypesCVS = new CollectionViewSource();
-            _paramTypesCVS.Source = _paramTypeObsCollection;
 
         }
-
-
-
+        
         public XExamTypeVM(XExamsType exType)
         {
             _exType = exType;
@@ -38,6 +30,8 @@ namespace SpaceDoctor.ViewModel
 
             foreach (var v in exType.ParamsCollection)
                 _paramTypeObsCollection.Add(new XParamTypeVM(v));
+
+            _paramTypeObsCollection.CollectionChanged += _paramTypeObsCollection_CollectionChanged;
 
             _paramTypesCVS = new CollectionViewSource();
             _paramTypesCVS.Source = _paramTypeObsCollection;
@@ -56,8 +50,13 @@ namespace SpaceDoctor.ViewModel
             }
             set
             {
-                ExType.Name = value;
-                RaisePropertyChanged("Name");
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Ребята, название не может быть пустым...");
+                else
+                {
+                    ExType.Name = value;
+                    RaisePropertyChanged("Name");
+                }
             }
          }
 

@@ -109,14 +109,19 @@
 
                             <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView, Mode=OneWay}" AddingNewItem="XDataGridExtypes_AddingNewItem" SelectedCellsChanged="XDataGridExtypes_SelectedCellsChanged" CurrentCellChanged="XDataGridExtypes_CurrentCellChanged" SelectionMode="Single" IsSynchronizedWithCurrentItem="True" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanUserAddRows="False">
+                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" SelectedCellsChanged="XDataGridExtypes_SelectedCellsChanged" SelectionMode="Single" IsSynchronizedWithCurrentItem="True" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanUserAddRows="False">
                                 <DataGrid.ContextMenu>
                                     <ContextMenu Background="LightBlue">
                                         <MenuItem Header="Добавить новый тип обследования" Command="{Binding CreateNewExamTypeCommand}" Click="MenuItem_Click" />
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Название" Binding="{Binding Name, TargetNullValue=[Введите Название]}" MinWidth="200"/>
+                                    <DataGridTextColumn Header="Название" MinWidth="200" EditingElementStyle="{StaticResource TextBoxStyle}">
+                                        <DataGridTextColumn.Binding >
+                                            <Binding Path="Name" TargetNullValue="[Введите название]" ValidatesOnExceptions="True" UpdateSourceTrigger="PropertyChanged">
+                                            </Binding>
+                                        </DataGridTextColumn.Binding>                                        
+                                    </DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

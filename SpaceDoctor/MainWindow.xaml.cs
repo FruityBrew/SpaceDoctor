@@ -73,5 +73,21 @@ namespace SpaceDoctor
         {
             XDataGridExtypes.CurrentCell = e.AddedCells[0];
         }
+
+        private void ValidationError(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+                MessageBox.Show(e.Error.ErrorContent.ToString());
+            }
+        }
+
+        private void DataGridTextColumn_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+                MessageBox.Show(e.Error.ErrorContent.ToString());
+            }
+        }
     }
 }

@@ -29,7 +29,18 @@
             <Setter Property="HorizontalGridLinesBrush" Value="LightBlue"></Setter>
             <Setter Property="CellStyle" Value="{DynamicResource CellSt}"></Setter>
             <Setter Property="CanUserSortColumns" Value="False"></Setter>
-
+        </Style>
+        
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"></Setter>
+                    <Setter Property="Background" Value="Red"/>
+                 </Trigger>
+                <Trigger Property="Validation.HasError" Value="False" >
+                    <Setter Property="Background" Value="LightCyan"/>         
+                </Trigger>
+            </Style.Triggers>
         </Style>
         
         <Style x:Key="CellSt" TargetType="DataGridCell">

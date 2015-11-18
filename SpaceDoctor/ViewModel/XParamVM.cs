@@ -46,7 +46,6 @@ namespace SpaceDoctor.ViewModel
 
         #region properties
 
-
         public XParam Param
         {
             get
@@ -55,15 +54,23 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public XParamTypeVM ParamType
+        {
+            get
+            {
+                return _paramType;
+            }
+        }
+
         public Double? Value 
         {
             get 
             {
                 return Param.Value;
-             }
+            }
              set
              {
-                if (value < 0)
+                if ( value < 0)
                     throw new ArgumentException("Ребята, значение не может быть меньше нуля");
                 else
                 {
@@ -71,15 +78,6 @@ namespace SpaceDoctor.ViewModel
                     RaisePropertyChanged("Value");
                 }
              }
-        }
-
-
-        public XParamTypeVM ParamType
-        {
-            get
-            {
-                return _paramType;
-            }
         }
 
         #endregion

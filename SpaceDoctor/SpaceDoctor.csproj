@@ -132,7 +132,6 @@
     <Compile Include="ViewModel\XClientVM.cs" />
     <Compile Include="ViewModel\XCommand.cs" />
     <Compile Include="ViewModel\XDateConverter.cs" />
-    <Compile Include="ViewModel\XDinamicWindowVM.cs" />
     <Compile Include="ViewModel\XDragKitVM.cs" />
     <Compile Include="ViewModel\XDragPlanVM.cs" />
     <Compile Include="ViewModel\XDragVM.cs" />

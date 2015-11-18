@@ -1,6 +1,15 @@
 ﻿using SpaceDoctor.Model;
 using System;
 
+/***********************************************
+    Wrapper for the XParamType class.
+
+    ----------------------------------------
+    Autor: Kovalev Alexander
+    Email: koalse@gmail.com
+    Date: 01.11.2015
+************************************************/
+
 namespace SpaceDoctor.ViewModel
 {
     public class XParamTypeVM : XViewModelBase
@@ -35,8 +44,13 @@ namespace SpaceDoctor.ViewModel
 
             set 
             {
-                ParamType.Name = value;
-                RaisePropertyChanged("Name");
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Название параметра не может быть пустым!");
+                else
+                {
+                    ParamType.Name = value;
+                    RaisePropertyChanged("Name");
+                }
             }
         }
 
@@ -48,12 +62,19 @@ namespace SpaceDoctor.ViewModel
             }
             set 
             {
-                ParamType.Measure = value;
-                RaisePropertyChanged("Measure");
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Коллега, укажите размерность параметра, пожалуйста!");
+                else
+                {
+                    ParamType.Measure = value;
+                    RaisePropertyChanged("Measure");
+                }
             }
         }
 
-
+        /// <summary>
+        /// Does this ParamType in the ExamType
+        /// </summary>
         public Boolean SelectToNewExam { get; set; }
 
     }

@@ -63,7 +63,7 @@
                         <DataGrid x:Name="XDataGridExamParamsToday" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromToday.ParamCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" IsReadOnly="True"/>
-                                <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value, Mode=TwoWay}" />
+                                <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
                                 <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -136,7 +136,7 @@
 
                             <Label Content="Измеряемые параметры:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
-                            <DataGrid x:Name="XDataGridExParamTypes" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CanUserAddRows="False" BorderThickness="0,1,1,1">
+                            <DataGrid x:Name="XDataGridExParamTypes" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsReadOnly="True" CanUserAddRows="False" BorderThickness="0,1,1,1">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" />
                                     <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure}"/>
@@ -145,8 +145,8 @@
 
                             <DataGrid x:Name="XDataGridNEWExParamTypes" Grid.Row="1" ItemsSource="{Binding ParamTypesCVSView}" Visibility="Hidden" Style="{StaticResource DataGridStyle}" IsReadOnly="False" CanUserAddRows="True" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure}"/>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}"/>
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
                                     <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectToNewExam}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
@@ -276,7 +276,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"></RowDefinition>
                                 <RowDefinition Height="10*"></RowDefinition>
-                                <RowDefinition Height="1"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
                             </Grid.RowDefinitions>
 
                             <Label Content="Наборы лекарств:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
@@ -288,7 +288,7 @@
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" MinWidth="200"/>
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" MinWidth="200"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
@@ -297,7 +297,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"></RowDefinition>
                                 <RowDefinition Height="10*"></RowDefinition>
-                                <RowDefinition Height="1"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
 
                             </Grid.RowDefinitions>
 
@@ -306,15 +306,15 @@
                             <DataGrid x:Name="XDataGridDrags" Grid.Row="1" ItemsSource="{Binding SelectedDragsKit.DragsCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CanUserAddRows="False" BorderThickness="0,1,1,1">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название лекарства" Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Форма" Binding="{Binding Form}" />
+                                    <DataGridTextColumn Header="Форма" Binding="{Binding Form}"  />
 
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <DataGrid x:Name="XDataGridAllDrags" Grid.Row="1" ItemsSource="{Binding AllDragsCVSView}" Visibility="Hidden" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Форма" Binding="{Binding Form}" />
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}"/>
+                                    <DataGridTextColumn Header="Форма" Binding="{Binding Form, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
                                     <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectedToNewKit}"/>
                                 </DataGrid.Columns>
                             </DataGrid>

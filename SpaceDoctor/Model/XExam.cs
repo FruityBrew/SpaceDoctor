@@ -36,6 +36,7 @@ namespace SpaceDoctor.Model
         public XExam()
         {
             ParamsCollection = new Collection<XParam>();
+            ExamType = new XExamType();
         }
     }
 }

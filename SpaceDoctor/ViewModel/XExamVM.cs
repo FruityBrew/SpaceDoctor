@@ -4,6 +4,17 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 
+/***********************************************
+    Wrapper for the XExam class.
+
+    It contains a collection of related 
+     parameters (XParamVM).
+    ----------------------------------------
+    Autor: Kovalev Alexander
+    Email: koalse@gmail.com
+    Date: 01.11.2015
+************************************************/
+
 namespace SpaceDoctor.ViewModel
 {
     public class XExamVM : XViewModelBase
@@ -11,24 +22,32 @@ namespace SpaceDoctor.ViewModel
 
         #region fields
         readonly XExam _exam;
-        readonly ObservableCollection<XParamVM> _paramsObsCollection;
-        CollectionViewSource _paramCVS;
         XExamTypeVM _examType;
-
+        readonly ObservableCollection<XParamVM> _paramsObsCollection;
+        readonly CollectionViewSource _paramCVS;
         #endregion
 
+
         #region ctors
-        public XExamVM() 
+        public XExamVM() : this (new XExam()) 
         {
-            _exam = new XExam();
+            //_exam = new XExam();
 
-            _paramsObsCollection = new ObservableCollection<XParamVM>();
-            _paramCVS = new CollectionViewSource();
-            _paramCVS.Source = _paramsObsCollection;
+            //_paramsObsCollection = new ObservableCollection<XParamVM>();
+            //_paramCVS = new CollectionViewSource();
+            //_paramCVS.Source = _paramsObsCollection;
 
-            _examType = new XExamTypeVM();
+            //_examType = new XExamTypeVM();
         }
 
+        public XExamVM(XExamTypeVM examType) : this()
+        {
+            _examType = examType;
+            _exam.ExamType = examType.ExType;
+
+            foreach (var v in examType.ParamTypeaObsCollection)
+                this.AddParams(new XParamVM(v));
+        }
 
         public XExamVM(XExam exam)
         {
@@ -44,7 +63,6 @@ namespace SpaceDoctor.ViewModel
 
             _examType = new XExamTypeVM(Exam.ExamType);
         }
-
 
 
         #endregion
@@ -83,7 +101,6 @@ namespace SpaceDoctor.ViewModel
             }
             set 
             {
-
                 Exam.Date = value;
                 RaisePropertyChanged("Date");
             }
@@ -104,13 +121,13 @@ namespace SpaceDoctor.ViewModel
                 return _examType;
             }
 
-            internal set
-            {
-               _examType = value;
-                _exam.ExamType = value.ExType;
-                foreach (var v in value.ParamTypeaObsCollection)
-                    this.AddParams(new XParamVM(v));
-            }
+            //private set
+            //{
+            //   _examType = value;
+            //    _exam.ExamType = value.ExType;
+            //    foreach (var v in value.ParamTypeaObsCollection)
+            //        this.AddParams(new XParamVM(v));
+            //}
         }
 
         internal ObservableCollection<XParamVM> ParamsObsCollection

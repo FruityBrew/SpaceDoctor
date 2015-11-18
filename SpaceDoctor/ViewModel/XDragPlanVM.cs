@@ -1,20 +1,25 @@
 ﻿using SpaceDoctor.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+/***********************************************
+    Wrapper for the XDragPlan class.
+    It contains a related dragKit (XDragKitVM)
+    and date of appointment.
+
+    ----------------------------------------
+    Autor: Kovalev Alexander
+    Email: koalse@gmail.com
+    Date: 01.11.2015
+************************************************/
+
 
 namespace SpaceDoctor.ViewModel
 {
     public class XDragPlanVM
     {
-
         #region fields
         readonly XDragPlan _dragPlan;
         readonly XDragKitVM _dragKit;
-
-
         #endregion
 
         #region ctors
@@ -26,8 +31,7 @@ namespace SpaceDoctor.ViewModel
         public XDragPlanVM(XDragPlan dragPlan)
         {
             _dragPlan = dragPlan;
-            _dragKit = new XDragKitVM(dragPlan.DragKit);
-      
+            _dragKit = new XDragKitVM(dragPlan.DragKit);   
         }
 
         public XDragPlanVM(XDragKitVM dragKit)
@@ -38,7 +42,6 @@ namespace SpaceDoctor.ViewModel
             _dragKit = dragKit;
             _dragPlan.DragKit = dragKit.DragKit;
             Date = DateTime.Now;
-
         }
         #endregion
 
@@ -60,7 +63,6 @@ namespace SpaceDoctor.ViewModel
             }
             set
             {
-
                 DragPlan.Date = value;
                 //RaisePropertyChanged("Date");
             }
@@ -90,15 +92,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        #endregion
-
-        #region commands
-        #endregion
-
-        #region methods
-        #endregion
-
-        #region eventHandlers
         #endregion
 
     }

@@ -1,12 +1,19 @@
 ﻿using SpaceDoctor.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
+
+/***********************************************
+    Wrapper for the XDragKit class.
+    It contains a collection of related 
+    drags (XDragVM).
+
+    ----------------------------------------
+    Autor: Kovalev Alexander
+    Email: koalse@gmail.com
+    Date: 01.11.2015
+************************************************/
 
 namespace SpaceDoctor.ViewModel
 {
@@ -76,6 +83,9 @@ namespace SpaceDoctor.ViewModel
             }
             set
             {
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Название набора лекарств не может быть пустым");
+                else
                 DragKit.Name = value;
             }
         }
@@ -90,6 +100,9 @@ namespace SpaceDoctor.ViewModel
 
         internal void AddDragToKit(XDragVM drag)
         {
+            if (drag == null)
+                throw new ArgumentNullException();       
+            else                      
             this.DragsObsCollection.Add(drag);
         }
 

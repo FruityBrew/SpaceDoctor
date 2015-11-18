@@ -1,6 +1,15 @@
 ﻿using SpaceDoctor.Model;
 using System;
 
+/***********************************************
+    Wrapper for the XDrag class.
+
+    ----------------------------------------
+    Autor: Kovalev Alexander
+    Email: koalse@gmail.com
+    Date: 01.11.2015
+************************************************/
+
 namespace SpaceDoctor.ViewModel
 {
     class XDragVM
@@ -43,6 +52,9 @@ namespace SpaceDoctor.ViewModel
             }
             set
             {
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Название препарата не может быть пустым!");
+                else
                 Drag.Name = value;
             }
         }
@@ -58,23 +70,10 @@ namespace SpaceDoctor.ViewModel
                 Drag.Form = value;
             }
         }
-
-       
+               
 
         public Boolean SelectedToNewKit { get; set; }
 
-        #endregion
-
-        #region commands
-        #endregion
-
-        #region methods
-
-
-
-        #endregion
-
-        #region eventHandlers
         #endregion
 
     }

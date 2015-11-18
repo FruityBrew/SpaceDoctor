@@ -115,6 +115,10 @@
     <Compile Include="Migrations\201511180922598_NullableParamValue.Designer.cs">
       <DependentUpon>201511180922598_NullableParamValue.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511180953300_AddNotNullFields.cs" />
+    <Compile Include="Migrations\201511180953300_AddNotNullFields.Designer.cs">
+      <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\DAL.cs" />
     <Compile Include="Model\XDrag.cs" />
@@ -207,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511180922598_NullableParamValue.resx">
       <DependentUpon>201511180922598_NullableParamValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511180953300_AddNotNullFields.resx">
+      <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

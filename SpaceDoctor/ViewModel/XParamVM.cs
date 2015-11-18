@@ -1,6 +1,14 @@
 ﻿using SpaceDoctor.Model;
 using System;
 
+/***********************************************
+    Wrapper for the XParam class.
+
+    ----------------------------------------
+    Autor: Kovalev Alexander
+    Email: koalse@gmail.com
+    Date: 01.11.2015
+************************************************/
 
 namespace SpaceDoctor.ViewModel
 {
@@ -8,17 +16,16 @@ namespace SpaceDoctor.ViewModel
     {
 
         #region fields
+
         readonly XParam _param;
         readonly XParamTypeVM _paramType;
 
         #endregion
 
         #region ctors
-        public XParamVM()
+        public XParamVM() : this(new XParam())
         {
-            _param = new XParam();
-            _param.Type = new XParamsType();
-            _paramType = new XParamTypeVM();
+
         }
 
         public XParamVM(XParamTypeVM paramType) 
@@ -38,18 +45,6 @@ namespace SpaceDoctor.ViewModel
 
 
         #region properties
-        public Double Value 
-        {
-            get 
-            {
-                return Param.Value;
-             }
-             set
-             {
-                Param.Value = value;
-                RaisePropertyChanged("Value");
-             }
-        }
 
 
         public XParam Param
@@ -60,7 +55,26 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public  XParamTypeVM ParamType
+        public Double Value 
+        {
+            get 
+            {
+                return Param.Value;
+             }
+             set
+             {
+                if (value < 0)
+                    throw new ArgumentException("Ребята, значение не может быть меньше нуля");
+                else
+                {
+                    Param.Value = value;
+                    RaisePropertyChanged("Value");
+                }
+             }
+        }
+
+
+        public XParamTypeVM ParamType
         {
             get
             {

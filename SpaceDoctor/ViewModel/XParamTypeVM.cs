@@ -6,19 +6,19 @@ namespace SpaceDoctor.ViewModel
     public class XParamTypeVM : XViewModelBase
     {
 
-        readonly XParamsType _paramType;
+        readonly XParamType _paramType;
 
         public XParamTypeVM ()
         {
-            _paramType = new XParamsType();
+            _paramType = new XParamType();
         }
 
-        public XParamTypeVM(XParamsType paramType)
+        public XParamTypeVM(XParamType paramType)
         {
             _paramType = paramType;
         }
 
-        public XParamsType ParamType
+        public XParamType ParamType
         {
             get
             {

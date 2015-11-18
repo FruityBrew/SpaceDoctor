@@ -116,7 +116,7 @@
     <Compile Include="Model\XDrag.cs" />
     <Compile Include="Model\XDragKit.cs" />
     <Compile Include="Model\XDragPlan.cs" />
-    <Compile Include="Model\XExamsType.cs" />
+    <Compile Include="Model\XExamType.cs" />
     <Compile Include="Model\XParam.cs" />
     <Compile Include="SubWindow.xaml.cs">
       <DependentUpon>SubWindow.xaml</DependentUpon>
@@ -163,7 +163,7 @@
     <Compile Include="Model\XClient.cs" />
     <Compile Include="Model\XDBContext.cs" />
     <Compile Include="Model\XExam.cs" />
-    <Compile Include="Model\XParamsType.cs" />
+    <Compile Include="Model\XParamType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace SpaceDoctor.Model
 {
-    public class XExamsType
+    public class XExamType
     {
         public Int32 Id { get; set; }
 
         public String Name { get; set; }
 
-        public ICollection<XParamsType> ParamsCollection { get; set; }
+        public ICollection<XParamType> ParamsCollection { get; set; }
 
         public override string ToString()
         {
             return Name;
         }
 
-        public XExamsType()
+        public XExamType()
         {
-            ParamsCollection = new Collection<XParamsType>();
+            ParamsCollection = new Collection<XParamType>();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace SpaceDoctor.Model
         readonly XDBContext _dbContext;
 
         IEnumerable<XClient> _clientCollection;
-        IEnumerable<XExamsType> _examTypesCollection;
+        IEnumerable<XExamType> _examTypesCollection;
         IEnumerable<XDragKit> _dragKitCollection;
 
 
@@ -58,7 +58,7 @@ namespace SpaceDoctor.Model
             }
         }
 
-        public IEnumerable<XExamsType> ExamTypesCollection
+        public IEnumerable<XExamType> ExamTypesCollection
         {
             get
             {

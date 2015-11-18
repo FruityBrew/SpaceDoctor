@@ -12,7 +12,7 @@ namespace SpaceDoctor.Model
 
         public Double Value { get; set; }
 
-        public XParamsType Type { get; set; }
+        public XParamType Type { get; set; }
 
         public XExam Exam { get; set; }
     }

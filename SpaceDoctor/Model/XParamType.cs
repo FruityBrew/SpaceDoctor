@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace SpaceDoctor.Model
 {
-    public class XParamsType
+    public class XParamType
     {
         public Int32 Id { get; set; }
 
@@ -20,11 +20,11 @@ namespace SpaceDoctor.Model
         [DisplayName("Единица измерения")]
         public String Measure { get; set; }
  
-        public ICollection<XExamsType> ExamsTypeCollection { get; set; }
+        public ICollection<XExamType> ExamsTypeCollection { get; set; }
 
-        public XParamsType()
+        public XParamType()
         {
-            ExamsTypeCollection = new Collection<XExamsType>();
+            ExamsTypeCollection = new Collection<XExamType>();
         }
     }
 }

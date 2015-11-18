@@ -27,7 +27,7 @@ namespace SpaceDoctor.Model
 
         public ICollection<XParam> ParamsCollection { get; set; }
 
-        public XExamsType ExamType { get; set; }
+        public XExamType ExamType { get; set; }
 
         public XExam()
         {

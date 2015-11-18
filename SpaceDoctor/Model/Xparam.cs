@@ -1,4 +1,5 @@
 ﻿using System;
+using Attr = System.ComponentModel.DataAnnotations;
 
 namespace SpaceDoctor.Model
 {
@@ -8,8 +9,10 @@ namespace SpaceDoctor.Model
               
         public Double? Value { get; set; }
 
+        [Attr.Required]
         public XParamType Type { get; set; }
 
+        [Attr.Required]
         public XExam Exam { get; set; }
     }
 }

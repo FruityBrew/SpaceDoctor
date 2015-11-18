@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Attr = System.ComponentModel.DataAnnotations;
 
 namespace SpaceDoctor.Model
 {
@@ -11,6 +9,7 @@ namespace SpaceDoctor.Model
     {
         public Int32 Id { get; set; }
 
+        [Attr.Required]
         public String Name { get; set; }
 
         public ICollection<XParamType> ParamsCollection { get; set; }

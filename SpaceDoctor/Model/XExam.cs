@@ -15,18 +15,22 @@ namespace SpaceDoctor.Model
         [Attr.Schema.ForeignKey("Client")]
         [Attr.Required]
         public Int32 ClientId { get; set; }
+
+        [Attr.Required]
         public XClient Client { get; set; }
 
         
         [Attr.DataType(Attr.DataType.Date)]
         [DisplayName("Дата обследования")]
+        [Attr.Required]
         public DateTime Date { get; set; }
 
 
-      //  public String Name { get; set; }
+        //  public String Name { get; set; }
 
         public ICollection<XParam> ParamsCollection { get; set; }
 
+        [Attr.Required]
         public XExamType ExamType { get; set; }
 
         public XExam()

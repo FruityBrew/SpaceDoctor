@@ -55,7 +55,7 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public Double Value 
+        public Double? Value 
         {
             get 
             {

@@ -280,11 +280,11 @@ namespace SpaceDoctor.ViewModel
 
             var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection
             .Where(par =>
-            { if (par.ParamType.Name == namePram && par.Param.Exam.Date >= from && par.Param.Exam.Date <= to)
+            { if (par.ParamType.Name == namePram && par.Value.HasValue && par.Param.Exam.Date >= from && par.Param.Exam.Date <= to)
                     return true;
                 else
                     return false; }),
-             (e, p) => new {e.Date, p.Value } );
+             (e, p) => new {e.Date, p.Value.Value } );
 
             dict = v.ToDictionary((a => a.Date), (va => va.Value));
 

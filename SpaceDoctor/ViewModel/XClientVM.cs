@@ -262,9 +262,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-
-        
-
         #endregion
 
         #region methods
@@ -294,28 +291,28 @@ namespace SpaceDoctor.ViewModel
         private IEnumerable<XExamVM> TodayExamsCollection()
         {
             return from f in _examsObsCollection
-                   where f.Date.Day == DateTime.Now.Day
+                  where f.Date <= DateTime.Today.AddDays(1) && f.Date >= DateTime.Today
                    select f;
         }
 
         private IEnumerable<XExamVM> PlanExamsCollection()
         {
             return from f in _examsObsCollection
-                   where f.Date.Day >= DateTime.Now.Day
+                   where f.Date >= DateTime.Today
                    select f;
         }
 
         private IEnumerable<XDragPlanVM> TodayDragPlan()
         {
             return from f in _dragPlanObsCollection
-                   where f.Date.Day == DateTime.Now.Day
+                   where f.Date <= DateTime.Today.AddDays(1) && f.Date >= DateTime.Today
                    select f;
         }
 
         private IEnumerable<XDragPlanVM> PlanDragPlan()
         {
             return from f in _dragPlanObsCollection
-                   where f.Date.Day >= DateTime.Now.Day
+                   where f.Date >= DateTime.Today
                    select f;
         }
 
@@ -327,6 +324,7 @@ namespace SpaceDoctor.ViewModel
         {
             if (exam == null)
                 throw new ArgumentException("Арумент exam не может быть null");
+            else
             ExamsObsCollection.Add(exam);
         }
 

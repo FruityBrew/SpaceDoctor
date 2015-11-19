@@ -48,10 +48,16 @@
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="BlanchedAlmond"></Setter>
                     <Setter Property="Foreground" Value="Black"></Setter>
-                 </Trigger>
+                </Trigger>
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"> 
+                
+            </Setter>
+        </Style>
+        
         <DataTemplate x:Key="dw" DataType="local:XPlotControl" ></DataTemplate>
         
     </Application.Resources>

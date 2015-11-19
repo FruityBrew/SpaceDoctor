@@ -48,9 +48,6 @@ namespace SpaceDoctor.ViewModel
         readonly ObservableCollection<XDragKitVM> _dragKitObsCollection;
         readonly CollectionViewSource _dragKitCVS;
 
-        //Новое обследование для добавления или выполнения:
-        XExamVM _actualExam;
-
         //Новый тип обследования для добавления:
         XExamTypeVM _newExam;
 
@@ -65,6 +62,9 @@ namespace SpaceDoctor.ViewModel
         readonly ICollection<Int32> _minutesCollection;
         Int32 _hour;
         Int32 _minutes;
+
+        //Дата для назначения обследования
+        DateTime _actualDate;
 
         //Даты для фильтрации параметров
         DateTime _dateFrom = new DateTime(2000, 1, 1);
@@ -124,14 +124,8 @@ namespace SpaceDoctor.ViewModel
             _dragKitCVS.Source = _dragKitObsCollection;
             _dragKitCVS.View.CurrentChanged += DragsKitView_CurrentChanged;
             _dragKitObsCollection.CollectionChanged += _dragKitObsCollection_CollectionChanged;
-            
 
-            ActualExam = new XExamVM();
-            ActualExam.Date = DateTime.Now;
-
-            ActualDragPlan = new XDragPlanVM();
-            ActualDragPlan.Date = DateTime.Now;
-
+            ActualDate = DateTime.Now;
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
             SaveChangesCommand = new XCommand(SaveChange);
@@ -150,22 +144,6 @@ namespace SpaceDoctor.ViewModel
         #endregion
 
         #region properties
-
-
-        public XDragPlanVM ActualDragPlan
-        {
-            get
-            {
-                return _actualDragPlan;
-            }
-
-            set
-            {
-                _actualDragPlan = value;
-            }
-        }
-
-
 
         public XExamTypeVM SelectedExamType
         {
@@ -217,19 +195,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public XExamVM ActualExam
-        {
-            get
-            {
-                return _actualExam;
-            }
-
-            set
-            {
-                _actualExam = value;
-                RaisePropertyChanged("ActualExam");
-            }
-        }
 
         public ICollection<int> HoursCollection
         {
@@ -376,29 +341,24 @@ namespace SpaceDoctor.ViewModel
         /// </summary>
         private void CreateNewExam()
         {
-            //ActualExam.ExamType = SelectedExamType; //new XExamTypeVM(this.SelectedExamType.ExType);
 
-            ActualExam = new XExamVM(this.SelectedExamType);
-            ActualExam.Date = DateTime.Now;
-            _client.AddExam(ActualExam);
+            XExamVM newEx = new XExamVM(this.SelectedExamType);
+            newEx.Date = DateTime.Now;
+            _client.AddExam(newEx);
 
-            RaisePropertyChanged("ActualExam");
-            ActualExam = new XExamVM(); //менял 
-            ActualExam.Date = DateTime.Now;
+            ActualDate = DateTime.Now;
         }
 
 
         private void AddNewDragPlan()
         {
-            ActualDragPlan = new XDragPlanVM(SelectedDragsKit);
-
-            ActualDragPlan.Date = new DateTime(ActualDragPlan.Date.Year, ActualDragPlan.Date.Month, ActualDragPlan.Date.Day, Hour, Minutes, 0);
-
-            Client.AddDragPlan(ActualDragPlan);
+            XDragPlanVM newDragPlan = new XDragPlanVM(SelectedDragsKit);
+            newDragPlan.Date = new DateTime(ActualDate.Date.Year, ActualDate.Date.Month, ActualDate.Date.Day, Hour, Minutes, 0);
+            Client.AddDragPlan(newDragPlan);
             Dal.DbContext.SaveChanges();
 
-            ActualDragPlan = new XDragPlanVM();
-                    
+            ActualDate = DateTime.Now;
+            RaisePropertyChanged("ActualDate");
         }
 
         private void SaveChange()
@@ -412,14 +372,14 @@ namespace SpaceDoctor.ViewModel
         /// </summary>
         private void AddNewExamToPlan()
         {
-            // ActualExam.ExamType = SelectedExamType;
-            ActualExam = new XExamVM(this.SelectedExamType);
-            ActualExam.Date = new DateTime(ActualExam.Date.Year, ActualExam.Date.Month, ActualExam.Date.Day, Hour, Minutes, 0);
 
-            _client.AddExam(ActualExam);
+            XExamVM newEx = new XExamVM(this.SelectedExamType);
+            newEx.Date = new DateTime(ActualDate.Date.Year, ActualDate.Date.Month, ActualDate.Date.Day, Hour, Minutes, 0);
+            _client.AddExam(newEx);
             Dal.DbContext.SaveChanges();
-            ActualExam = new XExamVM();
-            ActualExam.Date = DateTime.Now;
+
+            ActualDate = DateTime.Now;
+            RaisePropertyChanged("ActualDate");
         }
 
         /// <summary>
@@ -563,6 +523,19 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewDragKitCommand { get; set; }
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
+
+        public DateTime ActualDate
+        {
+            get
+            {
+                return _actualDate;
+            }
+
+            set
+            {
+                _actualDate = value;
+            }
+        }
 
 
 

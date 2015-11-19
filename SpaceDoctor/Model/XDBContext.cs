@@ -1,7 +1,6 @@
 ﻿using System.Data.Entity;
 
 
-
 namespace SpaceDoctor.Model
 {
     public class XDBContext : DbContext
@@ -27,7 +26,6 @@ namespace SpaceDoctor.Model
             modelBuilder.Entity<XExam>().Property(e => e.Date).HasColumnType("datetime2");
 
         }
-
 
     }
 }

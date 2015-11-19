@@ -15,6 +15,10 @@ using System;
 
 namespace SpaceDoctor.ViewModel
 {
+
+    /// <summary>
+    /// Wrapper for the XDragPlan class
+    /// </summary>
     public class XDragPlanVM
     {
         #region fields
@@ -30,13 +34,22 @@ namespace SpaceDoctor.ViewModel
 
         public XDragPlanVM(XDragPlan dragPlan)
         {
+            if (dragPlan == null)
+                throw new ArgumentNullException("Параметр draglan не может быть null");
             _dragPlan = dragPlan;
-            _dragKit = new XDragKitVM(dragPlan.DragKit);   
+
+            if (dragPlan.DragKit == null)
+                dragPlan.DragKit = new XDragKit(); 
+
+           _dragKit = new XDragKitVM(dragPlan.DragKit);
+            
         }
 
         public XDragPlanVM(XDragKitVM dragKit)
         {
-            
+            if (dragKit == null)
+                throw new ArgumentNullException("Параметр dragKit не может быть null");
+
             _dragPlan = new XDragPlan();
             
             _dragKit = dragKit;
@@ -64,7 +77,6 @@ namespace SpaceDoctor.ViewModel
             set
             {
                 DragPlan.Date = value;
-                //RaisePropertyChanged("Date");
             }
         }
 

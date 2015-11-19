@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SpaceDoctor.Model
 {
@@ -18,9 +13,9 @@ namespace SpaceDoctor.Model
 
         public DAL()
         {
-             _dbContext = new XDBContext();
 
-            // _clientCollection = new Collection<XClient>();
+            _dbContext = new XDBContext();
+            
             //загрузить сразу все навигац. свойства клиента:
             var v = _dbContext.Clients
                                 .Include("ExamsCollection.ParamsCollection")
@@ -28,17 +23,15 @@ namespace SpaceDoctor.Model
                                 .Include("ExamsCollection.ExamType.ParamsCollection")
                                 .Include("DragPlanCollection.DragKit.DragCollection");
 
-            _clientCollection = v;
+
 
             var va = _dbContext.ExamsType.Include("ParamsCollection");
-
-
             var vd = _dbContext.DragKits.Include("DragCollection");
 
-
+            _clientCollection = v;
             _examTypesCollection = va;
-
             _dragKitCollection = vd;
+            
         }
 
 
@@ -74,11 +67,6 @@ namespace SpaceDoctor.Model
             }
         }
 
-        public void AddExam(XExam exam)
-        {
-            
-           // DbContext.Exams.Add(exam);
-        }
 
 
         internal void RemoveExam(XExam examToRemove)

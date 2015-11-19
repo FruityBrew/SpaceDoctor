@@ -12,6 +12,9 @@ using System;
 
 namespace SpaceDoctor.ViewModel
 {
+    /// <summary>
+    ///  Wrapper for the XDrag class
+    /// </summary>
     class XDragVM
     {
 
@@ -30,6 +33,8 @@ namespace SpaceDoctor.ViewModel
 
         public XDragVM(XDrag drag)
         {
+            if (drag == null)
+                throw new ArgumentNullException(" Параметр drag не может быть null");
             _drag = drag;            
         }
         #endregion

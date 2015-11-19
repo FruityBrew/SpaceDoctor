@@ -17,6 +17,9 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
+    /// <summary>
+    /// Wrapper for the XExam class
+    /// </summary>
     public class XExamVM : XViewModelBase
     {
 
@@ -31,13 +34,7 @@ namespace SpaceDoctor.ViewModel
         #region ctors
         public XExamVM() : this (new XExam()) 
         {
-            //_exam = new XExam();
 
-            //_paramsObsCollection = new ObservableCollection<XParamVM>();
-            //_paramCVS = new CollectionViewSource();
-            //_paramCVS.Source = _paramsObsCollection;
-
-            //_examType = new XExamTypeVM();
         }
 
         public XExamVM(XExamTypeVM examType) : this()
@@ -63,8 +60,6 @@ namespace SpaceDoctor.ViewModel
 
             _examType = new XExamTypeVM(Exam.ExamType);
         }
-
-
         #endregion
 
 
@@ -120,14 +115,6 @@ namespace SpaceDoctor.ViewModel
             {
                 return _examType;
             }
-
-            //private set
-            //{
-            //   _examType = value;
-            //    _exam.ExamType = value.ExType;
-            //    foreach (var v in value.ParamTypeaObsCollection)
-            //        this.AddParams(new XParamVM(v));
-            //}
         }
 
         internal ObservableCollection<XParamVM> ParamsObsCollection
@@ -140,6 +127,8 @@ namespace SpaceDoctor.ViewModel
 
         internal void AddParams(XParamVM paramVM)
         {
+            if (paramVM == null || paramVM.Param == null)
+                throw new ArgumentNullException();
             this._paramsObsCollection.Add(paramVM);
             this.Exam.ParamsCollection.Add(paramVM.Param);
         }

@@ -12,7 +12,10 @@ using System;
 
 namespace SpaceDoctor.ViewModel
 {
-    public class XParamTypeVM : XViewModelBase
+    /// <summary>
+    /// Wrapper for the XParamType class
+    /// </summary>
+    public class XParamTypeVM 
     {
 
         readonly XParamType _paramType;
@@ -24,6 +27,8 @@ namespace SpaceDoctor.ViewModel
 
         public XParamTypeVM(XParamType paramType)
         {
+            if (paramType == null)
+                throw new ArgumentNullException("Параметр paramType не может быть null");
             _paramType = paramType;
         }
 
@@ -47,10 +52,7 @@ namespace SpaceDoctor.ViewModel
                 if (String.IsNullOrEmpty(value))
                     throw new ArgumentException("Название параметра не может быть пустым!");
                 else
-                {
                     ParamType.Name = value;
-                    RaisePropertyChanged("Name");
-                }
             }
         }
 
@@ -58,17 +60,14 @@ namespace SpaceDoctor.ViewModel
         {
             get 
             {
-            return ParamType.Measure;
+                return ParamType.Measure;
             }
             set 
             {
                 if (String.IsNullOrEmpty(value))
                     throw new ArgumentException("Коллега, укажите размерность параметра, пожалуйста!");
                 else
-                {
                     ParamType.Measure = value;
-                    RaisePropertyChanged("Measure");
-                }
             }
         }
 

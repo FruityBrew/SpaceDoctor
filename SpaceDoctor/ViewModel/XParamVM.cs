@@ -12,7 +12,10 @@ using System;
 
 namespace SpaceDoctor.ViewModel
 {
-     class XParamVM : XViewModelBase
+    /// <summary>
+    /// Wrapper for the XParam class.
+    /// </summary>
+    class XParamVM 
     {
 
         #region fields
@@ -30,6 +33,8 @@ namespace SpaceDoctor.ViewModel
 
         public XParamVM(XParamTypeVM paramType) 
         {
+            if (paramType == null)
+                throw new ArgumentNullException("Параметр paramType не может быть null");
             _param = new XParam();
             _param.Type = paramType.ParamType;
             _paramType = paramType;
@@ -37,6 +42,8 @@ namespace SpaceDoctor.ViewModel
 
         public XParamVM(XParam param)
         {
+            if (param == null)
+                throw new ArgumentNullException("Параметр param не может быть null");
             _param = param;
             _paramType = new XParamTypeVM(param.Type);
         }
@@ -70,13 +77,10 @@ namespace SpaceDoctor.ViewModel
             }
              set
              {
-                if ( value < 0)
+                if (value < 0)
                     throw new ArgumentException("Ребята, значение не может быть меньше нуля");
                 else
-                {
-                    Param.Value = value;
-                    RaisePropertyChanged("Value");
-                }
+                    Param.Value = value;            
              }
         }
 

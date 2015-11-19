@@ -35,9 +35,13 @@ namespace SpaceDoctor.ViewModel
 
         public XDragKitVM(XDragKit dragKit)
         {
+            if (dragKit == null)
+                throw new ArgumentNullException("Параметр dragKit не может быть null");
+
             _dragKit = dragKit;
             _dragsObsCollection = new ObservableCollection<XDragVM>();
             _dragsCVS = new CollectionViewSource();
+
 
             foreach (var v in DragKit.DragCollection)
                 _dragsObsCollection.Add(new XDragVM(v));

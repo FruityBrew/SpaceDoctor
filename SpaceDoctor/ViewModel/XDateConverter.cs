@@ -3,7 +3,9 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
-
+    /// <summary>
+    /// Конвертер даты в формат "dd.MM.yyyy"
+    /// </summary>
     [ValueConversion(typeof(DateTime), typeof(string))]
     public class XDateConverter : IValueConverter
     {

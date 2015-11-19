@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
@@ -20,6 +21,9 @@ namespace SpaceDoctor.ViewModel
 
     ***************************************************/
 
+    /// <summary>
+    /// View-model class for the MainWindow
+    /// </summary>
     public sealed class XMainWndVM : XViewModelBase
     {
 
@@ -75,56 +79,66 @@ namespace SpaceDoctor.ViewModel
         #region ctors
         public XMainWndVM()
         {
-            _dal = new DAL();
+            try 
+            {
+                _dal = new DAL();
+            }
+            catch (System.Data.SqlClient.SqlException sqlEx)
+            {
+                MessageBox.Show("Не могу соединиться с сервером");
+                Environment.FailFast("Не могу соединиться с сервером");
+            }
 
-            _hoursCollection = new Collection<Int32>();
-            for (int i = 0; i <= 24; i++)
-                _hoursCollection.Add(i);
+            using (Dal.DbContext)
+            {
+                _hoursCollection = new Collection<Int32>();
+                for (int i = 0; i <= 24; i++)
+                    _hoursCollection.Add(i);
 
-            _minutesCollection = new Collection<Int32>();
-            for (int i = 0; i < 60; i += 5)
-                _minutesCollection.Add(i);
-
-
-            //заполнить коллекции с типами обследований:
-            _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
-            foreach (var v in Dal.ExamTypesCollection)
-                _examTypesObsCollection.Add(new XExamTypeVM(v));
-              
-            _examTypesCVS = new CollectionViewSource();
-            _examTypesCVS.Source = _examTypesObsCollection;
-            _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
-            _examTypesObsCollection.CollectionChanged += _examTypesObsCollection_CollectionChanged;
-
-
-            //заполнить коллекции с типами параметров:
-            _paramTypesObsCollection = new ObservableCollection<XParamTypeVM>();
-            foreach (var v in Dal.DbContext.ParamsTypes)
-                _paramTypesObsCollection.Add(new XParamTypeVM(v));
-            _paramTypesCVS = new CollectionViewSource();
-            _paramTypesCVS.Source = _paramTypesObsCollection;
-            _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
-
-            _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
+                _minutesCollection = new Collection<Int32>();
+                for (int i = 0; i < 60; i += 5)
+                    _minutesCollection.Add(i);
 
 
-            //Список препаратов
-            _dragCollection = new ObservableCollection<XDragVM>();
-            foreach (var v in Dal.DbContext.Drags)
-                _dragCollection.Add(new XDragVM(v));
+                //заполнить коллекции с типами обследований:
+                _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
+                foreach (var v in Dal.ExamTypesCollection)
+                    _examTypesObsCollection.Add(new XExamTypeVM(v));
 
-            _dragsCVS = new CollectionViewSource();
-            _dragsCVS.Source = _dragCollection;
+                _examTypesCVS = new CollectionViewSource();
+                _examTypesCVS.Source = _examTypesObsCollection;
+                _examTypesCVS.View.CurrentChanged += View_CurrentChanged;
+                _examTypesObsCollection.CollectionChanged += _examTypesObsCollection_CollectionChanged;
 
-            //список лекарственныхНаборов:
-            _dragKitObsCollection = new ObservableCollection<XDragKitVM>();
-            foreach (var v in Dal.DragKitCollection)
-                _dragKitObsCollection.Add(new XDragKitVM(v));
-            _dragKitCVS = new CollectionViewSource();
-            _dragKitCVS.Source = _dragKitObsCollection;
-            _dragKitCVS.View.CurrentChanged += DragsKitView_CurrentChanged;
-            _dragKitObsCollection.CollectionChanged += _dragKitObsCollection_CollectionChanged;
 
+                //заполнить коллекции с типами параметров:
+                _paramTypesObsCollection = new ObservableCollection<XParamTypeVM>();
+                foreach (var v in Dal.DbContext.ParamsTypes)
+                    _paramTypesObsCollection.Add(new XParamTypeVM(v));
+                _paramTypesCVS = new CollectionViewSource();
+                _paramTypesCVS.Source = _paramTypesObsCollection;
+                _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
+
+                _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
+
+
+                //Список препаратов
+                _dragCollection = new ObservableCollection<XDragVM>();
+                foreach (var v in Dal.DbContext.Drags)
+                    _dragCollection.Add(new XDragVM(v));
+
+                _dragsCVS = new CollectionViewSource();
+                _dragsCVS.Source = _dragCollection;
+
+                //список лекарственныхНаборов:
+                _dragKitObsCollection = new ObservableCollection<XDragKitVM>();
+                foreach (var v in Dal.DragKitCollection)
+                    _dragKitObsCollection.Add(new XDragKitVM(v));
+                _dragKitCVS = new CollectionViewSource();
+                _dragKitCVS.Source = _dragKitObsCollection;
+                _dragKitCVS.View.CurrentChanged += DragsKitView_CurrentChanged;
+                _dragKitObsCollection.CollectionChanged += _dragKitObsCollection_CollectionChanged;
+            }
             ActualDate = DateTime.Now;
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
@@ -363,7 +377,10 @@ namespace SpaceDoctor.ViewModel
 
         private void SaveChange()
         {
+
+            Dal.DbContext.Database.Connection.Open();
             Dal.DbContext.SaveChanges();
+            Dal.DbContext.Database.Connection.Dispose();
         }
 
         
@@ -535,6 +552,12 @@ namespace SpaceDoctor.ViewModel
             {
                 _actualDate = value;
             }
+        }
+
+        public object FailFast
+        {
+            get;
+            private set;
         }
 
 

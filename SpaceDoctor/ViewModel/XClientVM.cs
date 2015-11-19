@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
@@ -16,6 +17,10 @@ namespace SpaceDoctor.ViewModel
     Содержит связанные с клиентом коллекции обследований (XExamVM) 
     и планов приема препаратов (XDragPlanVM), обёрнутые 
     в ObservableCollection и CollectionViewSource. 
+
+    Autor: Kovalev Alexander
+    Email: koalse@gmail.com
+    Date: 01.11.2015
     ****************************************************/
     public sealed class XClientVM : XViewModelBase
     {
@@ -54,8 +59,8 @@ namespace SpaceDoctor.ViewModel
 
        public XClientVM(XClient client)
        {
-            if (client == null || client.DragPlanCollection == null || client.ExamsCollection == null)
-                throw new ArgumentNullException("XClient и связянные коллекции не могут быть null");
+            if (client == null)
+                throw new ArgumentNullException("Параметр XClient не может быть null");
 
             _client = client;
 
@@ -130,8 +135,9 @@ namespace SpaceDoctor.ViewModel
             }
             set
             {
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Имя не может быть пустым");
                 Client.Name = value;
-                RaisePropertyChanged("Name");
             }
         }
 
@@ -143,8 +149,9 @@ namespace SpaceDoctor.ViewModel
             }
             set
             {
+                if (value >= DateTime.Today)
+                    throw new ArgumentException("Дата рождения некорректна");
                 Client.DateBirthday = value;
-                RaisePropertyChanged("DateBirthday");
             }
         }
 
@@ -275,45 +282,89 @@ namespace SpaceDoctor.ViewModel
         {
             IDictionary<DateTime, Double> dict = new Dictionary<DateTime, Double>(50);
 
-            var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection
-            .Where(par =>
-            { if (par.ParamType.Name == namePram && par.Value.HasValue && par.Param.Exam.Date >= from && par.Param.Exam.Date <= to)
-                    return true;
-                else
-                    return false; }),
-             (e, p) => new {e.Date, p.Value.Value } );
+            try
+            {
+                var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection
+                .Where(par =>
+                { if (par.ParamType.Name == namePram && par.Value.HasValue && par.Param.Exam.Date >= from && par.Param.Exam.Date <= to)
+                        return true;
+                    else
+                        return false; }),
+                 (e, p) => new { e.Date, p.Value.Value });
 
-            dict = v.ToDictionary((a => a.Date), (va => va.Value));
 
-            return dict.OrderBy(d => d.Key);
+                dict = v.ToDictionary((a => a.Date), (va => va.Value));
+
+                return dict.OrderBy(d => d.Key);
+            }
+
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Запрос не может быть выполнен");
+                throw;
+            }
+  
         }
 
         private IEnumerable<XExamVM> TodayExamsCollection()
         {
-            return from f in _examsObsCollection
-                  where f.Date <= DateTime.Today.AddDays(1) && f.Date >= DateTime.Today
-                   select f;
+            try
+            {
+                return from f in _examsObsCollection
+                       where f.Date <= DateTime.Today.AddDays(1) && f.Date >= DateTime.Today
+                       select f;
+            }
+            catch (ArgumentNullException argNullEx)
+            {
+                MessageBox.Show("При выполнении запроса произошла ошибка" + argNullEx);
+                throw;
+            }
         }
 
         private IEnumerable<XExamVM> PlanExamsCollection()
         {
-            return from f in _examsObsCollection
-                   where f.Date >= DateTime.Today
-                   select f;
+            try
+            {
+                return from f in _examsObsCollection
+                       where f.Date >= DateTime.Today
+                       select f;
+            }
+            catch (ArgumentNullException argNullEx)
+            {
+                MessageBox.Show("При выполнении запроса произошла ошибка" + argNullEx);
+                throw;
+            }
         }
 
         private IEnumerable<XDragPlanVM> TodayDragPlan()
         {
-            return from f in _dragPlanObsCollection
-                   where f.Date <= DateTime.Today.AddDays(1) && f.Date >= DateTime.Today
-                   select f;
+            try
+            {
+                return from f in _dragPlanObsCollection
+                       where f.Date <= DateTime.Today.AddDays(1) && f.Date >= DateTime.Today
+                       select f;
+            }
+            catch (ArgumentNullException argNullEx)
+            {
+                MessageBox.Show("При выполнении запроса произошла ошибка" + argNullEx);
+                throw;
+            }
         }
 
         private IEnumerable<XDragPlanVM> PlanDragPlan()
         {
-            return from f in _dragPlanObsCollection
-                   where f.Date >= DateTime.Today
-                   select f;
+            try 
+            {
+                return from f in _dragPlanObsCollection
+                       where f.Date >= DateTime.Today
+                       select f;
+            }
+
+            catch (ArgumentNullException argNullEx)
+            {
+                MessageBox.Show("При выполнении запроса произошла ошибка" + argNullEx);
+                throw;
+            }
         }
 
         /// <summary>
@@ -323,8 +374,8 @@ namespace SpaceDoctor.ViewModel
         internal void AddExam(XExamVM exam)
         {
             if (exam == null)
-                throw new ArgumentException("Арумент exam не может быть null");
-            else
+                throw new ArgumentException("Аргумент exam не может быть null");
+
             ExamsObsCollection.Add(exam);
         }
 
@@ -344,6 +395,7 @@ namespace SpaceDoctor.ViewModel
         {
             if (dragPlan == null)
                 throw new ArgumentException("Арумент dragPlan не может быть null");
+
             this._dragPlanObsCollection.Add(dragPlan);
         }
 
@@ -363,7 +415,6 @@ namespace SpaceDoctor.ViewModel
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 this.Client.ExamsCollection.Add(((XExamVM)e.NewItems[0]).Exam);
-
             }
 
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
@@ -414,13 +465,11 @@ namespace SpaceDoctor.ViewModel
         /// <param name="e"></param>
         private void _examsCVS_ArchiveFilter(object sender, FilterEventArgs e)
         {
-            e.Accepted = (((XExamVM)e.Item).Date < DateTime.Now);
+            
+            e.Accepted = (((XExamVM)e.Item).Date != null && ((XExamVM)e.Item).Date < DateTime.Now);
         }
 
-
-
         #endregion
-
 
 
     }

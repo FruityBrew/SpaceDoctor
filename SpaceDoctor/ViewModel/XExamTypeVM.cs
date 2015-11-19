@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 
 /***********************************************
-    Wrapper for the XExamType class.
+   c
     It contains a collection of related 
     types of parameters (XParamTypesVM).
 
@@ -17,6 +17,9 @@ using System.Windows.Data;
 
 namespace SpaceDoctor.ViewModel
 {
+    /// <summary>
+    /// Wrapper for the XExam class
+    /// </summary>
     public class XExamTypeVM : XViewModelBase
     {
 
@@ -34,8 +37,14 @@ namespace SpaceDoctor.ViewModel
         
         public XExamTypeVM(XExamType exType)
         {
+            if (exType == null)
+                throw new ArgumentNullException("Ссылка на объект XExamType не может быть null");
+
             _exType = exType;
             _paramTypeObsCollection = new ObservableCollection<XParamTypeVM>();
+
+            if (exType.ParamsCollection == null)
+                exType.ParamsCollection = new Collection<XParamType>();
 
             foreach (var v in exType.ParamsCollection)
                 _paramTypeObsCollection.Add(new XParamTypeVM(v));
@@ -70,10 +79,7 @@ namespace SpaceDoctor.ViewModel
                 if (String.IsNullOrEmpty(value))
                     throw new ArgumentException("Ребята, название не может быть пустым...");
                 else
-                {
                     ExType.Name = value;
-                    RaisePropertyChanged("Name");
-                }
             }
          }
 

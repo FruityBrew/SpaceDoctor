@@ -378,9 +378,9 @@ namespace SpaceDoctor.ViewModel
         private void SaveChange()
         {
 
-            Dal.DbContext.Database.Connection.Open();
+
             Dal.DbContext.SaveChanges();
-            Dal.DbContext.Database.Connection.Dispose();
+
         }
 
         

@@ -5,14 +5,14 @@ namespace SpaceDoctor.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SpaceDoctor.Model.XDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<SpaceDoctor.DAL.XDBContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(SpaceDoctor.Model.XDBContext context)
+        protected override void Seed(SpaceDoctor.DAL.XDBContext context)
         {
             //  This method will be called after migrating to the latest version.
 

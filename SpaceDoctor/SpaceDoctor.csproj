@@ -79,6 +79,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DAL\DAL.cs" />
+    <Compile Include="DAL\XDBContext.cs" />
     <Compile Include="Migrations\201510162114030_FirstMgr.cs" />
     <Compile Include="Migrations\201510162114030_FirstMgr.Designer.cs">
       <DependentUpon>201510162114030_FirstMgr.cs</DependentUpon>
@@ -120,7 +122,6 @@
       <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\DAL.cs" />
     <Compile Include="Model\XDrag.cs" />
     <Compile Include="Model\XDragKit.cs" />
     <Compile Include="Model\XDragPlan.cs" />
@@ -168,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\XClient.cs" />
-    <Compile Include="Model\XDBContext.cs" />
     <Compile Include="Model\XExam.cs" />
     <Compile Include="Model\XParamType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

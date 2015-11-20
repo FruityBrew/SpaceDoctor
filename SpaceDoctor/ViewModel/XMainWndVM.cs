@@ -34,7 +34,7 @@ namespace SpaceDoctor.ViewModel
      //   readonly XDinamicWindowVM _dinamicVM;
 
         //доступ к контексту БД:
-        readonly DAL _dal;
+        readonly DAL.DAL _dal;
 
         //Типы обследований:
         readonly ObservableCollection<XExamTypeVM> _examTypesObsCollection;
@@ -81,7 +81,7 @@ namespace SpaceDoctor.ViewModel
         {
             try 
             {
-                _dal = new DAL();
+                _dal = new DAL.DAL();
             }
             catch (System.Data.SqlClient.SqlException sqlEx)
             {
@@ -89,8 +89,6 @@ namespace SpaceDoctor.ViewModel
                 Environment.FailFast("Не могу соединиться с сервером");
             }
 
-            using (Dal.DbContext)
-            {
                 _hoursCollection = new Collection<Int32>();
                 for (int i = 0; i <= 24; i++)
                     _hoursCollection.Add(i);
@@ -138,7 +136,7 @@ namespace SpaceDoctor.ViewModel
                 _dragKitCVS.Source = _dragKitObsCollection;
                 _dragKitCVS.View.CurrentChanged += DragsKitView_CurrentChanged;
                 _dragKitObsCollection.CollectionChanged += _dragKitObsCollection_CollectionChanged;
-            }
+            
             ActualDate = DateTime.Now;
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
@@ -184,7 +182,7 @@ namespace SpaceDoctor.ViewModel
         }
 
 
-        internal DAL Dal
+        internal DAL.DAL Dal
         {
             get
             {
@@ -377,10 +375,7 @@ namespace SpaceDoctor.ViewModel
 
         private void SaveChange()
         {
-
-
             Dal.DbContext.SaveChanges();
-
         }
 
         

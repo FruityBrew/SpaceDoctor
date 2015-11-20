@@ -1,4 +1,5 @@
-﻿using SpaceDoctor.Model;
+﻿using SpaceDoctor.DAL;
+using SpaceDoctor.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,6 +28,7 @@ namespace SpaceDoctor.ViewModel
     public sealed class XMainWndVM : XViewModelBase
     {
 
+       // readonly XGenericRepository<XClient> _clientRepos;
         #region fields
 
         readonly XClientVM _client;
@@ -79,9 +81,15 @@ namespace SpaceDoctor.ViewModel
         #region ctors
         public XMainWndVM()
         {
+            // _clientRepos = new XGenericRepository<XClient>();
+            // IEnumerable<XClient> clientsRep = _clientRepos.ObjectSet;
+
+           
+
             try 
             {
                 _dal = new DAL.DAL();
+                IEnumerable<XClient> clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "ExamType.ParamsCollection", "DragPlanCollection.DragKit.DragCollection");
             }
             catch (System.Data.SqlClient.SqlException sqlEx)
             {

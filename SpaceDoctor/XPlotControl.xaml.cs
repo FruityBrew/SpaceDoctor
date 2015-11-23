@@ -11,13 +11,13 @@ namespace SpaceDoctor
     {
         public XPlotControl(XPlotVM plot)
         {
-             InitializeComponent();
+            InitializeComponent();
             //   this.Wnd.Title = title;
             DataContext = plot;
         }
-        public XPlotControl() 
+        public XPlotControl()
         {
             InitializeComponent();
-         }
+        }
     }
 }

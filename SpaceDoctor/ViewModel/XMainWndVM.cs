@@ -60,8 +60,6 @@ namespace SpaceDoctor.ViewModel
         //Новый набор лекарств:
         XDragKitVM _newDragKit;
 
-        //Новый план приема лекарств для добавления:
-        XDragPlanVM _actualDragPlan;
 
         //Часы и минуты для комбобокса выбра времени:
         readonly ICollection<Int32> _hoursCollection;
@@ -84,18 +82,18 @@ namespace SpaceDoctor.ViewModel
             // _clientRepos = new XGenericRepository<XClient>();
             // IEnumerable<XClient> clientsRep = _clientRepos.ObjectSet;
 
-           
 
-            try 
+
+            try
             {
-                _dal = new DAL.DAL();
-                IEnumerable<XClient> clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "ExamType.ParamsCollection", "DragPlanCollection.DragKit.DragCollection");
-            }
-            catch (System.Data.SqlClient.SqlException sqlEx)
-            {
-                MessageBox.Show("Не могу соединиться с сервером");
-                Environment.FailFast("Не могу соединиться с сервером");
-            }
+                _dal = new DAL.DAL("SpaceDoctorDB");
+                IEnumerable<XExam> examEnumerable = _dal.GetEntityCollection<XExam>("ParamsCollection");
+                IEnumerable<XClient> clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection");
+                IEnumerable<XExamType> exTypeEnumerable = _dal.GetEntityCollection<XExamType>("ParamsCollection");
+                IEnumerable<XDragKit> drKitEnumerable = _dal.GetEntityCollection<XDragKit>("DragCollection");
+                IEnumerable<XParamType> paramType = _dal.GetEntityCollection<XParamType>();
+                IEnumerable<XDrag> dragEnum = _dal.GetEntityCollection<XDrag>();
+
 
                 _hoursCollection = new Collection<Int32>();
                 for (int i = 0; i <= 24; i++)
@@ -108,7 +106,8 @@ namespace SpaceDoctor.ViewModel
 
                 //заполнить коллекции с типами обследований:
                 _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
-                foreach (var v in Dal.ExamTypesCollection)
+                //   foreach (var v in Dal.ExamTypesCollection)
+                foreach (var v in exTypeEnumerable)
                     _examTypesObsCollection.Add(new XExamTypeVM(v));
 
                 _examTypesCVS = new CollectionViewSource();
@@ -119,18 +118,21 @@ namespace SpaceDoctor.ViewModel
 
                 //заполнить коллекции с типами параметров:
                 _paramTypesObsCollection = new ObservableCollection<XParamTypeVM>();
-                foreach (var v in Dal.DbContext.ParamsTypes)
-                    _paramTypesObsCollection.Add(new XParamTypeVM(v));
+                // foreach (var v in Dal.DbContext.ParamsTypes)
+                 foreach (var v in paramType)
+
+                _paramTypesObsCollection.Add(new XParamTypeVM(v));
                 _paramTypesCVS = new CollectionViewSource();
                 _paramTypesCVS.Source = _paramTypesObsCollection;
                 _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
 
-                _client = new XClientVM(Dal.ClientCollection.First(cl => cl.Id == 1));
+                _client = new XClientVM(clientEnumerable.First(cl => cl.Id == 1));
 
 
                 //Список препаратов
                 _dragCollection = new ObservableCollection<XDragVM>();
-                foreach (var v in Dal.DbContext.Drags)
+                //foreach (var v in Dal.DbContext.Drags)
+                foreach (var v in dragEnum)
                     _dragCollection.Add(new XDragVM(v));
 
                 _dragsCVS = new CollectionViewSource();
@@ -138,17 +140,26 @@ namespace SpaceDoctor.ViewModel
 
                 //список лекарственныхНаборов:
                 _dragKitObsCollection = new ObservableCollection<XDragKitVM>();
-                foreach (var v in Dal.DragKitCollection)
-                    _dragKitObsCollection.Add(new XDragKitVM(v));
+                //   foreach (var v in Dal.DragKitCollection)
+                foreach (var v in drKitEnumerable)
+                _dragKitObsCollection.Add(new XDragKitVM(v));
+
                 _dragKitCVS = new CollectionViewSource();
                 _dragKitCVS.Source = _dragKitObsCollection;
                 _dragKitCVS.View.CurrentChanged += DragsKitView_CurrentChanged;
                 _dragKitObsCollection.CollectionChanged += _dragKitObsCollection_CollectionChanged;
-            
+            }
+
+            catch (System.Data.SqlClient.SqlException sqlEx)
+            {
+                MessageBox.Show("Не могу соединиться с сервером");
+                Environment.FailFast("Не могу соединиться с сервером");
+            }
+
             ActualDate = DateTime.Now;
 
             CreateNewExamCommand = new XCommand(CreateNewExam);
-            SaveChangesCommand = new XCommand(SaveChange);
+            SaveChangesCommand = new XCommand(SaveChanges);
             AddNewExamToPlanCommand = new XCommand(AddNewExamToPlan);
             CreateNewExamTypeCommand = new XCommand(CreateNewExamType);
             SaveNewExamTypeCommand = new XCommand(SaveNewExamType);
@@ -351,7 +362,24 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public DateTime ActualDate
+        {
+            get
+            {
+                return _actualDate;
+            }
 
+            set
+            {
+                _actualDate = value;
+            }
+        }
+
+        public object FailFast
+        {
+            get;
+            private set;
+        }
         #endregion
 
         #region methods
@@ -375,15 +403,15 @@ namespace SpaceDoctor.ViewModel
             XDragPlanVM newDragPlan = new XDragPlanVM(SelectedDragsKit);
             newDragPlan.Date = new DateTime(ActualDate.Date.Year, ActualDate.Date.Month, ActualDate.Date.Day, Hour, Minutes, 0);
             Client.AddDragPlan(newDragPlan);
-            Dal.DbContext.SaveChanges();
+            SaveChanges();
 
             ActualDate = DateTime.Now;
             RaisePropertyChanged("ActualDate");
         }
 
-        private void SaveChange()
+        private void SaveChanges()
         {
-            Dal.DbContext.SaveChanges();
+            Dal.SaveChanges();
         }
 
         
@@ -395,8 +423,8 @@ namespace SpaceDoctor.ViewModel
 
             XExamVM newEx = new XExamVM(this.SelectedExamType);
             newEx.Date = new DateTime(ActualDate.Date.Year, ActualDate.Date.Month, ActualDate.Date.Day, Hour, Minutes, 0);
-            _client.AddExam(newEx);
-            Dal.DbContext.SaveChanges();
+            Client.AddExam(newEx);
+            SaveChanges();
 
             ActualDate = DateTime.Now;
             RaisePropertyChanged("ActualDate");
@@ -426,7 +454,7 @@ namespace SpaceDoctor.ViewModel
             }
 
             ParamTypesCVSView.Refresh();
-            Dal.DbContext.SaveChanges();
+            SaveChanges();
 
         }
 
@@ -445,7 +473,7 @@ namespace SpaceDoctor.ViewModel
             }
 
             DragsKitCVSView.Refresh();
-            Dal.DbContext.SaveChanges();
+            SaveChanges();
         }
 
         /// <summary>
@@ -453,7 +481,7 @@ namespace SpaceDoctor.ViewModel
         /// </summary>
         private void DeleteExamFromPlan()
         {
-            Dal.RemoveExam(Client.SelectedExamFromPlan.Exam);
+            Dal.DeleteObject<XExam>(Client.SelectedExamFromPlan.Exam);
 
             Client.DeleteExam(Client.SelectedExamFromPlan);
         }
@@ -474,7 +502,6 @@ namespace SpaceDoctor.ViewModel
         internal XPlotControl  AddWnd()
         {
              return new XPlotControl(CreatePlot());
-
         }
 
         private XPlotVM CreatePlot()
@@ -499,11 +526,10 @@ namespace SpaceDoctor.ViewModel
         {
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                Dal.DbContext.ExamsType.Add(((XExamTypeVM)e.NewItems[0]).ExType);
+                Dal.AddObject<XExamType>(((XExamTypeVM)e.NewItems[0]).ExType);
                 ExamTypesCVSView.MoveCurrentTo(e.NewItems[0]);
                
                 RaisePropertyChanged("SelectedExamType");
-
             }
         }
 
@@ -517,7 +543,7 @@ namespace SpaceDoctor.ViewModel
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
                 {
-                     Dal.DbContext.DragKits.Add(((XDragKitVM)e.NewItems[0]).DragKit);
+                    Dal.AddObject<XDragKit>(((XDragKitVM)e.NewItems[0]).DragKit);
                 }
         }
 
@@ -544,30 +570,8 @@ namespace SpaceDoctor.ViewModel
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
 
-        public DateTime ActualDate
-        {
-            get
-            {
-                return _actualDate;
-            }
-
-            set
-            {
-                _actualDate = value;
-            }
-        }
-
-        public object FailFast
-        {
-            get;
-            private set;
-        }
-
-
-
 
 
         #endregion
-
     }
 }

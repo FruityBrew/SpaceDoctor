@@ -145,7 +145,7 @@
 
                             <DataGrid x:Name="XDataGridNEWExParamTypes" Grid.Row="1" ItemsSource="{Binding ParamTypesCVSView}" Visibility="Hidden" Style="{StaticResource DataGridStyle}" IsReadOnly="False" CanUserAddRows="True" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}"/>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, TargetNullValue=[Введите название] }"  EditingElementStyle="{StaticResource TextBoxStyle}"/>
                                     <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
                                     <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectToNewExam}"/>
                                 </DataGrid.Columns>

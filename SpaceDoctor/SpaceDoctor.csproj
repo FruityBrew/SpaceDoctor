@@ -80,9 +80,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DAL\DAL.cs" />
-    <Compile Include="DAL\IGenericRepository.cs" />
     <Compile Include="DAL\XDBContext.cs" />
-    <Compile Include="DAL\XGenericRepository.cs" />
     <Compile Include="Migrations\201510162114030_FirstMgr.cs" />
     <Compile Include="Migrations\201510162114030_FirstMgr.Designer.cs">
       <DependentUpon>201510162114030_FirstMgr.cs</DependentUpon>
@@ -144,7 +142,6 @@
     <Compile Include="ViewModel\XParamTypeVM.cs" />
     <Compile Include="ViewModel\XParamVM.cs" />
     <Compile Include="ViewModel\XPlotVM.cs" />
-    <Compile Include="ViewModel\XTestClassDragKit.cs" />
     <Compile Include="ViewModel\XViewModelBase.cs" />
     <Compile Include="XPlotControl.xaml.cs">
       <DependentUpon>XPlotControl.xaml</DependentUpon>

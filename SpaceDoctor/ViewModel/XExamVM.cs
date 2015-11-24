@@ -106,7 +106,7 @@ namespace SpaceDoctor.ViewModel
             get 
             { 
                 return Date.ToString("H:mm");
-             }
+            }
         }
 
         public XExamTypeVM ExamType

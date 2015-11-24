@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SpaceDoctor.Model;
 using System;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Objects;
@@ -9,36 +8,17 @@ namespace SpaceDoctor.DAL
     internal class DAL
     {
         readonly XDBContext _dbContext;
+        readonly ObjectContext _objContext;
 
-        IEnumerable<XClient> _clientCollection;
-        IEnumerable<XExamType> _examTypesCollection;
-        IEnumerable<XDragKit> _dragKitCollection;
-
-
-        public DAL()
+        public DAL(String connectionName)
         {
-
-            _dbContext = new XDBContext();
             
-            //загрузить сразу все навигац. свойства клиента:
-            var v = _dbContext.Clients
-                                .Include("ExamsCollection.ParamsCollection")
-                                .Include("ExamsCollection.ExamType")
-                                .Include("ExamsCollection.ExamType.ParamsCollection")
-                                .Include("DragPlanCollection.DragKit.DragCollection");
-
-
-            var va = _dbContext.ExamsType.Include("ParamsCollection");
-            var vd = _dbContext.DragKits.Include("DragCollection");
-
-            _clientCollection = v;
-            _examTypesCollection = va;
-            _dragKitCollection = vd;
-     
+            _dbContext = new XDBContext(connectionName);
+            _objContext = ((IObjectContextAdapter)_dbContext).ObjectContext;
         }
 
 
-        public XDBContext DbContext
+        private XDBContext DbContext
         {
             get
             {
@@ -46,61 +26,64 @@ namespace SpaceDoctor.DAL
             }
         }
 
-        public IEnumerable<XClient> ClientCollection
+
+        private  ObjectContext ObjContext
         {
             get
             {
-                return _clientCollection;
+                return _objContext;
             }
         }
 
-        public IEnumerable<XExamType> ExamTypesCollection
-        {
-            get
-            {
-                return _examTypesCollection;
-            }
-        }
-
-        public IEnumerable<XDragKit> DragKitCollection
-        {
-            get
-            {
-                return _dragKitCollection;
-            }
-        }
-
+        /// <summary>
+        /// Возвращает коллекцию объектов типа <T> контекста БД  
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="properties">Имена навигационных свойств</param>
+        /// <returns></returns>
         public IEnumerable<T> GetEntityCollection<T>(params String [] properties) where T : class
         {
-            ObjectContext objContext = ((IObjectContextAdapter)_dbContext).ObjectContext;
-            objContext.ContextOptions.LazyLoadingEnabled = true;
-            var v = objContext.CreateObjectSet<T>();
-            
 
+            var v = ObjContext.CreateObjectSet<T>();
+            
             foreach(var prop in properties)
             {
                 LoadProperty<T>(v, prop);
             }
 
-            IEnumerable<T> ienum = v;
-
-            return ienum;
+            return v;
         }
 
-        public void LoadProperty<T> (IEnumerable<T> ienum, String propertyName) 
+        /// <summary>
+        /// Загружает навигационные свойства объекта
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ienum">коллекция объектов</param>
+        /// <param name="propertyName">Имя навигационного свойства</param>
+        private void LoadProperty<T> (IEnumerable<T> ienum, String propertyName) 
         {
             foreach(var v in ienum)
             {
-                ((IObjectContextAdapter)_dbContext).ObjectContext.LoadProperty(v, propertyName);
+                 ObjContext.LoadProperty(v, propertyName);
             }
         }
 
-        internal void RemoveExam(XExam examToRemove)
+
+        internal void DeleteObject<T>(object entity) 
         {
-            DbContext.Parameters.RemoveRange(examToRemove.ParamsCollection);
-            DbContext.Exams.Remove(examToRemove);
+            ObjContext.DeleteObject(entity);
+            SaveChanges();  
         }
 
 
+        internal void SaveChanges()
+        {
+            DbContext.SaveChanges();
+        }
+
+        internal void AddObject<T>(T entity)  where T : class
+        {
+            ObjContext.CreateObjectSet<T>().AddObject(entity);
+        }
     }
 }

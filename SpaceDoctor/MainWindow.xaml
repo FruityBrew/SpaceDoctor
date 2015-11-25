@@ -8,7 +8,7 @@
         xmlns:src="clr-namespace:SpaceDoctor.ViewModel"
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:mdi="clr-namespace:WPF.MDI;assembly=WPF.MDI"
-        Title="SpaceDoctor" Height="750" Width="1000" MinWidth="1000" MinHeight="750">
+        Title="SpaceDoctor" Height="750" Width="1000" MinWidth="1000" MinHeight="750" Closed="Window_Closed">
     <Window.Resources>
         <src:XDateConverter x:Key="DateConverter" ></src:XDateConverter>
     </Window.Resources>

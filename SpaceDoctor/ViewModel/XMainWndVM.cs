@@ -33,10 +33,8 @@ namespace SpaceDoctor.ViewModel
 
         readonly XClientVM _client;
 
-     //   readonly XDinamicWindowVM _dinamicVM;
-
         //доступ к контексту БД:
-        readonly DAL.DAL _dal;
+        readonly XDAL _dal;
 
         //Типы обследований:
         readonly ObservableCollection<XExamTypeVM> _examTypesObsCollection;
@@ -79,15 +77,12 @@ namespace SpaceDoctor.ViewModel
         #region ctors
         public XMainWndVM()
         {
-            // _clientRepos = new XGenericRepository<XClient>();
-            // IEnumerable<XClient> clientsRep = _clientRepos.ObjectSet;
-
-
 
             try
             {
-                _dal = new DAL.DAL("SpaceDoctorDB");
-                IEnumerable<XExam> examEnumerable = _dal.GetEntityCollection<XExam>("ParamsCollection");
+                _dal = new XDAL("SpaceDoctorDB");
+
+                IEnumerable<XExam> examEnumerable = Dal.GetEntityCollection<XExam>("ParamsCollection");
                 IEnumerable<XClient> clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection");
                 IEnumerable<XExamType> exTypeEnumerable = _dal.GetEntityCollection<XExamType>("ParamsCollection");
                 IEnumerable<XDragKit> drKitEnumerable = _dal.GetEntityCollection<XDragKit>("DragCollection");
@@ -95,18 +90,8 @@ namespace SpaceDoctor.ViewModel
                 IEnumerable<XDrag> dragEnum = _dal.GetEntityCollection<XDrag>();
 
 
-                _hoursCollection = new Collection<Int32>();
-                for (int i = 0; i <= 24; i++)
-                    _hoursCollection.Add(i);
-
-                _minutesCollection = new Collection<Int32>();
-                for (int i = 0; i < 60; i += 5)
-                    _minutesCollection.Add(i);
-
-
                 //заполнить коллекции с типами обследований:
                 _examTypesObsCollection = new ObservableCollection<XExamTypeVM>();
-                //   foreach (var v in Dal.ExamTypesCollection)
                 foreach (var v in exTypeEnumerable)
                     _examTypesObsCollection.Add(new XExamTypeVM(v));
 
@@ -118,7 +103,6 @@ namespace SpaceDoctor.ViewModel
 
                 //заполнить коллекции с типами параметров:
                 _paramTypesObsCollection = new ObservableCollection<XParamTypeVM>();
-                // foreach (var v in Dal.DbContext.ParamsTypes)
                  foreach (var v in paramType)
 
                 _paramTypesObsCollection.Add(new XParamTypeVM(v));
@@ -131,7 +115,6 @@ namespace SpaceDoctor.ViewModel
 
                 //Список препаратов
                 _dragCollection = new ObservableCollection<XDragVM>();
-                //foreach (var v in Dal.DbContext.Drags)
                 foreach (var v in dragEnum)
                     _dragCollection.Add(new XDragVM(v));
 
@@ -140,7 +123,6 @@ namespace SpaceDoctor.ViewModel
 
                 //список лекарственныхНаборов:
                 _dragKitObsCollection = new ObservableCollection<XDragKitVM>();
-                //   foreach (var v in Dal.DragKitCollection)
                 foreach (var v in drKitEnumerable)
                 _dragKitObsCollection.Add(new XDragKitVM(v));
 
@@ -152,9 +134,19 @@ namespace SpaceDoctor.ViewModel
 
             catch (System.Data.SqlClient.SqlException sqlEx)
             {
-                MessageBox.Show("Не могу соединиться с сервером");
+                MessageBox.Show("Не могу соединиться с сервером");           
                 Environment.FailFast("Не могу соединиться с сервером");
             }
+
+
+            _hoursCollection = new Collection<Int32>();
+            for (int i = 0; i < 24; i++)
+                _hoursCollection.Add(i);
+
+            _minutesCollection = new Collection<Int32>();
+            for (int i = 0; i < 60; i += 5)
+                _minutesCollection.Add(i);
+
 
             ActualDate = DateTime.Now;
 
@@ -201,7 +193,7 @@ namespace SpaceDoctor.ViewModel
         }
 
 
-        internal DAL.DAL Dal
+        internal XDAL Dal
         {
             get
             {
@@ -243,8 +235,6 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        public DateTime Day { get; set; }
-
         public int Hour
         {
             get
@@ -254,6 +244,8 @@ namespace SpaceDoctor.ViewModel
 
             set
             {
+                if (value > 23 || value < 0)
+                    throw new ArgumentException("Значение не в пределах допустимого диапозона");
                 _hour = value;
             }
         }
@@ -267,6 +259,8 @@ namespace SpaceDoctor.ViewModel
 
             set
             {
+                if (value > 59 || value < 0)
+                    throw new ArgumentOutOfRangeException("Значение не в пределах допустимого диапозона");
                 _minutes = value;
             }
         }
@@ -296,6 +290,7 @@ namespace SpaceDoctor.ViewModel
 
             set
             {
+
                 _newExam = value;
             }
         }
@@ -326,6 +321,8 @@ namespace SpaceDoctor.ViewModel
 
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException();
                 _newDragKit = value;
             }
         }
@@ -342,6 +339,8 @@ namespace SpaceDoctor.ViewModel
 
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException();
                 _dateFrom = value;
             }
         }
@@ -358,6 +357,8 @@ namespace SpaceDoctor.ViewModel
 
             set
             {
+                if (value == null)
+                    throw new ArgumentNullException();
                 _dateTo = value;
             }
         }
@@ -371,7 +372,12 @@ namespace SpaceDoctor.ViewModel
 
             set
             {
-                _actualDate = value;
+                if(value < DateTime.Today)
+                    {
+                        MessageBox.Show("Некорректная дата. Введите сегодняшнюю или будующую дату");
+                    }
+                    else
+                        _actualDate = value;
             }
         }
 
@@ -411,10 +417,39 @@ namespace SpaceDoctor.ViewModel
 
         private void SaveChanges()
         {
-            Dal.SaveChanges();
+            try 
+            {
+                
+                Dal.SaveChanges();
+            }
+
+            catch(System.Data.Entity.Validation.DbEntityValidationException validationEx)
+            {
+                MessageBox.Show("Невозможно сохранить изменения" + validationEx.Message);
+            }
+
+            catch(System.Data.Entity.Infrastructure.DbUpdateException dbUpdateEx)
+            {
+                MessageBox.Show("Невозможно сохранить изменения" + dbUpdateEx.Message);
+            }
+
+            catch (System.ObjectDisposedException disposedEx)
+            {
+                Dal.Dispose();
+                MessageBox.Show("Невозможно сохранить изменения. Приложение будет перезапущено" + disposedEx.Message);
+                System.Windows.Forms.Application.Restart();
+            }
+
+            catch (System.InvalidOperationException invalidOpEx)
+            {
+                Dal.Dispose();
+                MessageBox.Show("Невозможно сохранить изменения. Приложение будет перезапущено" + invalidOpEx.Message);
+                System.Windows.Forms.Application.Restart();
+            }
+
         }
 
-        
+
         /// <summary>
         /// Добавляет новое обследование выбранного типа в План
         /// </summary>
@@ -482,8 +517,8 @@ namespace SpaceDoctor.ViewModel
         private void DeleteExamFromPlan()
         {
             Dal.DeleteObject<XExam>(Client.SelectedExamFromPlan.Exam);
-
             Client.DeleteExam(Client.SelectedExamFromPlan);
+            SaveChanges();
         }
 
         /// <summary>
@@ -554,7 +589,6 @@ namespace SpaceDoctor.ViewModel
         }
 
 
-
         #endregion
 
         #region commands 
@@ -569,8 +603,6 @@ namespace SpaceDoctor.ViewModel
         public XCommand CreateNewDragKitCommand { get; set; }
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
-
-
 
         #endregion
     }

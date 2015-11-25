@@ -394,7 +394,7 @@ namespace SpaceDoctor.ViewModel
         internal void AddDragPlan(XDragPlanVM dragPlan)
         {
             if (dragPlan == null)
-                throw new ArgumentException("Арумент dragPlan не может быть null");
+                throw new ArgumentException("Аргумент dragPlan не может быть null");
 
             this._dragPlanObsCollection.Add(dragPlan);
         }

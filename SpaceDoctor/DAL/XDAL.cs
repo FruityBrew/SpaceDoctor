@@ -3,17 +3,20 @@ using System;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Objects;
 
-namespace SpaceDoctor.DAL
-{
-    internal class DAL
-    {
-        readonly XDBContext _dbContext;
-        readonly ObjectContext _objContext;
 
-        public DAL(String connectionName)
+namespace SpaceDoctor.DAL 
+{
+    internal class XDAL : IDisposable
+    {
+        XDBContext _dbContext;
+        readonly ObjectContext _objContext;
+        readonly String _connection;
+
+        public XDAL(String connectionName)
         {
-            
+            _connection = connectionName;
             _dbContext = new XDBContext(connectionName);
+
             _objContext = ((IObjectContextAdapter)_dbContext).ObjectContext;
         }
 
@@ -23,6 +26,10 @@ namespace SpaceDoctor.DAL
             get
             {
                 return _dbContext;
+            }
+            set
+            {
+                _dbContext = value;
             }
         }
 
@@ -69,21 +76,28 @@ namespace SpaceDoctor.DAL
         }
 
 
-        internal void DeleteObject<T>(object entity) 
+        internal void DeleteObject<T>(T entity) 
         {
-            ObjContext.DeleteObject(entity);
-            SaveChanges();  
+
+                ObjContext.DeleteObject(entity);
+            
         }
 
 
         internal void SaveChanges()
         {
-            DbContext.SaveChanges();
+          //  Dispose();
+             DbContext.SaveChanges();
         }
 
         internal void AddObject<T>(T entity)  where T : class
         {
             ObjContext.CreateObjectSet<T>().AddObject(entity);
+        }
+
+        public void Dispose()
+        {
+            DbContext.Dispose();
         }
     }
 }

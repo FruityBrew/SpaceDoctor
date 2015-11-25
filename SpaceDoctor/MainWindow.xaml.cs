@@ -89,5 +89,10 @@ namespace SpaceDoctor
                 MessageBox.Show(e.Error.ErrorContent.ToString());
             }
         }
+
+        private void Window_Closed(object sender, System.EventArgs e)
+        {
+            _wndVM.Dal.Dispose();
+        }
     }
 }

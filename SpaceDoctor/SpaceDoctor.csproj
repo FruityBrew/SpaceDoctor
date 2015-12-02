@@ -136,7 +136,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="View\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
@@ -189,9 +189,6 @@
     <Compile Include="Model\XExamType.cs" />
     <Compile Include="Model\XGCalendarAccess.cs" />
     <Compile Include="Model\XParam.cs" />
-    <Compile Include="SubWindow.xaml.cs">
-      <DependentUpon>SubWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\XClientVM.cs" />
     <Compile Include="ViewModel\XCommand.cs" />
     <Compile Include="ViewModel\XDateConverter.cs" />
@@ -205,26 +202,29 @@
     <Compile Include="ViewModel\XParamVM.cs" />
     <Compile Include="ViewModel\XPlotVM.cs" />
     <Compile Include="ViewModel\XViewModelBase.cs" />
-    <Compile Include="XPlotControl.xaml.cs">
+    <Compile Include="View\XPlotControl.xaml.cs">
       <DependentUpon>XPlotControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="View\XProfileWindow.xaml.cs">
+      <DependentUpon>XProfileWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="View\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SubWindow.xaml">
+    <Page Include="View\XPlotControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="XPlotControl.xaml">
+    <Page Include="View\XProfileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

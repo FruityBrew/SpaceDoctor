@@ -50,7 +50,6 @@ namespace SpaceDoctor.DAL
         /// <returns></returns>
         public IEnumerable<T> GetEntityCollection<T>(params String [] properties) where T : class
         {
-
             var v = ObjContext.CreateObjectSet<T>();
             
             foreach(var prop in properties)
@@ -78,9 +77,7 @@ namespace SpaceDoctor.DAL
 
         internal void DeleteObject<T>(T entity) 
         {
-
-                ObjContext.DeleteObject(entity);
-            
+            ObjContext.DeleteObject(entity);        
         }
 
 

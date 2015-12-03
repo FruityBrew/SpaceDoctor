@@ -20,8 +20,8 @@ namespace SpaceDoctor.DAL
 
         static XGenericRepository()
         {
-            XDBContext con = new XDBContext();
-            _objectContext = ((IObjectContextAdapter)con).ObjectContext;
+          //  XDBContext con = new XDBContext();
+           // _objectContext = ((IObjectContextAdapter)con).ObjectContext;
         }
 
         public XGenericRepository()

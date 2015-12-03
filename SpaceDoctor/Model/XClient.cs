@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using Attr = System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace SpaceDoctor.Models
+namespace SpaceDoctor.Model
 {
 
     [Attr.Schema.Table("Clients")]
@@ -29,10 +29,12 @@ namespace SpaceDoctor.Models
         [DisplayName("Обследования")]
         public ICollection<XExam> ExamsCollection { get; set; }
 
+        public ICollection<XDragPlan> DragPlanCollection { get; set; }
+       
         public XClient()
         {
             ExamsCollection = new Collection<XExam>();
-            
-        }
+            DragPlanCollection = new Collection<XDragPlan>();         
+       }
     }
 }

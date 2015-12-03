@@ -1,0 +1,64 @@
+﻿<Application x:Class="SpaceDoctor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SpaceDoctor"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources> 
+        <Style x:Name="XColors" x:Key="XStyleToButton" TargetType="Button" >
+            <Setter Property="Background" Value="LightSteelBlue" />
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="BorderBrush" Value="AliceBlue"/>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Width" Value="100"></Setter>
+        </Style>
+
+        <Style x:Name="dw" x:Key="XStyleToTab" TargetType="TabItem">
+            <Setter Property="Background" Value="LightBlue" />
+            <Setter Property="Width" Value="125"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderBrush" Value="AliceBlue"/>                          
+        </Style>
+
+        <Style x:Key="DataGridStyle" TargetType="DataGrid">
+            <Setter Property="IsSynchronizedWithCurrentItem" Value="True"></Setter>
+            <Setter Property="AutoGenerateColumns" Value="False"></Setter>
+            <Setter Property="Background" Value="AliceBlue"></Setter>
+            <Setter Property="BorderBrush" Value="LightBlue"></Setter>
+            <Setter Property="RowBackground" Value="AliceBlue"> </Setter>
+            <Setter Property="VerticalGridLinesBrush" Value="LightBlue"> </Setter>
+            <Setter Property="HorizontalGridLinesBrush" Value="LightBlue"></Setter>
+            <Setter Property="CellStyle" Value="{DynamicResource CellSt}"></Setter>
+            <Setter Property="CanUserSortColumns" Value="False"></Setter>
+        </Style>
+        
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"></Setter>
+                    <Setter Property="Background" Value="Red"/>
+                 </Trigger>
+                <Trigger Property="Validation.HasError" Value="False" >
+                    <Setter Property="Background" Value="LightCyan"/>         
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="CellSt" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="BlanchedAlmond"></Setter>
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"> 
+                
+            </Setter>
+        </Style>
+        
+        <DataTemplate x:Key="dw" DataType="local:XPlotControl" ></DataTemplate>
+        
+    </Application.Resources>
+</Application>

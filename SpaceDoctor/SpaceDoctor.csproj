@@ -14,6 +14,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,9 +45,76 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Google.Apis, Version=1.9.2.27817, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.9.2\lib\net40\Google.Apis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.9.2.27817, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.9.2\lib\net40\Google.Apis.Auth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.9.2.27820, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.9.2\lib\net40\Google.Apis.Auth.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Calendar.v3, Version=1.9.2.153, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Calendar.v3.1.9.2.1530\lib\portable-net40+sl50+win+wpa81+wp80\Google.Apis.Calendar.v3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.9.2.27816, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.9.2\lib\portable-net40+sl50+win+wpa81+wp80\Google.Apis.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.9.2.27818, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.9.2\lib\net40\Google.Apis.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0-unstable1868\lib\net45\OxyPlot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable1868\lib\net45\OxyPlot.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OxyPlot.Xps, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0-unstable1868\lib\net45\OxyPlot.Xps.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,32 +127,117 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPF.MDI">
+      <HintPath>..\..\..\..\OneDrive\_Код\FB_Lib\WPF.MDI.dll</HintPath>
+    </Reference>
+    <Reference Include="Zlib.Portable, Version=1.11.0.0, Culture=neutral, PublicKeyToken=431cba815f6a8b5b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zlib.Portable.Signed.1.11.0\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="View\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="DAL\XDAL.cs" />
+    <Compile Include="DAL\XDBContext.cs" />
+    <Compile Include="Migrations\201510162114030_FirstMgr.cs" />
+    <Compile Include="Migrations\201510162114030_FirstMgr.Designer.cs">
+      <DependentUpon>201510162114030_FirstMgr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510171711273_5ЕфидуыВИ.cs" />
+    <Compile Include="Migrations\201510171711273_5ЕфидуыВИ.Designer.cs">
+      <DependentUpon>201510171711273_5ЕфидуыВИ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510171715392_5TablesDB.cs" />
+    <Compile Include="Migrations\201510171715392_5TablesDB.Designer.cs">
+      <DependentUpon>201510171715392_5TablesDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510200956423_AddedTablesForDragsLogic.cs" />
+    <Compile Include="Migrations\201510200956423_AddedTablesForDragsLogic.Designer.cs">
+      <DependentUpon>201510200956423_AddedTablesForDragsLogic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510220758576_ChangedColumnTypeDateTime2.cs" />
+    <Compile Include="Migrations\201510220758576_ChangedColumnTypeDateTime2.Designer.cs">
+      <DependentUpon>201510220758576_ChangedColumnTypeDateTime2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510261839302_Add_XExamsType_N-N_XParamsType_relation.cs" />
+    <Compile Include="Migrations\201510261839302_Add_XExamsType_N-N_XParamsType_relation.Designer.cs">
+      <DependentUpon>201510261839302_Add_XExamsType_N-N_XParamsType_relation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510271146482_AddColumnIdExamIntoParam.cs" />
+    <Compile Include="Migrations\201510271146482_AddColumnIdExamIntoParam.Designer.cs">
+      <DependentUpon>201510271146482_AddColumnIdExamIntoParam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510290800103_AddRowFormIntoDrags.cs" />
+    <Compile Include="Migrations\201510290800103_AddRowFormIntoDrags.Designer.cs">
+      <DependentUpon>201510290800103_AddRowFormIntoDrags.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511180922598_NullableParamValue.cs" />
+    <Compile Include="Migrations\201511180922598_NullableParamValue.Designer.cs">
+      <DependentUpon>201511180922598_NullableParamValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511180953300_AddNotNullFields.cs" />
+    <Compile Include="Migrations\201511180953300_AddNotNullFields.Designer.cs">
+      <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512021049191_AddRegDataTable.cs" />
+    <Compile Include="Migrations\201512021049191_AddRegDataTable.Designer.cs">
+      <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\XDrag.cs" />
+    <Compile Include="Model\XDragKit.cs" />
+    <Compile Include="Model\XDragPlan.cs" />
+    <Compile Include="Model\XExamType.cs" />
+    <Compile Include="Model\XGCalendarAccess.cs" />
+    <Compile Include="Model\XParam.cs" />
+    <Compile Include="Model\XRegData.cs" />
+    <Compile Include="ViewModel\XClientVM.cs" />
+    <Compile Include="ViewModel\XCommand.cs" />
+    <Compile Include="ViewModel\XDateConverter.cs" />
+    <Compile Include="ViewModel\XDragKitVM.cs" />
+    <Compile Include="ViewModel\XDragPlanVM.cs" />
+    <Compile Include="ViewModel\XDragVM.cs" />
+    <Compile Include="ViewModel\XExamTypeVM.cs" />
+    <Compile Include="ViewModel\XExamVM.cs" />
+    <Compile Include="ViewModel\XMainWndVM.cs" />
+    <Compile Include="ViewModel\XParamTypeVM.cs" />
+    <Compile Include="ViewModel\XParamVM.cs" />
+    <Compile Include="ViewModel\XPlotVM.cs" />
+    <Compile Include="ViewModel\XViewModelBase.cs" />
+    <Compile Include="View\XPlotControl.xaml.cs">
+      <DependentUpon>XPlotControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\XProfileWindow.xaml.cs">
+      <DependentUpon>XProfileWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="View\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\XPlotControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\XProfileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\XBloodParam.cs" />
     <Compile Include="Model\XClient.cs" />
-    <Compile Include="Model\XDBContext.cs" />
     <Compile Include="Model\XExam.cs" />
-    <Compile Include="Model\XObjParam.cs" />
-    <Compile Include="Model\XParams.cs" />
+    <Compile Include="Model\XParamType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,6 +251,39 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\201510162114030_FirstMgr.resx">
+      <DependentUpon>201510162114030_FirstMgr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510171711273_5ЕфидуыВИ.resx">
+      <DependentUpon>201510171711273_5ЕфидуыВИ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510171715392_5TablesDB.resx">
+      <DependentUpon>201510171715392_5TablesDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510200956423_AddedTablesForDragsLogic.resx">
+      <DependentUpon>201510200956423_AddedTablesForDragsLogic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510220758576_ChangedColumnTypeDateTime2.resx">
+      <DependentUpon>201510220758576_ChangedColumnTypeDateTime2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510261839302_Add_XExamsType_N-N_XParamsType_relation.resx">
+      <DependentUpon>201510261839302_Add_XExamsType_N-N_XParamsType_relation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510271146482_AddColumnIdExamIntoParam.resx">
+      <DependentUpon>201510271146482_AddColumnIdExamIntoParam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510290800103_AddRowFormIntoDrags.resx">
+      <DependentUpon>201510290800103_AddRowFormIntoDrags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511180922598_NullableParamValue.resx">
+      <DependentUpon>201511180922598_NullableParamValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511180953300_AddNotNullFields.resx">
+      <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512021049191_AddRegDataTable.resx">
+      <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -109,12 +296,19 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

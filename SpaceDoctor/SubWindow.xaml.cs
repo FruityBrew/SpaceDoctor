@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceDoctor.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,17 @@ using System.Windows.Shapes;
 namespace SpaceDoctor
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для SubWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SubWindow : UserControl
     {
-        public MainWindow()
+        
+        public SubWindow(XPlotVM plot)
         {
             InitializeComponent();
+            //   this.Wnd.Title = title;
+            DataContext = plot;
+
         }
     }
 }

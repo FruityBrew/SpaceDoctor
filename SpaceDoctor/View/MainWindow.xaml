@@ -1,0 +1,453 @@
+﻿<Window x:Class="SpaceDoctor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SpaceDoctor"
+        mc:Ignorable="d"
+        xmlns:src="clr-namespace:SpaceDoctor.ViewModel"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:mdi="clr-namespace:WPF.MDI;assembly=WPF.MDI"
+        Title="SpaceDoctor" Height="750" Width="1000" MinWidth="1000" MinHeight="750" Closed="Window_Closed">
+    <Window.Resources>
+        <src:XDateConverter x:Key="DateConverter" ></src:XDateConverter>
+    </Window.Resources>
+
+    <Grid Background="AliceBlue">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="XButtonHelth" Grid.Column="0" Content="Здоровье" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
+            <Button x:Name="XProfile" Grid.Column="1" Content="Профиль" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
+        </Grid>
+        <Grid Grid.Row="2">
+
+            <TabControl x:Name="XTabControl" HorizontalAlignment="Stretch" Margin="3" VerticalAlignment="Stretch" Background="AliceBlue" >
+                <TabItem x:Name="XTabItemToday" Header="Сегодня" Style="{StaticResource XStyleToTab}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
+                            <RowDefinition Height="1"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="250*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="200*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="XLabelNameListviewExams" Content="Запланированные обследования на сегодня:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+
+                        <DataGrid x:Name="XDataGridExam" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Client.TodayExamsCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Тип обследования" Binding="{Binding Name}" ElementStyle="{StaticResource TextBlockStyle}"  IsReadOnly="True" />
+                                <DataGridTextColumn Header="Время обследования" Binding="{Binding Path=TimeExam}" ElementStyle="{StaticResource TextBlockStyle}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridExamParamsToday" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromToday.ParamCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" ElementStyle="{StaticResource TextBlockStyle}"  IsReadOnly="True"/>
+                                <DataGridTextColumn x:Uid="XDataGridColumnVALUE" Header="Значение" Binding="{Binding Value, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
+                                <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                        <Button x:Name="XButtonExamSaveToday" Command="{Binding SaveChangesCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+
+                        <Label  Content="Прием лекарств на сегодня:" Grid.Row="4" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+
+                        <DataGrid x:Name="XDataGridDragPlanToday" Grid.Row="5" Grid.Column="0" ItemsSource="{Binding Client.TodayDragPlanCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Набор" Binding="{Binding DragKit.Name}" ElementStyle="{StaticResource TextBlockStyle}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Время приема" Binding="{Binding TimePlan}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridDragsToday" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Client.SelectedDragPlanFromToday.DragKit.DragsCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Name}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Форма" Binding="{Binding Form}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </TabItem>
+                <TabItem  Style="{StaticResource XStyleToTab}">
+                    <TabItem.Header>
+                        <TextBlock TextWrapping="Wrap" Text="Планирование обследований" TextAlignment="Center"></TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200*"></ColumnDefinition>
+                            <ColumnDefinition Width="250*"></ColumnDefinition>
+                            <ColumnDefinition Width="350"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="10*"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Типы исследований:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
+
+                            <DataGrid x:Name="XDataGridExtypes" Grid.Row="1" ItemsSource="{Binding ExamTypesCVSView}" SelectedCellsChanged="XDataGridExtypes_SelectedCellsChanged" SelectionMode="Single" IsSynchronizedWithCurrentItem="True" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanUserAddRows="False">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Background="LightBlue">
+                                        <MenuItem Header="Добавить новый тип обследования" Command="{Binding CreateNewExamTypeCommand}" Click="MenuItem_Click" />
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Название" MinWidth="200" EditingElementStyle="{StaticResource TextBoxStyle}" ElementStyle="{StaticResource TextBlockStyle}" >
+                                        <DataGridTextColumn.Binding >
+                                            <Binding Path="Name" TargetNullValue="[Введите название]" ValidatesOnExceptions="True" UpdateSourceTrigger="PropertyChanged">
+                                            </Binding>
+                                        </DataGridTextColumn.Binding>                                        
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="10*"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Измеряемые параметры:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
+
+                            <DataGrid x:Name="XDataGridExParamTypes" Grid.Row="1" ItemsSource="{Binding SelectedExamType.ParamTypeCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" IsReadOnly="True" CanUserAddRows="False" BorderThickness="0,1,1,1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name}"  ElementStyle="{StaticResource TextBlockStyle}" />
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure}" ElementStyle="{StaticResource TextBlockStyle}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid x:Name="XDataGridNEWExParamTypes" Grid.Row="1" ItemsSource="{Binding ParamTypesCVSView}" Visibility="Hidden" Style="{StaticResource DataGridStyle}" IsReadOnly="False" CanUserAddRows="True" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, TargetNullValue=[Введите название] }"  EditingElementStyle="{StaticResource TextBoxStyle}"/>
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding Measure, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
+                                    <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectToNewExam}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button x:Name="XButtonNEWExamSave" Command="{Binding SaveNewExamTypeCommand}" Visibility="Hidden" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonNEWExamSave_Click" />
+
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="210"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding ActualDate, Mode=TwoWay}" DisplayDate="{Binding DateTime.Now}"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                <Label Content="Время (часы):" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                                <ComboBox  ItemsSource="{Binding HoursCollection}" SelectedValue="{Binding Hour}" VerticalContentAlignment="Center" FontSize="14" Background="AliceBlue" Width="60" Height="25"></ComboBox>
+                                <Label Content="Минуты:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                                <ComboBox ItemsSource="{Binding MinutesCollection}" SelectedValue="{Binding Minutes}" VerticalAlignment="Center" FontSize="14" Background="AliceBlue" Width="60" Height="25"></ComboBox>
+                            </StackPanel>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Запланировать:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <Button x:Name="XButtonPlan"  Grid.Row="3" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewExamToPlanCommand}" Style="{StaticResource XStyleToButton}" Click="XButtonPlan_Click"></Button>
+
+                            <Label x:Name="XMessage" Grid.Row="4" Grid.ColumnSpan="2" Visibility="Hidden" Content="Внесено в план!" FontSize="20"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,-51,0" ></Label>
+
+                            <Label Grid.Row="5" Grid.Column="0" Content="Или выполнить сейчас:" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></Label>
+                            <Button x:Name="XButtonRunNow"  Grid.Row="5" Grid.Column="1" Content="Выполнить" Command="{Binding CreateNewExamCommand}" Style="{StaticResource XStyleToButton}" Click="ButtonRunNow_Click"></Button>
+
+                        </Grid>
+                    </Grid>
+                </TabItem>
+              
+
+                <TabItem Style="{StaticResource XStyleToTab}">
+                    <TabItem.Header>
+                        <TextBlock TextWrapping="Wrap" Text="Планирование приема лекарств" TextAlignment="Center"></TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200*"></ColumnDefinition>
+                            <ColumnDefinition Width="250*" ></ColumnDefinition>
+                            <ColumnDefinition Width="350"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="10*"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Наборы лекарств:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
+
+                            <DataGrid x:Name="XDataGridDragKit" Grid.Row="1" ItemsSource="{Binding DragsKitCVSView}" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanUserAddRows="False" >
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Background="LightBlue">
+                                        <MenuItem Header="Добавить новый набор" Command="{Binding CreateNewDragKitCommand}" Click="TabItemDragsCreateNewDragKit_Click"/>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" ElementStyle="{StaticResource TextBlockStyle}" EditingElementStyle="{StaticResource TextBoxStyle}" MinWidth="200"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="10*"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Лекарства:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
+
+                            <DataGrid x:Name="XDataGridDrags" Grid.Row="1" ItemsSource="{Binding SelectedDragsKit.DragsCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CanUserAddRows="False" BorderThickness="0,1,1,1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Название лекарства" Binding="{Binding Name}" ElementStyle="{StaticResource TextBlockStyle}"  />
+                                    <DataGridTextColumn Header="Форма" Binding="{Binding Form}"  ElementStyle="{StaticResource TextBlockStyle}"  />
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid x:Name="XDataGridAllDrags" Grid.Row="1" ItemsSource="{Binding AllDragsCVSView}" Visibility="Hidden" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}"/>
+                                    <DataGridTextColumn Header="Форма" Binding="{Binding Form, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
+                                    <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectedToNewKit}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button x:Name="XButtonNEWKitSave" Command="{Binding SaveNewDragKitCommand}" Visibility="Hidden" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonNEWKitSave_Click" />
+
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="210"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="1" Grid.Column="0" Content="Запланировать на:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding ActualDate}"  DisplayDate="{Binding DateTime.Now}"  Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                <Label  Content="Время (часы):" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                                <ComboBox  ItemsSource="{Binding HoursCollection}" SelectedValue="{Binding Hour}" VerticalContentAlignment="Center" FontSize="14" Background="AliceBlue" Width="60" Height="25"></ComboBox>
+                                <Label  Content="Минуты:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                                <ComboBox ItemsSource="{Binding MinutesCollection}" SelectedValue="{Binding Minutes}" VerticalAlignment="Center" FontSize="14" Background="AliceBlue" Width="60" Height="25"></ComboBox>
+                            </StackPanel>
+
+                            <Label Grid.Row="3" Grid.Column="0" Content="Запланировать:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16"></Label>
+                            <Button x:Name="XButtonKitToPlan"  Grid.Row="3" Grid.Column="1" Content="Запланировать" Command="{Binding AddNewDragPlanCommand}" Style="{StaticResource XStyleToButton}" Click="XButtonPlan_Click"></Button>
+
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem  Style="{StaticResource XStyleToTab}">
+                    <TabItem.Header>
+                        <TextBlock TextWrapping="Wrap" Text="Мой гениальный план" TextAlignment="Center"></TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                            <RowDefinition Height="1"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="250*" MinWidth="300"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Запланированные обследования:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+
+                        <DataGrid x:Name="XDataGridExamPlan" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Client.PlanExamsCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                            <DataGrid.ContextMenu>
+                                <ContextMenu Background="LightBlue">
+                                    <MenuItem Header="Отменить" Command="{Binding DeleteExamFromPlanCommand}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Тип обследования" Binding="{Binding Name}" ElementStyle="{StaticResource TextBlockStyle}"  IsReadOnly="True" />
+                                <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateConverter}}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Время обследования" Binding="{Binding Path=TimeExam}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridExamParamsPlan" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Client.SelectedExamFromPlan.ParamCVSView }" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" ElementStyle="{StaticResource TextBlockStyle}"  IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                        <DataGrid x:Name="XDataGridDragPlans" Grid.Row="5" Grid.Column="0" ItemsSource="{Binding Client.PlanDragPlanCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                            <DataGrid.ContextMenu>
+                                <ContextMenu Background="LightBlue">
+                                    <MenuItem Header="Отменить" Command="{Binding DeleteExamFromPlanCommand}" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Набор" Binding="{Binding DragKit.Name}" ElementStyle="{StaticResource TextBlockStyle}"  IsReadOnly="True" />
+                                <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateConverter}}" IsReadOnly="True"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Время приема" Binding="{Binding TimePlan}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid x:Name="XDataGridDragsPlan" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Client.SelectedDragPlanFromPlan.DragKit.DragsCVSView}" Style="{StaticResource DataGridStyle}" CanUserAddRows="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,1,1,1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Название" Binding="{Binding Name}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Форма" Binding="{Binding Form}" IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Button x:Name="XButtonSaveChanges" Command="{Binding SaveChangesCommand}" Grid.Row="2" Grid.Column="1" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}"/>
+
+                        <Calendar Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Background="BlanchedAlmond" VerticalAlignment="Center" Height="204" Grid.RowSpan="2"/>
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="XTabItemArchive" Header="Архив" Style="{StaticResource XStyleToTab}" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="600"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="350*"></ColumnDefinition>
+                                <ColumnDefinition Width="250*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.ExamsCVSView }"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Тип" Binding="{Binding Name}" ElementStyle="{StaticResource TextBlockStyle}">
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Дата" Binding="{Binding Date, Converter={StaticResource DateConverter}}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Время" Binding="{Binding TimeExam}"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Client.SelectedExam.ParamCVSView}" Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource DataGridStyle}" BorderThickness="0,1,1,1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Параметр" Binding="{Binding ParamType.Name}" ElementStyle="{StaticResource TextBlockStyle}"  ></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Значение" Binding="{Binding Value}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Ед.изм." Binding="{Binding ParamType.Measure}"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+
+                        </Grid>
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="XTabItemDinamic" Header="Динамика" Style="{StaticResource XStyleToTab}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="1*"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Content="Выберите параметр:" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="18"></Label>
+                            <DataGrid Grid.Row="1"  Style="{StaticResource DataGridStyle}" ItemsSource="{Binding ParamTypesCVSView}" AllowDrop="True" CanUserAddRows="False" IsManipulationEnabled="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" ElementStyle="{StaticResource TextBlockStyle}" ></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Label Grid.Row="2" Content="Период:" FontSize="18" ></Label>
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="20,0,40,0" >
+                                <Label Content="c" FontSize="18" Width="40" HorizontalContentAlignment="Right"></Label>
+                                <DatePicker HorizontalAlignment="Stretch" Width="145" FontSize="14" DisplayDate="{Binding DateTime.Now}" SelectedDate="{Binding DateFrom}" VerticalContentAlignment="Center" Margin="2, 4, 2, 0" ></DatePicker>
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="20,0,40,0">
+                                <Label Content="по" Width="40" FontSize="18" VerticalAlignment="Stretch" HorizontalContentAlignment="Right"></Label>
+                                <DatePicker HorizontalAlignment="Stretch" Width="145" FontSize="14" DisplayDate="{Binding DateTIme.Now}" SelectedDate="{Binding DateTo}" Margin="2, 4, 2, 0" ></DatePicker>
+                            </StackPanel>
+                            <Button Grid.Row="6" Content="Показать график"  Style="{StaticResource XStyleToButton}" Click="CreateNewPlotSubWnd_Click" VerticalAlignment="Bottom"></Button>
+
+                        </Grid>
+                        <Grid x:Name="XGrid" Grid.Column="1" ScrollViewer.CanContentScroll="True" AllowDrop="True" VerticalAlignment="Stretch" >
+                            
+                            <ScrollViewer>
+                                <StackPanel x:Name="XStack" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical"  ScrollViewer.CanContentScroll="True" AllowDrop="True">
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+
+            </TabControl>
+
+        </Grid>
+    </Grid>
+</Window>

@@ -269,6 +269,24 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+
+        public String GCalendarAdress
+        {
+            get
+            {
+                return Client.RegData.CalendarAdress;
+            }
+            set
+            {
+                if (String.IsNullOrEmpty(value))
+                    throw new ArgumentException("Адрес не может быть пустым");
+                else
+                    Client.RegData.CalendarAdress = value;
+
+            }
+        }
+
+
         #endregion
 
         #region methods

@@ -186,6 +186,10 @@
     <Compile Include="Migrations\201512021049191_AddRegDataTable.Designer.cs">
       <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512041226451_Client-RegDataCorrect.cs" />
+    <Compile Include="Migrations\201512041226451_Client-RegDataCorrect.Designer.cs">
+      <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\XDrag.cs" />
     <Compile Include="Model\XDragKit.cs" />
@@ -283,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512021049191_AddRegDataTable.resx">
       <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512041226451_Client-RegDataCorrect.resx">
+      <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,5 +1,6 @@
 ﻿using SpaceDoctor.DAL;
 using SpaceDoctor.Model;
+using SpaceDoctor.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -159,7 +160,7 @@ namespace SpaceDoctor.ViewModel
             CreateNewDragKitCommand = new XCommand(CreateNewDragKit);
             SaveNewDragKitCommand = new XCommand(SaveNewDragKit);
             AddNewDragPlanCommand = new XCommand(AddNewDragPlan);
-
+            OpenProfileWndCommand = new XCommand(OpenProfileWnd);
           //  AddWndCommand = new XCommand(AddWnd);
         }
 
@@ -547,6 +548,16 @@ namespace SpaceDoctor.ViewModel
             return plot;
         }
 
+        /// <summary>
+        /// Открывает окно с данными клиента
+        /// </summary>
+        private void OpenProfileWnd()
+        {
+            if (XProfileWindow.CreateXProfileWnd(Client))
+                SaveChanges();
+
+        }
+
         #endregion
 
 
@@ -604,6 +615,7 @@ namespace SpaceDoctor.ViewModel
         public XCommand SaveNewDragKitCommand { get; set; }
         public XCommand AddNewDragPlanCommand { get; set; }
 
+        public XCommand OpenProfileWndCommand { get; set; }
         #endregion
     }
 }

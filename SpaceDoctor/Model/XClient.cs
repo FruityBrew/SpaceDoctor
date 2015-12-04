@@ -25,6 +25,7 @@ namespace SpaceDoctor.Model
         [DisplayName("Дата рождения")]
         public DateTime DateBirthday { get; set; }
 
+        public XRegData RegData { get; set; }
 
         [DisplayName("Обследования")]
         public ICollection<XExam> ExamsCollection { get; set; }
@@ -34,7 +35,8 @@ namespace SpaceDoctor.Model
         public XClient()
         {
             ExamsCollection = new Collection<XExam>();
-            DragPlanCollection = new Collection<XDragPlan>();         
+            DragPlanCollection = new Collection<XDragPlan>();
+            RegData = new XRegData();   
        }
     }
 }

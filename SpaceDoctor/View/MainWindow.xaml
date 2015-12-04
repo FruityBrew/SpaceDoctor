@@ -31,7 +31,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button x:Name="XButtonHelth" Grid.Column="0" Content="Здоровье" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
-            <Button x:Name="XProfile" Grid.Column="1" Content="Профиль" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
+            <Button x:Name="XProfile" Grid.Column="1" Content="Профиль" Command="{Binding OpenProfileWndCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
         </Grid>
         <Grid Grid.Row="2">
 

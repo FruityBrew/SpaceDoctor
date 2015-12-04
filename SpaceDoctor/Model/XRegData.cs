@@ -11,6 +11,11 @@ namespace SpaceDoctor.Model
         public String Login { get; set; }
         public String Pass { get; set; }
         public String Role { get; set; }
-        public XClient Client { get; set; }
+        public String CalendarAdress { get; set; }
+
+        public XRegData()
+        {
+            
+        }
     }
 }

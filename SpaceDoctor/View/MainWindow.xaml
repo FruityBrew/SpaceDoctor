@@ -16,7 +16,7 @@
     <Grid Background="AliceBlue">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="5"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
 
@@ -30,8 +30,14 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="XButtonHelth" Grid.Column="0" Content="Здоровье" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
-            <Button x:Name="XProfile" Grid.Column="1" Content="Профиль" Command="{Binding OpenProfileWndCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" />
+            <!--Button x:Name="XProfile" Grid.Column="1" Content="Профиль" Command="{Binding OpenProfileWndCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ResourceKey=XStyleToButton}" /-->
+
+            <Menu x:Name="menu" Width="80" Height="20" >
+                <MenuItem Header="Настройки" FontSize="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Height="20" Width="80" Background="AliceBlue">
+                    <MenuItem Command="{Binding OpenProfileWndCommand}" Header="Профиль" Background="LightBlue"/>
+                </MenuItem>
+
+            </Menu>
         </Grid>
         <Grid Grid.Row="2">
 
@@ -120,7 +126,7 @@
                                         <DataGridTextColumn.Binding >
                                             <Binding Path="Name" TargetNullValue="[Введите название]" ValidatesOnExceptions="True" UpdateSourceTrigger="PropertyChanged">
                                             </Binding>
-                                        </DataGridTextColumn.Binding>                                        
+                                        </DataGridTextColumn.Binding>
                                     </DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
@@ -193,7 +199,7 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-              
+
 
                 <TabItem Style="{StaticResource XStyleToTab}">
                     <TabItem.Header>
@@ -436,7 +442,7 @@
 
                         </Grid>
                         <Grid x:Name="XGrid" Grid.Column="1" ScrollViewer.CanContentScroll="True" AllowDrop="True" VerticalAlignment="Stretch" >
-                            
+
                             <ScrollViewer>
                                 <StackPanel x:Name="XStack" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical"  ScrollViewer.CanContentScroll="True" AllowDrop="True">
                                 </StackPanel>

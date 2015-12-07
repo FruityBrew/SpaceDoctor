@@ -1,6 +1,7 @@
 ﻿using SpaceDoctor.ViewModel;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SpaceDoctor.View
 {
@@ -26,6 +27,10 @@ namespace SpaceDoctor.View
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
+            XTextBoxName.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            XTextBoxCalendarAdress.GetBindingExpression(TextBox.TextProperty).UpdateSource();
+            this.XCheckBox.GetBindingExpression(CheckBox.IsCheckedProperty).UpdateSource();
+            this.XDatePickerDateBirthday.GetBindingExpression(DatePicker.SelectedDateProperty).UpdateSource();
             this.DialogResult = true;
         }
     }

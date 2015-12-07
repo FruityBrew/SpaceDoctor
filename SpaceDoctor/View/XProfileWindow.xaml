@@ -5,34 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceDoctor.View"
         mc:Ignorable="d"
-        Title="Профайл" Height="300" Width="300">
-    <Grid>
+        Title="Профайл" Height="400" Width="500">
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
-        <Label x:Name="XLableName" Content="Имя" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
-        <TextBox x:Name="XTextBoxName" Text="{Binding Name}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
-        <Label x:Name="XLableDateBirthday" Content="Дата рождения" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
-        <DatePicker Grid.Column="1" SelectedDate="{Binding DateBirthday}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Label x:Name="XLableRole" Content="Роль" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
-        <Label x:Name="XLableRoleValue" Content="" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
-        <Label x:Name="XLableSynchro" Content="Синхронизация с GoogleCalendar:" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
-        <Label x:Name="XLableCalendarAdress" Content="Адрес календаря" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
-        <TextBox x:Name="XTextBoxCalendarAdress" Text="{Binding GCalendarAdress}" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
-        <Label x:Name="XLableIsSynchro" Content="Синхронизировать?" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
-        <CheckBox x:Name="XCheckBox"  Grid.Column="1" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" />
+        <Label x:Name="XLableName" Content="Имя" Grid.Row="0" Grid.Column="0" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <TextBox x:Name="XTextBoxName" Text="{Binding Name}" Grid.Row="0" Grid.Column="1" FontSize="16" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
+        <Label x:Name="XLableDateBirthday" Content="Дата рождения" Grid.Row="1" Grid.Column="0" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <DatePicker Grid.Column="1" SelectedDate="{Binding DateBirthday}" Grid.Row="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="XLableRole" Content="Роль" Grid.Row="2" Grid.Column="0" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <Label x:Name="XLableRoleValue" Content="" Grid.Row="2" Grid.Column="1" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+        <Label x:Name="XLableSynchro" Content="Синхронизация с GoogleCalendar:" Grid.Row="3" Grid.ColumnSpan="2" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+        <Label x:Name="XLableCalendarAdress" Content="Адрес календаря" Grid.Row="4" Grid.Column="0" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <TextBox x:Name="XTextBoxCalendarAdress" Text="{Binding GCalendarAdress}" Grid.Row="4" Grid.Column="1" FontSize="16" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
+        <Label x:Name="XLableIsSynchro" Content="Синхронизировать?" Grid.Row="5" Grid.Column="0" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center"></Label>
+        <CheckBox x:Name="XCheckBox"  Grid.Column="1" HorizontalAlignment="Center" Grid.Row="5"  VerticalAlignment="Center" />
         <Button x:Name="XButton" Content="Продолжить" HorizontalAlignment="Center" Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" IsDefault="True" Style="{StaticResource XStyleToButton}" Click="ButtonOk_Click"/>
-
     </Grid>
 </Window>

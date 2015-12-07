@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Windows.Data;
 
 /***********************************************
@@ -94,6 +95,13 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public String DragNamesToString()
+        {
+            StringBuilder names = new StringBuilder();
+            foreach (var v in DragsObsCollection)
+                names.Append(v.Name);
+            return names.ToString();
+        }
 
         #endregion
 

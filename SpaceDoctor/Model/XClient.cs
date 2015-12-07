@@ -36,7 +36,7 @@ namespace SpaceDoctor.Model
         {
             ExamsCollection = new Collection<XExam>();
             DragPlanCollection = new Collection<XDragPlan>();
-            RegData = new XRegData();   
+            RegData = this.RegData;   
        }
     }
 }

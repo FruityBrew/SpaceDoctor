@@ -190,6 +190,10 @@
     <Compile Include="Migrations\201512041226451_Client-RegDataCorrect.Designer.cs">
       <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.cs" />
+    <Compile Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.Designer.cs">
+      <DependentUpon>201512071047297_AddSynchronizeFieldToRegData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\XDrag.cs" />
     <Compile Include="Model\XDragKit.cs" />
@@ -290,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512041226451_Client-RegDataCorrect.resx">
       <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.resx">
+      <DependentUpon>201512071047297_AddSynchronizeFieldToRegData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

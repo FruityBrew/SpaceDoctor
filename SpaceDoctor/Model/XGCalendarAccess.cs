@@ -4,10 +4,7 @@ using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SpaceDoctor.Model
 {
@@ -58,7 +55,7 @@ namespace SpaceDoctor.Model
         /// <param name="startdate"></param>
         /// <param name="enddate"></param>
         /// <returns></returns>
-        public static bool CreateNewEvent(DateTime startdate, DateTime enddate, string title, bool remind, string location = "", string description = "")
+        public static bool CreateNewEvent(String googleCalendarAdress, DateTime startdate, DateTime enddate, string title, bool remind, string description = "", string location = "")
         {
             if (startdate == null || enddate == null)
                 throw new ArgumentNullException("Аргументы startdate и enddate не могут быть null");
@@ -96,7 +93,7 @@ namespace SpaceDoctor.Model
             }
 
 
-            var insertevent = _calService.Events.Insert(eventdata, "3eh2pfkbbnkfunleo05m2utge0@group.calendar.google.com");
+            var insertevent = _calService.Events.Insert(eventdata, googleCalendarAdress);
             Event createdevent = insertevent.Execute();
 
             return true;

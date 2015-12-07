@@ -270,6 +270,18 @@ namespace SpaceDoctor.ViewModel
         }
 
 
+        public Boolean IsSynchronizeWithGCalendar
+        {
+            get
+            {
+                return Client.RegData.Synchronize;
+            }
+            set
+            {
+                Client.RegData.Synchronize = value;
+            }
+        }
+
         public String GCalendarAdress
         {
             get
@@ -278,11 +290,15 @@ namespace SpaceDoctor.ViewModel
             }
             set
             {
-                if (String.IsNullOrEmpty(value))
-                    throw new ArgumentException("Адрес не может быть пустым");
+                if (IsSynchronizeWithGCalendar)
+                {
+                    if (String.IsNullOrEmpty(value))
+                        throw new ArgumentException("Адрес не может быть пустым");
+                    else
+                        Client.RegData.CalendarAdress = value;
+                }
                 else
                     Client.RegData.CalendarAdress = value;
-
             }
         }
 

@@ -84,7 +84,7 @@ namespace SpaceDoctor.ViewModel
                 _dal = new XDAL("SpaceDoctorDB");
 
                 IEnumerable<XExam> examEnumerable = Dal.GetEntityCollection<XExam>("ParamsCollection");
-                IEnumerable<XClient> clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection");
+                IEnumerable<XClient> clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection", "RegData");
                 IEnumerable<XExamType> exTypeEnumerable = _dal.GetEntityCollection<XExamType>("ParamsCollection");
                 IEnumerable<XDragKit> drKitEnumerable = _dal.GetEntityCollection<XDragKit>("DragCollection");
                 IEnumerable<XParamType> paramType = _dal.GetEntityCollection<XParamType>();
@@ -412,6 +412,11 @@ namespace SpaceDoctor.ViewModel
             Client.AddDragPlan(newDragPlan);
             SaveChanges();
 
+            if(Client.IsSynchronizeWithGCalendar)
+            {
+                XGCalendarAccess.CreateNewEvent(Client.GCalendarAdress, newDragPlan.Date, newDragPlan.Date, newDragPlan.NameKit, true, newDragPlan.DragKit.DragNamesToString());
+            }
+
             ActualDate = DateTime.Now;
             RaisePropertyChanged("ActualDate");
         }
@@ -461,6 +466,11 @@ namespace SpaceDoctor.ViewModel
             newEx.Date = new DateTime(ActualDate.Date.Year, ActualDate.Date.Month, ActualDate.Date.Day, Hour, Minutes, 0);
             Client.AddExam(newEx);
             SaveChanges();
+
+            if(Client.IsSynchronizeWithGCalendar)
+            {
+                XGCalendarAccess.CreateNewEvent( Client.GCalendarAdress, newEx.Date, newEx.Date, newEx.Name, true);
+            }
 
             ActualDate = DateTime.Now;
             RaisePropertyChanged("ActualDate");

@@ -12,6 +12,7 @@ namespace SpaceDoctor.Model
         public String Pass { get; set; }
         public String Role { get; set; }
         public String CalendarAdress { get; set; }
+        public Boolean Synchronize { get; set; }
 
         public XRegData()
         {

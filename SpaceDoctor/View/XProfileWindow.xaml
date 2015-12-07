@@ -31,7 +31,7 @@
         <Label x:Name="XLableCalendarAdress" Content="Адрес календаря" Grid.Row="4" Grid.Column="0" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
         <TextBox x:Name="XTextBoxCalendarAdress" Text="{Binding GCalendarAdress}" Grid.Row="4" Grid.Column="1" FontSize="16" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TextBox>
         <Label x:Name="XLableIsSynchro" Content="Синхронизировать?" Grid.Row="5" Grid.Column="0" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center"></Label>
-        <CheckBox x:Name="XCheckBox"  Grid.Column="1" HorizontalAlignment="Center" Grid.Row="5"  VerticalAlignment="Center" />
+        <CheckBox x:Name="XCheckBox" IsChecked="{Binding IsSynchronizeWithGCalendar}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="5"  VerticalAlignment="Center" />
         <Button x:Name="XButton" Content="Продолжить" HorizontalAlignment="Center" Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" IsDefault="True" Style="{StaticResource XStyleToButton}" Click="ButtonOk_Click"/>
     </Grid>
 </Window>

@@ -51,10 +51,12 @@ namespace SpaceDoctor.DAL
         public IEnumerable<T> GetEntityCollection<T>(params String [] properties) where T : class
         {
             var v = ObjContext.CreateObjectSet<T>();
-            
+
+            List<T> list = new List<T>(v);
+
             foreach(var prop in properties)
             {
-                LoadProperty<T>(v, prop);
+                LoadProperty<T>(list, prop);
             }
 
             return v;

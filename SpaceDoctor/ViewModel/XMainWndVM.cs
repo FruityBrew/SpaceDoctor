@@ -111,7 +111,7 @@ namespace SpaceDoctor.ViewModel
                 _paramTypesCVS.Source = _paramTypesObsCollection;
                 _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
 
-                _client = new XClientVM(clientEnumerable.First(cl => cl.Id == 1));
+                _client = new XClientVM(clientEnumerable.First(cl => cl.Id == 2));
 
 
                 //Список препаратов

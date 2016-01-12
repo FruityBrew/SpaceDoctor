@@ -22,8 +22,8 @@ namespace SpaceDoctor.DAL
         { get; set; }
         public DbSet<XDrag> Drags
         { get; set; }
-        //public DbSet<XRegData> RegData
-        //{ get; set; }
+        public DbSet<XRegData> RegData
+        { get; set; }
 
         public XDBContext(string connection) : base(connection) 
         {

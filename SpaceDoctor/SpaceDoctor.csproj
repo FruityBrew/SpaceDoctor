@@ -182,17 +182,9 @@
     <Compile Include="Migrations\201511180953300_AddNotNullFields.Designer.cs">
       <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201512021049191_AddRegDataTable.cs" />
-    <Compile Include="Migrations\201512021049191_AddRegDataTable.Designer.cs">
-      <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512041226451_Client-RegDataCorrect.cs" />
-    <Compile Include="Migrations\201512041226451_Client-RegDataCorrect.Designer.cs">
-      <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.cs" />
-    <Compile Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.Designer.cs">
-      <DependentUpon>201512071047297_AddSynchronizeFieldToRegData.cs</DependentUpon>
+    <Compile Include="Migrations\201512161135338_AddRegDataTable.cs" />
+    <Compile Include="Migrations\201512161135338_AddRegDataTable.Designer.cs">
+      <DependentUpon>201512161135338_AddRegDataTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\XDrag.cs" />
@@ -289,14 +281,8 @@
     <EmbeddedResource Include="Migrations\201511180953300_AddNotNullFields.resx">
       <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512021049191_AddRegDataTable.resx">
-      <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512041226451_Client-RegDataCorrect.resx">
-      <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.resx">
-      <DependentUpon>201512071047297_AddSynchronizeFieldToRegData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201512161135338_AddRegDataTable.resx">
+      <DependentUpon>201512161135338_AddRegDataTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

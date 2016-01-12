@@ -3,8 +3,7 @@ using System;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Core.Objects;
 
-
-namespace SpaceDoctor.DAL 
+namespace SpaceDoctor.DAL
 {
     internal class XDAL : IDisposable
     {
@@ -18,6 +17,7 @@ namespace SpaceDoctor.DAL
             _dbContext = new XDBContext(connectionName);
 
             _objContext = ((IObjectContextAdapter)_dbContext).ObjectContext;
+
         }
 
 
@@ -34,7 +34,7 @@ namespace SpaceDoctor.DAL
         }
 
 
-        private  ObjectContext ObjContext
+        public  ObjectContext ObjContext
         {
             get
             {
@@ -52,10 +52,17 @@ namespace SpaceDoctor.DAL
         {
 
             var v = ObjContext.CreateObjectSet<T>();
-            
+
+            List<T> list = new List<T>(v); // с localdb работает только так. SQLServer - без этого
+
+            //foreach(var var in v)
+            //{
+            //    list.Add(var);
+            //}
+
             foreach(var prop in properties)
             {
-                LoadProperty<T>(v, prop);
+                LoadProperty<T>(list, prop);
             }
 
             return v;
@@ -78,9 +85,7 @@ namespace SpaceDoctor.DAL
 
         internal void DeleteObject<T>(T entity) 
         {
-
-                ObjContext.DeleteObject(entity);
-            
+            ObjContext.DeleteObject(entity);            
         }
 
 

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SpaceDoctor
+namespace SpaceDoctor.View
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml

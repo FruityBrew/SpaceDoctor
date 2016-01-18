@@ -111,7 +111,24 @@ namespace SpaceDoctor.ViewModel
                 _paramTypesCVS.Source = _paramTypesObsCollection;
                 _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
 
-                _client = new XClientVM(clientEnumerable.First(cl => cl.Id == 2));
+                while (true)
+                {
+                    var logPass = XSignInWindow.CreateSignInWindow();
+                    if (logPass != null)
+                    {
+                        XClient client = clientEnumerable.FirstOrDefault(cl => cl.RegData.Login == logPass.Item1
+                                                                    & cl.RegData.Pass == logPass.Item2);
+
+                        if (client != null)
+                        {
+                            _client = new XClientVM(client);
+                            break;
+                        }
+                        else
+                            MessageBox.Show("Нет такого пользователя, либо пара пароль-логин неверна. Попробуйте еще раз.");
+                    }
+                }
+             // _client = new XClientVM(clientEnumerable.First(cl => cl.Id == 2));
 
 
                 //Список препаратов

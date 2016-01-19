@@ -8,9 +8,15 @@ namespace SpaceDoctor.View
     /// </summary>
     public partial class XSignInWindow : Window
     {
-        public static Tuple<String,String> CreateSignInWindow()
+        Func<Tuple<String, String>> _createNewClient;
+
+        public static Tuple<String,String> CreateSignInWindow(Func<Tuple<String,String>> createNewClient)
         {
             XSignInWindow wnd = new XSignInWindow();
+            wnd._createNewClient = createNewClient;
+
+
+
             if (wnd.ShowDialog().GetValueOrDefault())
             {
                 if (!String.IsNullOrEmpty(wnd.XTextBoxLogin.Text))
@@ -18,14 +24,14 @@ namespace SpaceDoctor.View
                 else
                 {
                     MessageBox.Show("Друг, ты забыл ввести логин");
-                    return null;
+                    return new Tuple<string, string>("", "");
                 }
             }
             else
                 return null;
         }
 
-        public XSignInWindow()
+        private XSignInWindow()
         {
             InitializeComponent();
         }
@@ -33,6 +39,18 @@ namespace SpaceDoctor.View
         private void ButtonSiGnInClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
+        }
+
+        private void ButtonCancelClick(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+        }
+
+        private void ButtonRegisterClick(object sender, RoutedEventArgs e)
+        {
+           var tuple = _createNewClient.Invoke();
+            XTextBoxLogin.Text = tuple.Item1;
+            XTextBoxPass.Password = tuple.Item2;         
         }
     }
 }

@@ -32,7 +32,7 @@ namespace SpaceDoctor.ViewModel
        // readonly XGenericRepository<XClient> _clientRepos;
         #region fields
 
-        readonly XClientVM _client;
+         XClientVM _client;
 
         //доступ к контексту БД:
         readonly XDAL _dal;
@@ -53,6 +53,8 @@ namespace SpaceDoctor.ViewModel
         readonly ObservableCollection<XDragKitVM> _dragKitObsCollection;
         readonly CollectionViewSource _dragKitCVS;
 
+
+        IEnumerable<XClient> _clientEnumerable;
         //Новый тип обследования для добавления:
         XExamTypeVM _newExam;
 
@@ -84,7 +86,6 @@ namespace SpaceDoctor.ViewModel
                 _dal = new XDAL("SpaceDoctorDB");
 
                 IEnumerable<XExam> examEnumerable = Dal.GetEntityCollection<XExam>("ParamsCollection");
-                IEnumerable<XClient> clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection", "RegData");
                 IEnumerable<XExamType> exTypeEnumerable = _dal.GetEntityCollection<XExamType>("ParamsCollection");
                 IEnumerable<XDragKit> drKitEnumerable = _dal.GetEntityCollection<XDragKit>("DragCollection");
                 IEnumerable<XParamType> paramType = _dal.GetEntityCollection<XParamType>();
@@ -111,25 +112,26 @@ namespace SpaceDoctor.ViewModel
                 _paramTypesCVS.Source = _paramTypesObsCollection;
                 _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
 
-                while (true)
-                {
-                    var logPass = XSignInWindow.CreateSignInWindow();
-                    if (logPass != null)
-                    {
-                        XClient client = clientEnumerable.FirstOrDefault(cl => cl.RegData.Login == logPass.Item1
-                                                                    & cl.RegData.Pass == logPass.Item2);
+                //while (true)
+                //{
+                //    var logPass = XSignInWindow.CreateSignInWindow();
+                //    if (logPass != null)
+                //    {
+                //        XClient client = clientEnumerable.FirstOrDefault(cl => cl.RegData.Login == logPass.Item1
+                //                                                    & cl.RegData.Pass == logPass.Item2);
 
-                        if (client != null)
-                        {
-                            _client = new XClientVM(client);
-                            break;
-                        }
-                        else
-                            MessageBox.Show("Нет такого пользователя, либо пара пароль-логин неверна. Попробуйте еще раз.");
-                    }
-                }
-             // _client = new XClientVM(clientEnumerable.First(cl => cl.Id == 2));
+                //        if (client != null)
+                //        {
+                //            _client = new XClientVM(client);
+                //            break;
+                //        }
+                //        else
+                //            MessageBox.Show("Нет такого пользователя, либо пара пароль-логин неверна. Попробуйте еще раз.");
+                //    }
+                //}
+                // _client = new XClientVM(clientEnumerable.First(cl => cl.Id == 2));
 
+                AutentificationClient();
 
                 //Список препаратов
                 _dragCollection = new ObservableCollection<XDragVM>();
@@ -152,8 +154,8 @@ namespace SpaceDoctor.ViewModel
 
             catch (System.Data.SqlClient.SqlException sqlEx)
             {
-                MessageBox.Show("Не могу соединиться с сервером");           
-                Environment.FailFast("Не могу соединиться с сервером");
+                MessageBox.Show("Не могу соединиться с сервером");
+                 Environment.FailFast("Не могу соединиться с сервером");
             }
 
 
@@ -178,7 +180,9 @@ namespace SpaceDoctor.ViewModel
             SaveNewDragKitCommand = new XCommand(SaveNewDragKit);
             AddNewDragPlanCommand = new XCommand(AddNewDragPlan);
             OpenProfileWndCommand = new XCommand(OpenProfileWnd);
-          //  AddWndCommand = new XCommand(AddWnd);
+            //  AddWndCommand = new XCommand(AddWnd);
+
+            //CloseApp();
         }
 
 
@@ -624,6 +628,53 @@ namespace SpaceDoctor.ViewModel
         private void ParamTypes_CurrentChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("SelectedParamType");
+        }
+
+        private void AutentificationClient()
+        {
+            while (true)
+            {
+                var logPass = XSignInWindow.CreateSignInWindow(RegisterNewClient);
+
+                if (logPass == null)
+                {
+                    Application.Current.Shutdown();
+                    break;
+                }
+
+                if (logPass.Item1 != "")
+                {
+                    _clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection", "RegData");
+
+                    XClient client = _clientEnumerable.FirstOrDefault(cl => cl.RegData.Login == logPass.Item1
+                                                                & cl.RegData.Pass == logPass.Item2);
+
+                    if (client != null)
+                    {
+                        _client = new XClientVM(client);
+                        break;
+                    }
+                    else
+                        MessageBox.Show("Нет такого пользователя, либо пара пароль-логин неверна. Попробуйте еще раз.");
+                }
+            }
+        }
+
+        private Tuple<String,String> RegisterNewClient()
+        {
+            var tuple = XRegisterWindow.CreateRegisterWindow();
+            XClient newClient = new XClient
+            {
+                Name = tuple.Item1               
+            };
+            newClient.RegData.Login = tuple.Item2;
+            newClient.RegData.Pass = tuple.Item3;
+
+
+            Dal.AddObject<XClient>(newClient);
+
+            Dal.SaveChanges();
+            return new Tuple<string, string>(newClient.RegData.Login, newClient.RegData.Pass);
         }
 
 

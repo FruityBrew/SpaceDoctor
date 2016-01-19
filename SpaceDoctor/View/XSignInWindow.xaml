@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceDoctor.View"
         mc:Ignorable="d"
-        Title="SignIn" Height="200" Width="300">
+        Title="SignIn" Height="210" Width="300">
     <Grid Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -16,16 +16,24 @@
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+
 
         </Grid.RowDefinitions>
 
         <TextBox x:Name="XTextBoxLogin" FontSize="16" Height="30" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Center" Style="{StaticResource TextBoxStyle}" Width="120"/>
         <PasswordBox x:Name="XTextBoxPass" FontSize="16" Height="30" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Center" Background="LightCyan" Width="120"/>
-        <Label Content="Login" FontSize="16" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Center"/>
-        <Label Content="Password" FontSize="16" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center"/>
-        <Button x:Name="XButtonSignIN" Content="Sign In" Grid.Row="3"  Style="{StaticResource XStyleToButton}" Width="75" Grid.ColumnSpan="2" IsDefault="True" Click="ButtonSiGnInClick"/>
-       
+        <Label Content="Логин" FontSize="16" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Center"/>
+        <Label Content="Пароль" FontSize="16" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label Content="Или зарегистрироваться" FontSize="12" HorizontalAlignment="Right" Grid.Row="4" VerticalAlignment="Center"/>
+
+        <Button x:Name="XButtonCancel" Content="Отменить" Grid.Row="3"  Style="{StaticResource XStyleToButton}" Width="80" Grid.Column="0"  Click="ButtonCancelClick"/>
+        <Button x:Name="XButtonSignIN" Content="Войти" Grid.Row="3"  Style="{StaticResource XStyleToButton}" Width="80" Grid.Column="1" IsDefault="True" Click="ButtonSiGnInClick"/>
+
+        <Button x:Name="XButtonRegister" Content="Регистрация" Grid.Row="4" Width="80"  Style="{StaticResource XStyleToButton}" Grid.Column="1" Click="ButtonRegisterClick"/>
+
+
 
     </Grid>
 </Window>

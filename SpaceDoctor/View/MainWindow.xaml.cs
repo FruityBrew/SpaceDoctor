@@ -20,7 +20,6 @@ namespace SpaceDoctor.View
 
             DataContext = _wndVM;
             
-            
         }
 
         private void ButtonRunNow_Click(object sender, RoutedEventArgs e)
@@ -92,7 +91,11 @@ namespace SpaceDoctor.View
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
-            _wndVM.Dal.Dispose();
+            if (_wndVM != null)
+            {
+                _wndVM.Dal.Dispose();
+            }
+
         }
     }
 }

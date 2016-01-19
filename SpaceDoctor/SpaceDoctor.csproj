@@ -224,6 +224,9 @@
     <Compile Include="View\XProfileWindow.xaml.cs">
       <DependentUpon>XProfileWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\XRegisterWindow.xaml.cs">
+      <DependentUpon>XRegisterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\XSignInWindow.xaml.cs">
       <DependentUpon>XSignInWindow.xaml</DependentUpon>
     </Compile>
@@ -245,6 +248,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\XProfileWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\XRegisterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

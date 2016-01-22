@@ -347,6 +347,36 @@ namespace SpaceDoctor.ViewModel
   
         }
 
+        //public IEnumerable<KeyValuePair<Byte, Double>> GetParameterValueWithRating(String namePram, DateTime from, DateTime to) //поменять на тип
+        //{
+        //    IDictionary<Byte, Double> dict = new Dictionary<Byte, Double>(50);
+
+        //    try
+        //    {
+        //        var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection
+        //        .Where(par =>
+        //        {
+        //            if (par.ParamType.Name == namePram && par.Value.HasValue && par.Param.Exam.Date >= from && par.Param.Exam.Date <= to)
+        //                return true;
+        //            else
+        //                return false;
+        //        }),
+        //         (e, p) => new { e.Date, p.Value.Value });
+
+
+        //        dict = v.ToDictionary((a => a.Date), (va => va.Value));
+
+        //        return dict.OrderBy(d => d.Key);
+        //    }
+
+        //    catch (ArgumentException)
+        //    {
+        //        MessageBox.Show("Запрос не может быть выполнен");
+        //        throw;
+        //    }
+
+        //}
+
         private IEnumerable<XExamVM> TodayExamsCollection()
         {
             try

@@ -244,6 +244,11 @@
                             <Label Content="Лекарства:" VerticalContentAlignment="Bottom" FontSize="16"></Label>
 
                             <DataGrid x:Name="XDataGridDrags" Grid.Row="1" ItemsSource="{Binding SelectedDragsKit.DragsCVSView}"  Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CanUserAddRows="False" BorderThickness="0,1,1,1">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu Background="LightBlue">
+                                        <MenuItem Header="Изменить" Command="{Binding PrepareDragListToChangeKitCommand}"  Click="TabItemDragsChangeDragKit_Click"/>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название лекарства" Binding="{Binding Name}" ElementStyle="{StaticResource TextBlockStyle}"  />
                                     <DataGridTextColumn Header="Форма" Binding="{Binding Form}"  ElementStyle="{StaticResource TextBlockStyle}"  />
@@ -255,11 +260,12 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Название" Binding="{Binding Name, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}"/>
                                     <DataGridTextColumn Header="Форма" Binding="{Binding Form, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" EditingElementStyle="{StaticResource TextBoxStyle}" />
-                                    <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectedToNewKit}"/>
+                                    <DataGridCheckBoxColumn Header="Использовать" Binding="{Binding SelectedToNewKit, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
                             <Button x:Name="XButtonNEWKitSave" Command="{Binding SaveNewDragKitCommand}" Visibility="Hidden" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonNEWKitSave_Click" />
+                            <Button x:Name="XButtonChangeKitSave" Command="{Binding ChangeDragKitCommand}" Visibility="Hidden" Grid.Row="2" Content="Сохранить" Style="{StaticResource ResourceKey=XStyleToButton}" Click="XButtonChangeKitSave_Click" />
 
                         </Grid>
                         <Grid Grid.Column="2">
@@ -341,7 +347,7 @@
                         <DataGrid x:Name="XDataGridDragPlans" Grid.Row="5" Grid.Column="0" ItemsSource="{Binding Client.PlanDragPlanCVSView}" VerticalAlignment="Stretch" Style="{StaticResource DataGridStyle}" >
                             <DataGrid.ContextMenu>
                                 <ContextMenu Background="LightBlue">
-                                    <MenuItem Header="Отменить" Command="{Binding DeleteExamFromPlanCommand}" />
+                                    <MenuItem Header="Отменить" Command="{Binding DeleteDragPlanCommand}" />
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                             <DataGrid.Columns>

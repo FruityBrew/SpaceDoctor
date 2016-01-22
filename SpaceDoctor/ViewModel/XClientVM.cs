@@ -222,6 +222,13 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public IEnumerable<XDragPlanVM> DragPlanEnumerable
+        {
+            get
+            {
+                return _dragPlanObsCollection;
+            }
+        }
 
         public ICollectionView DragPlanCVSView
         {
@@ -425,6 +432,13 @@ namespace SpaceDoctor.ViewModel
             this.ExamsObsCollection.Remove(exam);
         }
 
+        internal void DeleteDragPlan(XDragPlanVM plan)
+        {
+            if (plan == null)
+                throw new ArgumentException("Аргумент не может быть null");
+            this.DragPlanObsCollection.Remove(plan);
+        }
+
         internal void AddDragPlan(XDragPlanVM dragPlan)
         {
             if (dragPlan == null)
@@ -476,6 +490,10 @@ namespace SpaceDoctor.ViewModel
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 this.Client.DragPlanCollection.Add(((XDragPlanVM)e.NewItems[0]).DragPlan);
+            }
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                this.Client.DragPlanCollection.Remove(((XDragPlanVM)e.OldItems[0]).DragPlan);
             }
             TodayDragPlanCVSView.Refresh();
             PlanDragPlanCVSView.Refresh();

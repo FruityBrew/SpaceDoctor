@@ -64,7 +64,7 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
-        private ObservableCollection<XDragVM> DragsObsCollection
+        internal ObservableCollection<XDragVM> DragsObsCollection
         {
             get
             {
@@ -118,6 +118,14 @@ namespace SpaceDoctor.ViewModel
             this.DragsObsCollection.Add(drag);
         }
 
+        internal void DeleteDragFromKit(XDragVM drag)
+        {
+            if (drag == null)
+                throw new ArgumentNullException();
+            else
+                this.DragsObsCollection.Remove(drag);
+        }
+
         #endregion
 
         #region eventHandlers
@@ -127,6 +135,11 @@ namespace SpaceDoctor.ViewModel
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 DragKit.DragCollection.Add(((XDragVM)e.NewItems[0]).Drag);
+            }
+
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                DragKit.DragCollection.Remove(((XDragVM)e.OldItems[0]).Drag);
             }
         }
 

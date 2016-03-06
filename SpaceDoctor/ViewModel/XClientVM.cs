@@ -223,6 +223,13 @@ namespace SpaceDoctor.ViewModel
             }
         }
 
+        public IEnumerable<XDragPlanVM> DragPlanEnumerable
+        {
+            get
+            {
+                return _dragPlanObsCollection;
+            }
+        }
 
         public ICollectionView DragPlanCVSView
         {
@@ -341,6 +348,36 @@ namespace SpaceDoctor.ViewModel
   
         }
 
+        //public IEnumerable<KeyValuePair<Byte, Double>> GetParameterValueWithRating(String namePram, DateTime from, DateTime to) //поменять на тип
+        //{
+        //    IDictionary<Byte, Double> dict = new Dictionary<Byte, Double>(50);
+
+        //    try
+        //    {
+        //        var v = this.ExamsObsCollection.SelectMany(exam => exam.ParamsObsCollection
+        //        .Where(par =>
+        //        {
+        //            if (par.ParamType.Name == namePram && par.Value.HasValue && par.Param.Exam.Date >= from && par.Param.Exam.Date <= to)
+        //                return true;
+        //            else
+        //                return false;
+        //        }),
+        //         (e, p) => new { e.Date, p.Value.Value });
+
+
+        //        dict = v.ToDictionary((a => a.Date), (va => va.Value));
+
+        //        return dict.OrderBy(d => d.Key);
+        //    }
+
+        //    catch (ArgumentException)
+        //    {
+        //        MessageBox.Show("Запрос не может быть выполнен");
+        //        throw;
+        //    }
+
+        //}
+
         private IEnumerable<XExamVM> TodayExamsCollection()
         {
             try
@@ -426,6 +463,13 @@ namespace SpaceDoctor.ViewModel
             this.ExamsObsCollection.Remove(exam);
         }
 
+        internal void DeleteDragPlan(XDragPlanVM plan)
+        {
+            if (plan == null)
+                throw new ArgumentException("Аргумент не может быть null");
+            this.DragPlanObsCollection.Remove(plan);
+        }
+
         internal void AddDragPlan(XDragPlanVM dragPlan)
         {
             if (dragPlan == null)
@@ -477,6 +521,10 @@ namespace SpaceDoctor.ViewModel
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 this.Client.DragPlanCollection.Add(((XDragPlanVM)e.NewItems[0]).DragPlan);
+            }
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                this.Client.DragPlanCollection.Remove(((XDragPlanVM)e.OldItems[0]).DragPlan);
             }
             TodayDragPlanCVSView.Refresh();
             PlanDragPlanCVSView.Refresh();

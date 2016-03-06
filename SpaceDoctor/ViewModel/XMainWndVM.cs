@@ -29,6 +29,7 @@ namespace SpaceDoctor.ViewModel
     public sealed class XMainWndVM : XViewModelBase
     {
 
+       // readonly XGenericRepository<XClient> _clientRepos;
         #region fields
 
          XClientVM _client;
@@ -79,7 +80,6 @@ namespace SpaceDoctor.ViewModel
         #region ctors
         public XMainWndVM()
         {
-
             try
             {
                 _dal = new XDAL("SpaceDoctorDB");
@@ -111,21 +111,49 @@ namespace SpaceDoctor.ViewModel
                 _paramTypesCVS.Source = _paramTypesObsCollection;
                 _paramTypesCVS.View.CurrentChanged += ParamTypes_CurrentChanged;
 
+                //while (true)
+                //{
+                //    var logPass = XSignInWindow.CreateSignInWindow();
+                //    if (logPass != null)
+                //    {
+                //        XClient client = clientEnumerable.FirstOrDefault(cl => cl.RegData.Login == logPass.Item1
+                //                                                    & cl.RegData.Pass == logPass.Item2);
 
-                AutentificationClient();
+                //        if (client != null)
+                //        {
+                //            _client = new XClientVM(client);
+                //            break;
+                //        }
+                //        else
+                //            MessageBox.Show("Нет такого пользователя, либо пара пароль-логин неверна. Попробуйте еще раз.");
+                //    }
+                //}
+              
+                _clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection", "RegData");
 
-                //Список препаратов
+                _client = new XClientVM(_clientEnumerable.First(cl => cl.Id == 2));
+
+                //AutentificationClient();
+
                 _dragCollection = new ObservableCollection<XDragVM>();
                 foreach (var v in dragEnum)
                     _dragCollection.Add(new XDragVM(v));
 
-                _dragsCVS = new CollectionViewSource();
-                _dragsCVS.Source = _dragCollection;
+
 
                 //список лекарственныхНаборов:
                 _dragKitObsCollection = new ObservableCollection<XDragKitVM>();
-                foreach (var v in drKitEnumerable)
-                  _dragKitObsCollection.Add(new XDragKitVM(v));
+
+
+              //  foreach (var v in _client.DragPlanEnumerable)
+                foreach(var v in drKitEnumerable)
+                {
+                    _dragKitObsCollection.Add(new XDragKitVM(v));
+                    //_dragKitObsCollection.Add(v.DragKit);
+                }
+
+                _dragsCVS = new CollectionViewSource();
+                _dragsCVS.Source = _dragCollection;
 
                 _dragKitCVS = new CollectionViewSource();
                 _dragKitCVS.Source = _dragKitObsCollection;
@@ -135,7 +163,7 @@ namespace SpaceDoctor.ViewModel
 
             catch (System.Data.SqlClient.SqlException sqlEx)
             {
-                MessageBox.Show("Не могу соединиться с сервером");
+                MessageBox.Show("Не могу соединиться с сервером" + sqlEx.Message);
                  Environment.FailFast("Не могу соединиться с сервером");
             }
 
@@ -161,8 +189,14 @@ namespace SpaceDoctor.ViewModel
             SaveNewDragKitCommand = new XCommand(SaveNewDragKit);
             AddNewDragPlanCommand = new XCommand(AddNewDragPlan);
             OpenProfileWndCommand = new XCommand(OpenProfileWnd);
+            DeleteDragPlanCommand = new XCommand(DeleteDragPlanFromPlan);
+            ChangeDragKitCommand = new XCommand(ChangeDragKitCom);
+            PrepareDragListToChangeKitCommand = new XCommand(PrepareDragListToChangeKitCom);
             //  AddWndCommand = new XCommand(AddWnd);
+
+            //CloseApp();
         }
+
 
         #endregion
 
@@ -245,7 +279,7 @@ namespace SpaceDoctor.ViewModel
             set
             {
                 if (value > 23 || value < 0)
-                    throw new ArgumentOutOfRangeException("Значение не в пределах допустимого диапозона");
+                    throw new ArgumentException("Значение не в пределах допустимого диапозона");
                 _hour = value;
             }
         }
@@ -388,33 +422,6 @@ namespace SpaceDoctor.ViewModel
         }
         #endregion
 
-        #region commands 
-
-        public XCommand CreateNewExamCommand 
-        { get; set; }
-        public XCommand SaveChangesCommand
-        { get; set; }
-        public XCommand AddNewExamToPlanCommand
-        { get; set; }
-        public XCommand CreateNewExamTypeCommand
-        { get; set; }
-        public XCommand SaveNewExamTypeCommand
-        { get; set; }
-        public XCommand DeleteExamFromPlanCommand
-        { get; set; }
-
-        public XCommand CreateNewDragKitCommand
-        { get; set; }
-        public XCommand SaveNewDragKitCommand
-        { get; set; }
-        public XCommand AddNewDragPlanCommand
-        { get; set; }
-
-        public XCommand OpenProfileWndCommand
-        { get; set; }
-        #endregion
-
-
         #region methods
 
         /// <summary>
@@ -549,12 +556,68 @@ namespace SpaceDoctor.ViewModel
         }
 
         /// <summary>
+        /// Изменяет состав набора лекарств
+        /// </summary>
+        /// <param name="kit"></param>
+        private void ChangeDragKit(XDragKitVM kit)
+        {
+
+            foreach(var v in _dragCollection)
+            {
+                if (v.SelectedToNewKit)
+                {
+                    if (kit.DragsObsCollection.FirstOrDefault(dr => dr.Name == v.Name) != null)
+                        continue;
+                    kit.AddDragToKit(new XDragVM(v.Drag));
+                    v.SelectedToNewKit = false;
+                }
+                else
+                {
+                    XDragVM drToDel = kit.DragsObsCollection.FirstOrDefault(dr => dr.Name == v.Name);
+                    if (drToDel != null)
+                    {
+                        kit.DeleteDragFromKit(drToDel);
+                    }
+                }
+            }
+        }
+
+        private void ChangeDragKitCom()
+        {
+            ChangeDragKit(SelectedDragsKit);
+            DragsKitCVSView.Refresh();
+            SaveChanges();
+        }
+
+        private void PrepareDragListToChangeKit(XDragKitVM kit)
+        {
+            foreach (var v in kit.DragsObsCollection)
+            {
+                _dragCollection.First(dr => dr.Name == v.Name).SelectedToNewKit = true;
+
+            }
+            
+        }
+
+        private void PrepareDragListToChangeKitCom()
+        {
+            PrepareDragListToChangeKit(SelectedDragsKit);
+        }
+        /// <summary>
         /// Удаляет выбранное в контроле Представления Обследование
         /// </summary>
         private void DeleteExamFromPlan()
         {
             Dal.DeleteObject<XExam>(Client.SelectedExamFromPlan.Exam);
             Client.DeleteExam(Client.SelectedExamFromPlan);
+            SaveChanges();
+        }
+
+
+        private void DeleteDragPlanFromPlan()
+        {
+            Dal.DeleteObject<XDragPlan>(Client.SelectedDragPlanFromPlan.DragPlan);
+            Client.DeleteDragPlan(Client.SelectedDragPlanFromPlan);
             SaveChanges();
         }
 
@@ -592,60 +655,6 @@ namespace SpaceDoctor.ViewModel
             if (XProfileWindow.CreateXProfileWnd(Client))
                 SaveChanges();
 
-        }
-
-        /// <summary>
-        /// Аутентификация клиента
-        /// </summary>
-        private void AutentificationClient()
-        {
-            while (true)
-            {
-                var logPass = XSignInWindow.CreateSignInWindow(RegisterNewClient);
-
-                if (logPass == null)
-                {
-                    Application.Current.Shutdown();
-                    break;
-                }
-
-                if (logPass.Item1 != "")
-                {
-                    _clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection", "RegData");
-
-                    XClient client = _clientEnumerable.FirstOrDefault(cl => cl.RegData.Login == logPass.Item1
-                                                                & cl.RegData.Pass == logPass.Item2);
-
-                    if (client != null)
-                    {
-                        _client = new XClientVM(client);
-                        break;
-                    }
-                    else
-                        MessageBox.Show("Нет такого пользователя, либо пара пароль-логин неверна. Попробуйте еще раз.");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Регистрация новой учетной записи
-        /// </summary>
-        /// <returns></returns>
-        private Tuple<String, String> RegisterNewClient()
-        {
-            var tuple = XRegisterWindow.CreateRegisterWindow();
-            XClient newClient = new XClient
-            {
-                Name = tuple.Item1
-            };
-            newClient.RegData.Login = tuple.Item2;
-            newClient.RegData.Pass = tuple.Item3;
-
-
-            Dal.AddObject<XClient>(newClient);
-
-            Dal.SaveChanges();
-            return new Tuple<string, string>(newClient.RegData.Login, newClient.RegData.Pass);
         }
 
         #endregion
@@ -689,9 +698,73 @@ namespace SpaceDoctor.ViewModel
             RaisePropertyChanged("SelectedParamType");
         }
 
+        private void AutentificationClient()
+        {
+            while (true)
+            {
+                var logPass = XSignInWindow.CreateSignInWindow(RegisterNewClient);
+
+                if (logPass == null)
+                {
+                    Application.Current.Shutdown();
+                    break;
+                }
+
+                if (logPass.Item1 != "")
+                {
+                    _clientEnumerable = _dal.GetEntityCollection<XClient>("ExamsCollection", "DragPlanCollection", "RegData");
+
+                    XClient client = _clientEnumerable.FirstOrDefault(cl => cl.RegData.Login == logPass.Item1
+                                                                & cl.RegData.Pass == logPass.Item2);
+
+                    if (client != null)
+                    {
+                        _client = new XClientVM(client);
+                        break;
+                    }
+                    else
+                        MessageBox.Show("Нет такого пользователя, либо пара пароль-логин неверна. Попробуйте еще раз.");
+                }
+            }
+        }
+
+        private Tuple<String,String> RegisterNewClient()
+        {
+            var tuple = XRegisterWindow.CreateRegisterWindow();
+            XClient newClient = new XClient
+            {
+                Name = tuple.Item1               
+            };
+            newClient.RegData.Login = tuple.Item2;
+            newClient.RegData.Pass = tuple.Item3;
+
+
+            Dal.AddObject<XClient>(newClient);
+
+            Dal.SaveChanges();
+            return new Tuple<string, string>(newClient.RegData.Login, newClient.RegData.Pass);
+        }
+
 
         #endregion
 
+        #region commands 
 
+        public XCommand CreateNewExamCommand { get; set; }
+        public XCommand SaveChangesCommand { get; set; }
+        public XCommand AddNewExamToPlanCommand { get; set; }
+        public XCommand CreateNewExamTypeCommand { get; set; }
+        public XCommand SaveNewExamTypeCommand { get; set; }
+        public XCommand DeleteExamFromPlanCommand { get; set; }
+
+        public XCommand CreateNewDragKitCommand { get; set; }
+        public XCommand SaveNewDragKitCommand { get; set; }
+        public XCommand AddNewDragPlanCommand { get; set; }
+        public XCommand DeleteDragPlanCommand { get; set; }
+        public XCommand ChangeDragKitCommand { get; set; }
+        public XCommand PrepareDragListToChangeKitCommand { get; set; }
+
+        public XCommand OpenProfileWndCommand { get; set; }
+        #endregion
     }
 }

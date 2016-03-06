@@ -25,7 +25,8 @@ namespace SpaceDoctor.Model
         [Attr.Required]
         public DateTime Date { get; set; }
 
-
+        [Attr.Schema.Column("Raiting", TypeName = "tinyint")]
+        public Byte Rating { get; set; }
         //  public String Name { get; set; }
 
         public ICollection<XParam> ParamsCollection { get; set; }

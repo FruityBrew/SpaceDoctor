@@ -41,13 +41,22 @@ namespace SpaceDoctor.View
             XButtonRunNow.IsEnabled = false;
         }
 
-    
+
+
+
         private void XButtonNEWExamSave_Click(object sender, RoutedEventArgs e)
         {
             XDataGridNEWExParamTypes.Visibility = Visibility.Hidden;
             XButtonNEWExamSave.Visibility = Visibility.Hidden;
             XButtonPlan.IsEnabled = true;
             XButtonRunNow.IsEnabled = true;
+        }
+
+
+        private void XButtonChangeKitSave_Click(object sender, RoutedEventArgs e)
+        {
+            XDataGridAllDrags.Visibility = Visibility.Hidden;
+            XButtonChangeKitSave.Visibility = Visibility.Hidden;
         }
 
         private void XButtonNEWKitSave_Click(object sender, RoutedEventArgs e)
@@ -60,6 +69,12 @@ namespace SpaceDoctor.View
         {
             XDataGridAllDrags.Visibility = Visibility.Visible;
             XButtonNEWKitSave.Visibility = Visibility.Visible;
+        }
+
+        private void TabItemDragsChangeDragKit_Click(object sender, RoutedEventArgs e)
+        {
+            XDataGridAllDrags.Visibility = Visibility.Visible;
+            XButtonChangeKitSave.Visibility = Visibility.Visible;
         }
 
         private void CreateNewPlotSubWnd_Click(object sender, RoutedEventArgs e)
@@ -97,5 +112,7 @@ namespace SpaceDoctor.View
             }
 
         }
+
+
     }
 }

@@ -7,13 +7,13 @@ namespace SpaceDoctor.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ClientRegDataCorrect : IMigrationMetadata
+    public sealed partial class AddColumnRaitingToExamTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ClientRegDataCorrect));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddColumnRaitingToExamTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201512041226451_Client-RegDataCorrect"; }
+            get { return "201601221105509_AddColumnRaitingToExamTable"; }
         }
         
         string IMigrationMetadata.Source

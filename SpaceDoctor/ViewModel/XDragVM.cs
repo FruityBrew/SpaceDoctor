@@ -1,5 +1,6 @@
 ﻿using SpaceDoctor.Model;
 using System;
+using System.ComponentModel;
 
 /***********************************************
     Wrapper for the XDrag class.
@@ -15,12 +16,15 @@ namespace SpaceDoctor.ViewModel
     /// <summary>
     ///  Wrapper for the XDrag class
     /// </summary>
-    class XDragVM
+    class XDragVM : XViewModelBase
     {
 
         #region fields
 
         readonly XDrag _drag;
+
+        private Boolean _addToKit;
+
 
         #endregion
 
@@ -77,7 +81,19 @@ namespace SpaceDoctor.ViewModel
         }
                
 
-        public Boolean SelectedToNewKit { get; set; }
+
+        public Boolean SelectedToNewKit
+        {
+            get
+            {
+                return _addToKit;
+            }
+            set
+            {
+                _addToKit = value;
+                RaisePropertyChanged("SelectedToNewKit");
+            }
+        }
 
         #endregion
 

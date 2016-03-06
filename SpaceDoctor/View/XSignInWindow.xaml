@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SpaceDoctor.View"
         mc:Ignorable="d"
-        Title="SignIn" Height="220" Width="320">
+        Title="SignIn" Height="210" Width="320">
     <Grid Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -31,7 +31,7 @@
         <Button x:Name="XButtonCancel" Content="Отменить" Grid.Row="3"  Style="{StaticResource XStyleToButton}" Width="80" Grid.Column="0"  Click="ButtonCancelClick"/>
         <Button x:Name="XButtonSignIN" Content="Войти" Grid.Row="3"  Style="{StaticResource XStyleToButton}" Width="80" Grid.Column="1" IsDefault="True" Click="ButtonSiGnInClick"/>
 
-        <Button x:Name="XButtonRegister" Content="Регистрация" Grid.Row="4" Width="80" FontSize="10" Height="25"  Style="{StaticResource XStyleToButton}" Grid.Column="1" Click="ButtonRegisterClick"/>
+        <Button x:Name="XButtonRegister" Content="Регистрация" FontSize="10" Grid.Row="4" Width="80" Height="25"  Style="{StaticResource XStyleToButton}" Grid.Column="1" Click="ButtonRegisterClick"/>
 
 
 

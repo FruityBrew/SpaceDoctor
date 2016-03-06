@@ -43,6 +43,7 @@
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
@@ -185,17 +186,9 @@
     <Compile Include="Migrations\201511180953300_AddNotNullFields.Designer.cs">
       <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201512021049191_AddRegDataTable.cs" />
-    <Compile Include="Migrations\201512021049191_AddRegDataTable.Designer.cs">
-      <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512041226451_Client-RegDataCorrect.cs" />
-    <Compile Include="Migrations\201512041226451_Client-RegDataCorrect.Designer.cs">
-      <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.cs" />
-    <Compile Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.Designer.cs">
-      <DependentUpon>201512071047297_AddSynchronizeFieldToRegData.cs</DependentUpon>
+    <Compile Include="Migrations\201601221105509_AddColumnRaitingToExamTable.cs" />
+    <Compile Include="Migrations\201601221105509_AddColumnRaitingToExamTable.Designer.cs">
+      <DependentUpon>201601221105509_AddColumnRaitingToExamTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\XDrag.cs" />
@@ -307,14 +300,8 @@
     <EmbeddedResource Include="Migrations\201511180953300_AddNotNullFields.resx">
       <DependentUpon>201511180953300_AddNotNullFields.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512021049191_AddRegDataTable.resx">
-      <DependentUpon>201512021049191_AddRegDataTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512041226451_Client-RegDataCorrect.resx">
-      <DependentUpon>201512041226451_Client-RegDataCorrect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512071047297_AddSynchronizeFieldToRegData.resx">
-      <DependentUpon>201512071047297_AddSynchronizeFieldToRegData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201601221105509_AddColumnRaitingToExamTable.resx">
+      <DependentUpon>201601221105509_AddColumnRaitingToExamTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

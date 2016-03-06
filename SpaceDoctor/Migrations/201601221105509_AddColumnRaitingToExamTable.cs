@@ -3,16 +3,16 @@ namespace SpaceDoctor.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddSynchronizeFieldToRegData : DbMigration
+    public partial class AddColumnRaitingToExamTable : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.RegData", "Synchronize", c => c.Boolean(nullable: false));
+            AddColumn("dbo.Exams", "Raiting", c => c.Byte(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.RegData", "Synchronize");
+            DropColumn("dbo.Exams", "Raiting");
         }
     }
 }

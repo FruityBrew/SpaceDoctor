@@ -39,11 +39,6 @@ namespace SpaceDoctor.Model
         }
         #endregion
 
-        #region properties
-        #endregion
-
-        #region commands
-        #endregion
 
         #region methods
         /// <summary>
@@ -98,9 +93,6 @@ namespace SpaceDoctor.Model
 
             return true;
         }
-        #endregion
-
-        #region eventHandlers
         #endregion
 
     }

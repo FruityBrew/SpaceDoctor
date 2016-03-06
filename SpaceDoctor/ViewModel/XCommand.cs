@@ -5,8 +5,7 @@ namespace SpaceDoctor.ViewModel
 {
     public class XCommand : ICommand
     {
-            
-    
+                
             Action _action = null;
 
             bool _canExecute = true;

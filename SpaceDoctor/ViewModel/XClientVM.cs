@@ -35,6 +35,7 @@ namespace SpaceDoctor.ViewModel
 
         //Сегодняшние обследования:
         readonly CollectionViewSource _todayExamsCVS;
+
         //Запланированные обследования:
         readonly CollectionViewSource _planExamsCVS;
         
